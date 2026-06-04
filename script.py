@@ -576,7 +576,8 @@ class Script:
             # Get task
             task = self.get_next_task()
             # Skip first restart
-            if self.is_first_task and task == 'Restart':
+            if self.is_first_task and task == 'Restart' \
+                    and str(self.config.script.device.emulatorinfo_type) != 'CloudPhone':
                 logger.info('Skip task `Restart` at scheduler start')
                 self.config.task_delay(task='Restart', success=True, server=True)
                 del_cached_property(self, 'config')
