@@ -143,7 +143,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
         如果有就顺带收取
         :return:
         """
-        timer_check = Timer(2)
+        timer_check = Timer(10)
         timer_check.start()
         click_ap = False
         while 1:
@@ -226,7 +226,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             if not appear:
                 return False
             # 点击盒子
-            timer_ap = Timer(6)
+            timer_ap = Timer(20)
             timer_ap.start()
             while 1:
                 self.screenshot()
@@ -257,7 +257,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 logger.info('No exp box')
                 return False
 
-            time_exp = Timer(12)
+            time_exp = Timer(30)
             time_exp.start()
             while 1:
                 self.screenshot()
@@ -454,7 +454,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             # 可能是滑动的时候出错
             logger.warning('The best reason is that the swipe is wrong')
             return
-        wait_timer = Timer(20)
+        wait_timer = Timer(30)
         wait_timer.start()
         while 1:
             self.screenshot()
@@ -671,7 +671,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
 
         # self.swipe(self.S_U_UP, duration=1, wait_up_time=1)
         self.device.click_record_clear()
-        time.sleep(2)
+        time.sleep(4)
 
     def check_card_num(self) -> tuple[str, int]:
         """优化版数值提取方法，返回结界卡类型及对应数值"""

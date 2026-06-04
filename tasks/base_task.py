@@ -332,11 +332,15 @@ class BaseTask(GlobalGameAssets, CostumeBase):
             self.device.click(click_x, click_y, control_name=target.name)
         return True
 
-    def wait_until_disappear(self, target: RuleImage) -> None:
+    def wait_until_disappear(self, target: RuleImage, wait_time: int = None) -> bool:
+        timeout_timer = Timer(wait_time).start() if wait_time else None
         while 1:
             self.screenshot()
             if not self.appear(target):
-                break
+                return True
+            if timeout_timer and timeout_timer.reached():
+                logger.warning(f'wait_until_disappear({target.name}) timeout after {wait_time}s')
+                return False
 
     def wait_until_pos_stable(self, target: RuleImage, stable_time: float = 0.3, timeout: float = 2,
                               threshold: float = None, skip_first_screenshot: bool = True) -> bool:
@@ -683,7 +687,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
         """
         if screenshot:
             self.screenshot()
-        return self.appear_then_click(self.I_UI_REWARD, action=self.C_UI_REWARD, interval=0.4, threshold=0.6)
+        return self.appear_then_click(self.I_UI_REWARD, action=self.C_UI_REWARD, interval=1.5, threshold=0.6)
 
     def ui_get_reward(self, click_image: RuleImage or RuleOcr or RuleClick, click_interval: float = 1):
         """
@@ -693,7 +697,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
         :param click_image:
         :return:
         """
-        _timer = Timer(10)
+        _timer = Timer(15)
         _timer.start()
         while 1:
             self.screenshot()
