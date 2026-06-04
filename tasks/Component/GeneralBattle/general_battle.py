@@ -48,7 +48,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         else:
             return False
 
-    def battle_before(self, buff: BuffClass | list[BuffClass], config: GeneralBattleConfig, timeout: float = 5) -> bool:
+    def battle_before(self, buff: BuffClass | list[BuffClass], config: GeneralBattleConfig, timeout: float = 15) -> bool:
         """战斗前设置
         :return: True:进入战斗或点击了准备按钮且识别不到准备按钮了 False:超过timeout s还没有进入战斗且没有点击过准备
         """
@@ -69,7 +69,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                         self.check_and_open_buff(buff)
                         confed = True
                 # 点击准备(锁定阵容自动点准备,不锁定阵容前面也已经配置完毕需要点准备)
-                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=0.8):
+                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                     continue
                 continue
             # 未知界面, 既不是准备界面也不是战斗界面
@@ -207,7 +207,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             if win:
                 # 点击赢了
                 action_click = random.choice([self.C_WIN_1, self.C_WIN_2, self.C_WIN_3])
-                if self.appear_then_click(self.I_WIN, action=action_click, interval=0.5):
+                if self.appear_then_click(self.I_WIN, action=action_click, interval=2):
                     continue
                 if not self.appear(self.I_WIN):
                     break
@@ -397,12 +397,12 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         logger.info("Select preset team")
 
         # 点击预设确认
-        self.wait_until_appear(self.I_PRESET_ENSURE, wait_time=1)
+        self.wait_until_appear(self.I_PRESET_ENSURE, wait_time=5)
         while 1:
             self.screenshot()
             if not self.appear(self.I_PRESET_ENSURE):
                 break
-            if self.appear_then_click(self.I_PRESET_ENSURE, threshold=0.8, interval=0.2):
+            if self.appear_then_click(self.I_PRESET_ENSURE, threshold=0.8, interval=2):
                 continue
         logger.info("Click preset ensure")
 

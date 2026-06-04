@@ -85,9 +85,14 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
         self.device.click_record_clear()
         # 战斗过程 随机点击和滑动 防封
         logger.info("Start battle process")
+        timeout_timer = Timer(600)
+        timeout_timer.start()
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT,interval=1):
+            if timeout_timer.reached():
+                logger.warning('Battle wait timeout after 600s')
+                return False
+            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                 logger.info('click prepare')
             if self.appear(self.I_DE_WIN):
                 logger.info('Win battle')

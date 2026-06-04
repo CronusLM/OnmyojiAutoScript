@@ -48,15 +48,20 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
         :return:
         """
         logger.info('Ensure private')
+        timer = Timer(15)
+        timer.start()
         while 1:
             self.screenshot()
             if self.appear(self.I_ENSURE_PRIVATE):
                 return True
             if self.appear(self.I_ENSURE_PRIVATE_2):
                 return True
-            if self.appear_then_click(self.I_ENSURE_PRIVATE_FALSE, interval=1):
+            if timer.reached():
+                logger.warning('Ensure private timeout')
+                return False
+            if self.appear_then_click(self.I_ENSURE_PRIVATE_FALSE, interval=3):
                 continue
-            if self.appear_then_click(self.I_ENSURE_PRIVATE_FALSE_2, interval=1):
+            if self.appear_then_click(self.I_ENSURE_PRIVATE_FALSE_2, interval=3):
                 continue
 
     def ensure_public(self) -> bool:
@@ -65,15 +70,20 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
         :return:
         """
         logger.info('Ensure public')
+        timer = Timer(15)
+        timer.start()
         while 1:
             self.screenshot()
             if self.appear(self.I_ENSURE_PUBLIC):
                 return True
             if self.appear(self.I_ENSURE_PUBLIC_2):
                 return True
-            if self.appear_then_click(self.I_ENSURE_PUBLIC_FALSE, interval=1):
+            if timer.reached():
+                logger.warning('Ensure public timeout')
+                return False
+            if self.appear_then_click(self.I_ENSURE_PUBLIC_FALSE, interval=3):
                 continue
-            if self.appear_then_click(self.I_ENSURE_PUBLIC_FALSE_2, interval=1):
+            if self.appear_then_click(self.I_ENSURE_PUBLIC_FALSE_2, interval=3):
                 continue
 
     def create_ensure(self) -> bool:
@@ -107,11 +117,16 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
         """
         if self.appear(self.I_CHECK_TEAM):
             logger.info('Exit team ui')
+            timer = Timer(15)
+            timer.start()
             while 1:
                 self.screenshot()
                 if not self.appear(self.I_CHECK_TEAM):
                     return True
-                if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=0.5):
+                if timer.reached():
+                    logger.warning('Exit team timeout')
+                    return False
+                if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=2):
                     continue
 
     def check_zones(self, name: str) -> bool:
