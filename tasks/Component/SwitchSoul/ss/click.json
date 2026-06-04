@@ -1,44 +1,65 @@
 [
   {
     "itemName": "sou_group_1",
-    "roiFront": "1086,85,158,47",
-    "roiBack": "1086,85,158,47",
+    "imageName": "ss_sou_group_1.png",
+    "roiFront": "1084,94,122,47",
+    "roiBack": "1084,94,122,47",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
     "itemName": "sou_group_2",
-    "roiFront": "1087,155,162,48",
-    "roiBack": "1087,155,162,48",
+    "imageName": "ss_sou_group_2.png",
+    "roiFront": "1083,158,145,48",
+    "roiBack": "1083,158,145,48",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
     "itemName": "sou_group_3",
-    "roiFront": "1088,226,154,49",
-    "roiBack": "1088,226,154,49",
+    "imageName": "ss_sou_group_3.png",
+    "roiFront": "1082,226,154,49",
+    "roiBack": "1082,226,154,49",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
     "itemName": "sou_group_4",
+    "imageName": "ss_sou_group_4.png",
     "roiFront": "1087,297,157,46",
     "roiBack": "1087,297,157,46",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
     "itemName": "sou_group_5",
+    "imageName": "ss_sou_group_5.png",
     "roiFront": "1087,365,154,47",
     "roiBack": "1087,365,154,47",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
     "itemName": "sou_group_6",
-    "roiFront": "1088,437,156,46",
-    "roiBack": "1088,437,156,46",
+    "imageName": "ss_sou_group_6.png",
+    "roiFront": "1086,435,156,46",
+    "roiBack": "1086,435,156,46",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
     "itemName": "sou_group_7",
-    "roiFront": "1090,505,156,51",
-    "roiBack": "1090,505,156,51",
+    "imageName": "ss_sou_group_7.png",
+    "roiFront": "1083,505,156,51",
+    "roiBack": "1083,505,156,51",
+    "method": "",
+    "threshold": 0,
     "description": "description"
   },
   {
@@ -46,6 +67,8 @@
     "imageName": "ss_sou_team_select.png",
     "roiFront": "977,157,21,21",
     "roiBack": "977,157,21,21",
+    "method": "",
+    "threshold": 0,
     "description": "阵容选择按钮位置"
   }
 ]
