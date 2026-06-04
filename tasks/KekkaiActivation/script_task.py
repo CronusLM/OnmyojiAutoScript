@@ -41,6 +41,11 @@ class ScriptTask(KU, KekkaiActivationAssets):
 
         if con.exchange_before:
             self.check_max_lv(con.shikigami_class)
+        # 确认仍在结界界面（云手机上 check_max_lv 可能按返回退出结界）
+        self.screenshot()
+        if not self.appear(self.I_REALM_SHIN):
+            logger.info('Realm not detected, re-entering...')
+            self.goto_realm()
         # 收取经验
         self.harvest_card()
         # 开始挂卡
