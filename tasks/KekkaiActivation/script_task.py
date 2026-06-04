@@ -255,22 +255,30 @@ class ScriptTask(KU, KekkaiActivationAssets):
         # 找最优卡
         while 1:
             self.screenshot()
-            target = self.check_card_num()
+            target, target_yield = self.check_card_num()
             if target is None:
                 self._card_not_found()
                 continue
             if not self.appear(self.I_A_EMPTY):
-                logger.warning('No empty card slot detected, retrying...')
-                continue
+                slot_results = self.O_SLOT_CARD_NUMBER.detect_and_ocr(self.device.image)
+                slot_numbers = []
+                for r in slot_results:
+                    nums = [int(n) for n in re.findall(r'\d+', r.ocr_text)]
+                    slot_numbers.extend(nums)
+                slot_yield = max(slot_numbers) if slot_numbers else 0
+                if slot_yield >= target_yield:
+                    logger.info(f'卡槽现有卡收益 {slot_yield} ≥ 目标 {target_yield}，跳过')
+                    self.config.kekkai_activation.activation_config.card_not_found_count = 0
+                    self.config.save()
+                    return
+                logger.info(f'卡槽现有卡收益 {slot_yield} < 目标 {target_yield}，替换')
             self.click(target)
             time.sleep(0.5)
-            self.screenshot()
-            if not self.appear(self.I_A_EMPTY):
-                self.config.kekkai_activation.activation_config.card_not_found_count = 0
-                self.config.save()
-                message = f'✅ 确认挂卡: {rule}'
-                self.save_image(content=message, push_flag=False, wait_time=0)
-                return
+            self.config.kekkai_activation.activation_config.card_not_found_count = 0
+            self.config.save()
+            message = f'✅ 确认挂卡: {rule}'
+            self.save_image(content=message, push_flag=False, wait_time=0)
+            return
 
     def check_card_num(self):
         rule = self.config.kekkai_activation.activation_config.card_type
@@ -305,8 +313,8 @@ class ScriptTask(KU, KekkaiActivationAssets):
 
             if numeric_results:
                 # 按数字大到小排序
-                sorted_results = [result for _, result in sorted(numeric_results, key=lambda x: x[0], reverse=True)]
-                max_result = sorted_results[0]  # 获取数字最大的结果对象
+                sorted_pairs = sorted(numeric_results, key=lambda x: x[0], reverse=True)
+                max_number, max_result = sorted_pairs[0]
 
                 box = max_result.box  # 获取边界框坐标
                 x_min = self.O_CHECK_CARD_NUMBER.roi[0] + box[0][0]
@@ -318,7 +326,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 target = RuleClick(roi_front=roi, roi_back=roi, name="tmpclick")
                 logger.info(f"选择挂卡: [{max_result.ocr_text}] {roi}")
 
-                return target
+                return target, max_number
             else:
                 if ocr_count > 3:
                     logger.error('多次未找到符合条件的结果, 退出')
