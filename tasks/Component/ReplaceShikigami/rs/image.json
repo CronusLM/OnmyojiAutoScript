@@ -119,7 +119,7 @@
   {
     "itemName": "rs_records_shiki",
     "imageName": "rs_rs_records_shiki.png",
-    "roiFront": "1148,548,49,43",
+    "roiFront": "1148,587,49,43",
     "roiBack": "1145,548,55,90",
     "method": "Template matching",
     "threshold": 0.8,
