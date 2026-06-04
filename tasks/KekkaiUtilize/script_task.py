@@ -134,7 +134,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 if not self.appear(self.I_REALM_SHIN):
                     continue
                 break
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.5):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3.5):
                 continue
 
     def check_guild_ap_or_assets(self, ap_enable: bool = True, assets_enable: bool = True) -> bool:
@@ -166,18 +166,18 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 continue
 
             # 资金收取确认
-            if self.appear_then_click(self.I_GUILD_ASSETS_RECEIVE, interval=1):
+            if self.appear_then_click(self.I_GUILD_ASSETS_RECEIVE, interval=3):
                 time.sleep(1)
                 timer_check.reset()
                 continue
 
             # 收资金
-            if self.appear_then_click(self.I_GUILD_ASSETS, interval=1.5, threshold=0.6):
+            if self.appear_then_click(self.I_GUILD_ASSETS, interval=3, threshold=0.6):
                 timer_check.reset()
                 continue
 
             # 收体力
-            if self.appear_then_click(self.I_GUILD_AP, interval=1):
+            if self.appear_then_click(self.I_GUILD_AP, interval=3):
                 # 等待1秒，看到获得奖励
                 time.sleep(1)
                 logger.info('appear_click guild_ap success')
@@ -200,7 +200,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 break
             if self.appear_then_click(self.I_PLANT_TREE_CLOSE):
                 continue
-            if self.appear_then_click(self.I_GUILD_REALM, interval=1):
+            if self.appear_then_click(self.I_GUILD_REALM, interval=3):
                 continue
 
     def check_box_ap_or_exp(self, ap_enable: bool = True, exp_enable: bool = True, exp_waste: bool = True) -> bool:
@@ -218,7 +218,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 self.screenshot()
                 if self.appear(self.I_REALM_SHIN):
                     break
-                if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+                if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                     continue
 
         # 先是体力盒子
@@ -236,14 +236,14 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                         self.screenshot()
                         if not self.appear(self.I_UI_REWARD):
                             break
-                        if self.appear_then_click(self.I_UI_REWARD, self.C_UI_REWARD, interval=1, threshold=0.6):
+                        if self.appear_then_click(self.I_UI_REWARD, self.C_UI_REWARD, interval=3, threshold=0.6):
                             continue
                     logger.info('Reward box')
                     break
 
-                if self.appear_then_click(self.I_BOX_AP, interval=1):
+                if self.appear_then_click(self.I_BOX_AP, interval=3):
                     continue
-                if self.appear_then_click(self.I_AP_EXTRACT, interval=2):
+                if self.appear_then_click(self.I_AP_EXTRACT, interval=3):
                     continue
                 if timer_ap.reached():
                     logger.warning('Extract ap box timeout')
@@ -278,7 +278,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                         self.screenshot()
                         if not self.appear(check_button):
                             break
-                        if self.appear_then_click(check_button, interval=1):
+                        if self.appear_then_click(check_button, interval=3):
                             continue
                     break
 
@@ -290,9 +290,9 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                     if cur == totol and cur + res == totol:
                         logger.info('Exp box reach max do not collect')
                         break
-                if self.appear_then_click(self.I_BOX_EXP, threshold=0.6, interval=1):
+                if self.appear_then_click(self.I_BOX_EXP, threshold=0.6, interval=3):
                     continue
-                if self.appear_then_click(self.I_EXP_EXTRACT, interval=1):
+                if self.appear_then_click(self.I_EXP_EXTRACT, interval=3):
                     continue
 
                 if time_exp.reached():
@@ -334,7 +334,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             if self.in_shikigami_growth():
                 break
 
-            if self.appear_then_click_multi_scale(self.I_SHI_GROWN, interval=1):
+            if self.appear_then_click_multi_scale(self.I_SHI_GROWN, interval=3):
                 continue
         logger.info('Enter shikigami grown')
 
@@ -370,7 +370,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
         else:
             check_image = self.I_UTILIZE_ZONES_GROUP
 
-        timer_click = Timer(1)
+        timer_click = Timer(3)
         timer_click.start()
         while 1:
             self.screenshot()
@@ -476,7 +476,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             if self.appear_then_click(self.I_CHECK_FRIEND_REALM_2, interval=1.5):
                 logger.info('Click too fast to enter the friend\'s realm pool')
                 continue
-            if self.appear_then_click(self.I_U_ENTER_REALM, interval=2.5):
+            if self.appear_then_click(self.I_U_ENTER_REALM, interval=3.5):
                 time.sleep(0.5)
                 continue
         logger.info('Enter friend realm')
@@ -722,11 +722,11 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             if self.appear_then_click(self.I_PLANT_TREE_CLOSE):
                 continue
 
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
 
     def back_realm(self):
@@ -737,9 +737,9 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 break
             if self.appear_multi_scale(self.I_SHI_DEFENSE):
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3):
                 continue
 
 

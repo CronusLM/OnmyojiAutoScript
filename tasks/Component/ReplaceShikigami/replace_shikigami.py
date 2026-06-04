@@ -70,7 +70,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not self.appear(self.I_RS_LEVEL_MAX):
                 break
             else:
-                self.appear_then_click(self.I_RS_LEVEL_MAX, interval=0.5)
+                self.appear_then_click(self.I_RS_LEVEL_MAX, interval=2)
         logger.info('Unset all shikigami max lv')
 
     def set_shikigami(self, shikigami_order: int = 7, stop_image: RuleImage = None):
@@ -92,7 +92,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
         click_match = _click_match[shikigami_order]
         TIMEOUT_SEC = 120          # 超时时长（秒）
         start_time = time.time()   # 记录起始时间
-        click_interval_timer = Timer(1.5).start()  # 点击选择式神间隔
+        click_interval_timer = Timer(3).start()  # 点击选择式神间隔
         clicked = False
         while 1:
             # ——1. 先做超时检查——
@@ -108,12 +108,12 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not self.appear(stop_image):
                 break
 
-            if self.appear_then_click(self.I_U_CONFIRM_SMALL, interval=0.5):
+            if self.appear_then_click(self.I_U_CONFIRM_SMALL, interval=2):
                 clicked = False  # 点击了确认, 恢复选式神的操作
                 continue
 
             # 与下方点击第7个式神操作互斥, 防止确认按钮还没有出现被下方取消掉
-            if not clicked and self.click(click_match, interval=1.5):
+            if not clicked and self.click(click_match, interval=3):
                 clicked = True
                 continue
             if not clicked and self.click(_click_match[6], interval=4.5):
