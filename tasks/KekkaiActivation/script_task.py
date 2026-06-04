@@ -252,19 +252,20 @@ class ScriptTask(KU, KekkaiActivationAssets):
             self.screenshot()
             target = self.check_card_num()
             if target is None:
-                # 未发现卡，处理逻辑
                 self._card_not_found()
-            if self.appear(self.I_A_EMPTY):
-                while 1:
-                    self.screenshot()
-                    if not self.appear(self.I_A_EMPTY):
-                        self.config.kekkai_activation.activation_config.card_not_found_count = 0
-                        self.config.save()
-                        message = f'✅ 确认挂卡: {rule}'
-                        self.save_image(content=message, push_flag=False, wait_time=0)
-                        return
-                    if self.click(target, interval=1):
-                        continue
+                continue
+            if not self.appear(self.I_A_EMPTY):
+                logger.warning('No empty card slot detected, retrying...')
+                continue
+            self.click(target)
+            time.sleep(0.5)
+            self.screenshot()
+            if not self.appear(self.I_A_EMPTY):
+                self.config.kekkai_activation.activation_config.card_not_found_count = 0
+                self.config.save()
+                message = f'✅ 确认挂卡: {rule}'
+                self.save_image(content=message, push_flag=False, wait_time=0)
+                return
 
     def check_card_num(self):
         rule = self.config.kekkai_activation.activation_config.card_type
