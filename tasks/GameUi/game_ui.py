@@ -299,6 +299,7 @@ class GameUi(BaseTask, GameUiAssets):
                 if self.ui_current != current_page:
                     continue
             max_wait_timer.reset()
+            time.sleep(2)
             while not max_wait_timer.reached():
                 if timeout_timer.reached():
                     return False
