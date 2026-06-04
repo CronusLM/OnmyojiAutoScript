@@ -26,6 +26,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
             if self.appear(self.I_CLOUD):
                 break
             if self.appear_then_click(self.I_BUFF_1, interval=2):
+                self.wait_until_appear(self.I_CLOUD, wait_time=5)
                 continue
 
         check_image = self.I_AWAKE
@@ -47,6 +48,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
             if not self.appear(self.I_CLOUD):
                 break
             if self.appear_then_click(self.I_BUFF_1, interval=2):
+                self.wait_until_disappear(self.I_CLOUD, wait_time=5)
                 continue
 
     def get_area(self, buff: RuleOcr) -> tuple:
