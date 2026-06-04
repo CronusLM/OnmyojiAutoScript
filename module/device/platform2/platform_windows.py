@@ -416,6 +416,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
 
     def emulator_start(self):
+        if self._is_cloud_phone:
+            logger.info('Cloud phone mode, skip emulator start')
+            return True
         logger.hr('Emulator start', level=1)
         for i in range(3):
             # Stop
@@ -439,6 +442,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return False
 
     def emulator_stop(self):
+        if self._is_cloud_phone:
+            logger.info('Cloud phone mode, skip emulator stop')
+            return True
         logger.hr('Emulator stop', level=1)
         for _ in range(3):
             # Stop

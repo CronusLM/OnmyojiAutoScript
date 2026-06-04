@@ -48,6 +48,7 @@ class EmulatorInfoType(str, Enum):
     MuMuPlayerX = 'MuMuPlayerX'
     MuMuPlayer12 = 'MuMuPlayer12'
     MEmuPlayer = 'MEmuPlayer'
+    CloudPhone = 'CloudPhone'
 
 class Device(BaseModel):
     serial: str = Field(default="auto",

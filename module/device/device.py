@@ -39,6 +39,9 @@ class Device(Platform, Screenshot, Control, AppControl):
                 if trial >= 3:
                     logger.critical('Failed to start emulator after 3 trial')
                     raise RequestHumanTakeover
+                if self._is_cloud_phone:
+                    logger.info('Cloud phone mode, retrying ADB connection...')
+                    continue
                 # Try to start emulator
                 if self.emulator_instance is not None:
                     self.emulator_start()
