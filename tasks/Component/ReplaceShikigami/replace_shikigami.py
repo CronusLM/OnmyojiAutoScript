@@ -19,7 +19,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
         # 判定的依据是是否出现了 式神录 这个图片
         if screenshot:
             self.screenshot()
-        return self.appear(self.I_RS_RECORDS_SHIKI, interval=0.5)
+        return self.appear_multi_scale(self.I_RS_RECORDS_SHIKI, interval=0.5)
 
     def switch_shikigami_class(self, shikigami_class: ShikigamiClass = ShikigamiClass.N):
         """

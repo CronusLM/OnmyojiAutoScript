@@ -328,6 +328,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
         进入式神育成界面
         :return:
         """
+        click_count = 0
         while 1:
             self.screenshot()
 
@@ -335,6 +336,10 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 break
 
             if self.appear_then_click_multi_scale(self.I_SHI_GROWN, interval=3):
+                click_count += 1
+                if click_count >= 5:
+                    logger.warning('Failed to enter shikigami growth after 5 attempts')
+                    return
                 continue
         logger.info('Enter shikigami grown')
 
