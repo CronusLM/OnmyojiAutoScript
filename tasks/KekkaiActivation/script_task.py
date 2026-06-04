@@ -405,6 +405,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                     continue
                 break
             if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.5):
+                time.sleep(1.5)
                 continue
 
     def harvest_card(self):
