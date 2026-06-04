@@ -576,8 +576,7 @@ class Script:
             # Get task
             task = self.get_next_task()
             # Skip first restart
-            if self.is_first_task and task == 'Restart' \
-                    and str(self.config.script.device.emulatorinfo_type) != 'CloudPhone':
+            if self.is_first_task and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')
                 self.config.task_delay(task='Restart', success=True, server=True)
                 del_cached_property(self, 'config')
@@ -588,6 +587,16 @@ class Script:
                 self._emulator_down = False
             else:
                 _ = self.device
+
+            # Game state check: run Restart if game is not running
+            try:
+                if not self.device.app_is_running():
+                    logger.info('Game not running, run Restart first')
+                    self.run('Restart')
+                    del_cached_property(self, 'config')
+                    continue
+            except Exception as e:
+                logger.warning(f'Failed to check game state: {e}')
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')

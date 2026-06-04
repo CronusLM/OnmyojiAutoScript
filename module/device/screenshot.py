@@ -219,19 +219,17 @@ class Screenshot(Adb, DroidCast, Scrcpy, Window, NemuIpc):
                 if width == 720 and height == 1280:
                     logger.info('Unable to handle orientated screenshot')
                     if hasattr(self, 'app_is_running') and not self.app_is_running():
-                        logger.warning('Game not running, starting game')
-                        self.app_start()
-                        return False
-                    return True
+                        logger.warning('Game not running')
+                        return True
+                    return False
                 else:
                     continue
             # elif self.config.Emulator_Serial == 'wsa-0':
             #     self.display_resize_wsa(0)
             #     return False
             elif hasattr(self, 'app_is_running') and not self.app_is_running():
-                logger.warning(f'Resolution {width}x{height}, game not running, starting game')
-                self.app_start()
-                return False
+                logger.warning(f'Resolution {width}x{height}, game not running')
+                return True
             else:
                 logger.critical(f'Resolution not supported: {width}x{height}')
                 logger.critical('Please set emulator resolution to 1280x720')
