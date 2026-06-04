@@ -56,8 +56,9 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             if self.appear(self.I_SOU_TEAM_PRESENT):
                 break
             if self.appear(self.I_SOUL_PRESET):
-                self.click(self.I_SOUL_PRESET, interval=3)
-                continue
+                if self.click(self.I_SOUL_PRESET, interval=3):
+                    self.wait_until_appear(self.I_SOU_TEAM_PRESENT, wait_time=5)
+                    continue
         logger.info('Click preset in switch soul')
 
     def switch_soul_one(self, group: int, team: int) -> None:
