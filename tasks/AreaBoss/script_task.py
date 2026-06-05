@@ -44,7 +44,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AreaBossAssets):
                                          self.config.area_boss.switch_soul.team_name)
 
         self.ui_get_current_page()
-        self.ui_goto(page_area_boss)
+        self.ui_goto(page_area_boss, timeout=90)
 
         # 已挑战鬼王数量
         boss_fought = 0
