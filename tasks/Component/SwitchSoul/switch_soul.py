@@ -120,7 +120,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
         # 2023.8.5 修改为无反馈的点击切换
         for i in range(2):
             self.click(target_click)
-            sleep(0.5)
+            sleep(2)
         # 点击队伍
         target_team = get_team_asset(team)
         for i in range(3):

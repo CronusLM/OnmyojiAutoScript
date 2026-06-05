@@ -89,7 +89,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             self.wait_until_appear(self.I_PREPARE_HIGHLIGHT)
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.5):
+                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                     continue
                 if not (self.appear(self.I_PRESET) or self.appear(self.I_PRESET_WIT_NUMBER)):
                     break
@@ -98,7 +98,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         # 点击返回
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT, interval=1.5):
+            if self.appear_then_click(self.I_EXIT, interval=3):
                 continue
             if self.appear(self.I_EXIT_ENSURE):
                 break
@@ -107,7 +107,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         # 点击返回确认
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT_ENSURE, interval=1.5):
+            if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
                 continue
             if self.appear(self.I_FALSE):
                 break
@@ -117,7 +117,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         self.wait_until_appear(self.I_FALSE)
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_FALSE, interval=1.5):
+            if self.appear_then_click(self.I_FALSE, interval=3):
                 continue
             if not self.appear(self.I_FALSE):
                 break
@@ -140,7 +140,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         logger.info(f"Click {self.I_EXIT.name}")
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT, interval=1.5):
+            if self.appear_then_click(self.I_EXIT, interval=3):
                 continue
             if self.appear(self.I_EXIT_ENSURE):
                 break
@@ -148,7 +148,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         # 点击返回确认
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT_ENSURE, interval=1.5):
+            if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
                 continue
             if self.appear_then_click(self.I_FALSE, interval=1.5):
                 continue
@@ -315,23 +315,27 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
 
         logger.info("Preset is enable")
         # 点击预设按钮
+        click_preset_timeout_timer = Timer(15).start()
         while 1:
             self.screenshot()
 
             if self.appear(self.I_PRESET_ENSURE):
                 break
+            if click_preset_timeout_timer.reached():
+                logger.warning('Click preset timeout after 15s')
+                break
             # 首个队伍没有满足5个式神，未出现预设按钮的情况下跳出循环
             if self.appear(self.I_PRESENT_LESS_THAN_5):
                 break
-            if self.appear_then_click(self.I_PRESET, threshold=0.8, interval=1):
+            if self.appear_then_click(self.I_PRESET, threshold=0.8, interval=3):
                 continue
-            if self.appear_then_click(self.I_PRESET_WIT_NUMBER, threshold=0.8, interval=1):
+            if self.appear_then_click(self.I_PRESET_WIT_NUMBER, threshold=0.8, interval=3):
                 continue
             if self.ocr_appear(self.O_PRESET):
-                self.click(self.O_PRESET, interval=1)
+                self.click(self.O_PRESET, interval=3)
                 continue
             if self.ocr_appear(self.O_PRESET_FULL):
-                self.click(self.O_PRESET_FULL, interval=1)
+                self.click(self.O_PRESET_FULL, interval=3)
                 continue
         logger.info("Click preset button")
 
