@@ -2,8 +2,8 @@
   {
     "itemName": "realm_raid",
     "imageName": "res_realm_raid.png",
-    "roiFront": "246,628,63,64",
-    "roiBack": "246,628,63,64",
+    "roiFront": "197,565,63,64",
+    "roiBack": "197,565,63,64",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "点击结界突破的图片"
@@ -12,7 +12,7 @@
     "itemName": "medal_5",
     "imageName": "res_medal_5.png",
     "roiFront": "238,205,212,53",
-    "roiBack": "216,187,919,364",
+    "roiBack": "238,205,212,53",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "五个勋章"
@@ -21,7 +21,7 @@
     "itemName": "medal_4",
     "imageName": "res_medal_4.png",
     "roiFront": "241,483,193,46",
-    "roiBack": "228,178,899,362",
+    "roiBack": "241,483,193,46",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -30,7 +30,7 @@
     "itemName": "medal_3",
     "imageName": "res_medal_3.png",
     "roiFront": "240,210,193,41",
-    "roiBack": "229,189,894,345",
+    "roiBack": "240,210,193,41",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -39,7 +39,7 @@
     "itemName": "medal_2",
     "imageName": "res_medal_2.png",
     "roiFront": "572,478,198,48",
-    "roiBack": "217,193,923,354",
+    "roiBack": "572,478,198,48",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -48,7 +48,7 @@
     "itemName": "medal_1",
     "imageName": "res_medal_1.png",
     "roiFront": "570,206,199,52",
-    "roiBack": "237,198,892,336",
+    "roiBack": "570,206,199,52",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -56,8 +56,8 @@
   {
     "itemName": "medal_0",
     "imageName": "res_medal_0.png",
-    "roiFront": "536,336,176,51",
-    "roiBack": "231,200,898,336",
+    "roiFront": "567,342,206,51",
+    "roiBack": "567,342,206,51",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "没有勋章的"
@@ -110,8 +110,8 @@
   {
     "itemName": "fire",
     "imageName": "res_fire.png",
-    "roiFront": "982,494,136,63",
-    "roiBack": "140,129,1024,584",
+    "roiFront": "982,626,136,63",
+    "roiBack": "982,626,136,63",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "进攻"
