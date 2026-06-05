@@ -27,15 +27,15 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
         if not self.appear(self.I_CREATE_ROOM):
             logger.warning('No create room button')
             return False
-        click_number = 0
+        timer = Timer(20)
+        timer.start()
         while 1:
             self.screenshot()
-            if click_number > 3:
-                logger.warning('Create room button do not take effect')
+            if timer.reached():
+                logger.warning('Create room timeout after 20s')
                 logger.warning('The most possible reason is that there are not challenge tickets')
                 return False
-            if self.appear_then_click(self.I_CREATE_ROOM, interval=2):
-                click_number += 1
+            if self.appear_then_click(self.I_CREATE_ROOM, interval=4):
                 continue
             if self.appear(self.I_CREATE_ENSURE):
                 return True

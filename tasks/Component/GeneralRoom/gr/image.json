@@ -11,8 +11,8 @@
   {
     "itemName": "create_ensure",
     "imageName": "gr_create_ensure.png",
-    "roiFront": "813,560,129,63",
-    "roiBack": "813,560,129,63",
+    "roiFront": "533,484,219,63",
+    "roiBack": "533,484,219,63",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
