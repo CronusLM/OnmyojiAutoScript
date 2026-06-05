@@ -108,14 +108,14 @@ class ScriptTask(GameUi, GeneralBattle, GeneralInvite, SwitchSoul, HuntAssets):
             self.screenshot()
             if self.appear(self.I_PREPARE_HIGHLIGHT):
                 break
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=0.9):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_KIRIN_CHALLAGE, interval=1.5):
+            if self.appear_then_click(self.I_KIRIN_CHALLAGE, interval=3):
                 continue
             if self.appear(self.I_KIRIN_END):
                 # 今日已挑战
                 logger.warning('Today have already challenged the Kirin')
-                self.ui_click_until_disappear(self.I_UI_BACK_YELLOW)
+                self.ui_click_until_disappear(self.I_UI_BACK_YELLOW, interval=3)
                 return
         logger.info('Start battle')
         self.run_general_battle(self.config.hunt.kirin_battle_config)
@@ -131,16 +131,16 @@ class ScriptTask(GameUi, GeneralBattle, GeneralInvite, SwitchSoul, HuntAssets):
                 self.click_fire()
                 break
 
-            if self.appear_then_click(self.I_NW, interval=0.9):
+            if self.appear_then_click(self.I_NW, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=0.9):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_NW_CHALLAGE, interval=1.5):
+            if self.appear_then_click(self.I_NW_CHALLAGE, interval=3):
                 continue
             if self.appear(self.I_NW_DONE):
                 # 今日已挑战
                 logger.warning('Today have already challenged the Netherworld')
-                self.ui_click_until_disappear(self.I_UI_BACK_RED)
+                self.ui_click_until_disappear(self.I_UI_BACK_RED, interval=3)
                 return
         logger.info('Start battle')
         self.run_general_battle(self.config.hunt.netherworld_battle_config)
@@ -167,14 +167,14 @@ class ScriptTask(GameUi, GeneralBattle, GeneralInvite, SwitchSoul, HuntAssets):
             self.screenshot()
             if self.appear(self.I_WIN):
                 logger.info('Battle win')
-                self.ui_click_until_disappear(self.I_WIN)
+                self.ui_click_until_disappear(self.I_WIN, interval=3)
                 return True
             # 如果出现失败 就点击，返回False
             if self.appear(self.I_FALSE, threshold=0.8):
                 logger.info("Battle result is false")
-                self.ui_click_until_disappear(self.I_FALSE)
+                self.ui_click_until_disappear(self.I_FALSE, interval=3)
                 return False
-            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.5):
+            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                 logger.info('Netherworld click prepare after maybe failed')
                 self.device.stuck_record_add('BATTLE_STATUS_S')
                 continue
