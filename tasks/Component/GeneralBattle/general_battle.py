@@ -177,7 +177,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             if self.appear(self.I_WIN, threshold=0.8) or self.appear(self.I_DE_WIN):
                 logger.info("Battle result is win")
                 if self.appear(self.I_DE_WIN):
-                    self.ui_click_until_disappear(self.I_DE_WIN)
+                    self.ui_click_until_disappear(self.I_DE_WIN, interval=3)
                 win = True
                 break
 

@@ -96,16 +96,16 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
                 logger.info('click prepare')
             if self.appear(self.I_DE_WIN):
                 logger.info('Win battle')
-                self.ui_click_until_disappear(self.I_DE_WIN)
+                self.ui_click_until_disappear(self.I_DE_WIN, interval=3)
                 return True
             if self.appear(self.I_EXP_WIN):
                 logger.info('Win battle')
-                self.ui_click_until_disappear(self.I_EXP_WIN)
+                self.ui_click_until_disappear(self.I_EXP_WIN, interval=3)
                 return True
 
             if self.appear(self.I_FALSE):
                 logger.warning('False battle')
-                self.ui_click_until_disappear(self.I_FALSE)
+                self.ui_click_until_disappear(self.I_FALSE, interval=3)
                 return False
 
     def experience_exit(self, con):

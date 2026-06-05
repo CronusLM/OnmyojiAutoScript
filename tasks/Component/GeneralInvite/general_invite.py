@@ -198,9 +198,9 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
             self.screenshot()
             if not self.is_in_room(False):
                 break
-            if self.appear_then_click(self.I_FIRE, interval=1, threshold=0.7):
+            if self.appear_then_click(self.I_FIRE, interval=3, threshold=0.7):
                 continue
-            if self.appear_then_click(self.I_FIRE_SEA, interval=1, threshold=0.7):
+            if self.appear_then_click(self.I_FIRE_SEA, interval=3, threshold=0.7):
                 continue
     @cached_property
     def room_type(self) -> RoomType:

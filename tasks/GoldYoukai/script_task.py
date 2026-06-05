@@ -88,20 +88,20 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
         logger.info("Start battle process")
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1):
+            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                 logger.info('click prepare')
             if self.appear(self.I_DE_WIN):
                 logger.info('Win battle')
-                self.ui_click_until_disappear(self.I_DE_WIN)
+                self.ui_click_until_disappear(self.I_DE_WIN, interval=3)
                 return True
             if self.appear(self.I_GOLD_WIN):
                 logger.info('Win battle')
-                self.ui_click_until_disappear(self.I_GOLD_WIN)
+                self.ui_click_until_disappear(self.I_GOLD_WIN, interval=3)
                 return True
 
             if self.appear(self.I_FALSE):
                 logger.warning('False battle')
-                self.ui_click_until_disappear(self.I_FALSE)
+                self.ui_click_until_disappear(self.I_FALSE, interval=3)
                 return False
 
     def gold_exit(self, con):
