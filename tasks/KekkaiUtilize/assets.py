@@ -38,7 +38,7 @@ class KekkaiUtilizeAssets:
 
 	# Image Rule Assets
 	# 育成 
-	I_SHI_GROWN = RuleImage(roi_front=(595,291,35,38), roi_back=(530,220,202,267), threshold=0.6, method="Template matching", file="./tasks/KekkaiUtilize/realm/realm_shi_grown.png")
+	I_SHI_GROWN = RuleImage(roi_front=(595,291,35,55), roi_back=(530,220,202,267), threshold=0.6, method="Template matching", file="./tasks/KekkaiUtilize/realm/realm_shi_grown.png")
 	# 结界卡 
 	I_SHI_CARD = RuleImage(roi_front=(891,300,31,55), roi_back=(823,210,252,297), threshold=0.6, method="Template matching", file="./tasks/KekkaiUtilize/realm/realm_shi_card.png")
 	# description 

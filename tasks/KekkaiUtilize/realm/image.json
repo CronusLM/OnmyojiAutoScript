@@ -2,7 +2,7 @@
   {
     "itemName": "shi_grown",
     "imageName": "realm_shi_grown.png",
-    "roiFront": "595,291,35,38",
+    "roiFront": "595,291,35,55",
     "roiBack": "530,220,202,267",
     "method": "Template matching",
     "threshold": 0.6,
