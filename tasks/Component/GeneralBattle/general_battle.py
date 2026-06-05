@@ -228,8 +228,8 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             self.screenshot()
             # 如果出现领奖励
             action_click = random.choice([self.C_REWARD_1, self.C_REWARD_2, self.C_REWARD_3])
-            if (self.appear_then_click(self.I_REWARD, action=action_click, interval=1.5) or
-                self.appear_then_click(self.I_REWARD_GOLD, action=action_click, interval=1.5)#  or
+            if (self.appear_then_click(self.I_REWARD, action=action_click, interval=3) or
+                self.appear_then_click(self.I_REWARD_GOLD, action=action_click, interval=3)#  or
                 # self.appear_then_click(self.I_REWARD_STATISTICS, action=action_click, interval=1.5) or
                 # self.appear_then_click(self.I_REWARD_PURPLE_SNAKE_SKIN, action=action_click, interval=1.5) or
                 # self.appear_then_click(self.I_REWARD_GOLD_SNAKE_SKIN, action=action_click, interval=1.5) or
