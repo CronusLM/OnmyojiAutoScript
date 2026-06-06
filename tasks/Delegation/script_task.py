@@ -49,7 +49,7 @@ class ScriptTask(GameUi, DelegationAssets):
                 self.screenshot()
                 if self.appear(stop):
                     break
-                if self.click(click, interval=1.5):
+                if self.click(click, interval=3):
                     continue
         logger.hr('Delegation one', 2)
         self.O_D_NAME.keyword = name
@@ -68,11 +68,11 @@ class ScriptTask(GameUi, DelegationAssets):
                 self.ui_click_until_disappear(self.I_D_BACK)
                 self.wait_until_appear(self.I_REWARDS_MIN)
                 return False
-            if self.appear_then_click(self.I_D_SKIP, interval=0.8):
+            if self.appear_then_click(self.I_D_SKIP, interval=3):
                 continue
-            if self.appear_then_click(self.I_D_CONFIRM, interval=0.8):
+            if self.appear_then_click(self.I_D_CONFIRM, interval=3):
                 continue
-            if self.ocr_appear_click(self.O_D_NAME, interval=1):
+            if self.ocr_appear_click(self.O_D_NAME, interval=3):
                 continue
         # 进入委派  fefe e  fe
         logger.info(f'Enter Delegation: {name}')
@@ -86,9 +86,9 @@ class ScriptTask(GameUi, DelegationAssets):
             self.screenshot()
             if not self.appear(self.I_D_START):
                 break
-            if self.click(self.C_D_5, interval=0.8):
+            if self.click(self.C_D_5, interval=3):
                 continue
-            if self.appear_then_click(self.I_D_START, interval=1.8):
+            if self.appear_then_click(self.I_D_START, interval=3):
                 continue
         # ui_click(self.C_D_5, self.I_D_SELECT_5)
         # self.ui_click_until_disappear(self.I_D_START)
@@ -98,22 +98,22 @@ class ScriptTask(GameUi, DelegationAssets):
         check_timer.start()
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_REWARDS_GET, interval=1):
+            if self.appear_then_click(self.I_REWARDS_GET, interval=3):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_REWARDS_CHAT, interval=1):
+            if self.appear_then_click(self.I_REWARDS_CHAT, interval=3):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_CHAT_1, interval=1):
+            if self.appear_then_click(self.I_CHAT_1, interval=3):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_CHAT_2, interval=1):
+            if self.appear_then_click(self.I_CHAT_2, interval=3):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_REWARDS_DONE, interval=1):
+            if self.appear_then_click(self.I_REWARDS_DONE, interval=3):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_REWARDS_FALSE, interval=1):
+            if self.appear_then_click(self.I_REWARDS_FALSE, interval=3):
                 check_timer.reset()
                 continue
 
@@ -122,7 +122,7 @@ class ScriptTask(GameUi, DelegationAssets):
                 continue
             if check_timer.reached():
                 break
-            if self.ocr_appear_click(self.O_D_DONE, interval=1):
+            if self.ocr_appear_click(self.O_D_DONE, interval=3):
                 check_timer.reset()
                 continue
 
