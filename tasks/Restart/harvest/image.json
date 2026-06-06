@@ -200,8 +200,8 @@
   {
     "itemName": "system_mail_open",
     "imageName": "harvest_system_mail_open.png",
-    "roiFront": "1201,223,51,112",
-    "roiBack": "1197,219,59,118",
+    "roiFront": "1188,215,51,112",
+    "roiBack": "1184,212,59,118",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "系统邮件打开状态"
@@ -209,8 +209,8 @@
   {
     "itemName": "special_mail_close",
     "imageName": "harvest_special_mail_close.png",
-    "roiFront": "1200,379,53,108",
-    "roiBack": "1185,342,80,178",
+    "roiFront": "1184,366,53,117",
+    "roiBack": "1181,360,58,129",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "特殊邮件关闭状态"
