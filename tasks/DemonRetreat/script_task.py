@@ -60,7 +60,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
         # 进入妖怪退治
         if not self.goto_demon_retreat():
             logger.warning("Failed to enter demon retreat")
-            if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=1):
+            if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=3):
                 pass
             self.goto_main()
             self.set_next_run(task='DemonRetreat', finish=False, server=True, success=False)
@@ -73,17 +73,17 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
         # 先返回
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_PRAY, interval=1):
+            if self.appear_then_click(self.I_PRAY, interval=3):
                 logger.warning("Claim rewards")
-            if self.appear_then_click(self.I_HUNT, interval=1):
+            if self.appear_then_click(self.I_HUNT, interval=3):
                 continue
-            if self.appear_then_click(self.I_REWARD_ALL, interval=1.5):
+            if self.appear_then_click(self.I_REWARD_ALL, interval=3):
                 self.ui_reward_appear_click(True)
                 logger.info('Claim rewards finished')
                 break
             if self.appear(self.I_RANK_LSIT):
                 logger.info("No rewards to claim")
-                if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=1):
+                if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=3):
                     break
 
         # 保持好习惯，一个任务结束了就返回到庭院，方便下一任务的开始
@@ -113,27 +113,27 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
         while 1:
             self.screenshot()
             # 进入神社
-            if self.appear_then_click(self.I_SHRINE, interval=1):
+            if self.appear_then_click(self.I_SHRINE, interval=3):
                 logger.info("Enter I_SHRINE")
                 continue
             # 进入首领退治
-            if self.appear_then_click(self.I_HUNT, interval=1.5):
+            if self.appear_then_click(self.I_HUNT, interval=3):
                 goto_demon_retreat_num += 1
 
             # 确保不离开退治
-            if self.appear_then_click(self.I_QUIT_BACK, interval=1):
+            if self.appear_then_click(self.I_QUIT_BACK, interval=3):
                 pass
             if self.appear(self.I_HUNT_CHECK):
-                if self.appear_then_click(self.I_QUIT_BACK, interval=1):
+                if self.appear_then_click(self.I_QUIT_BACK, interval=3):
                     pass
                 logger.info("Enter demon_retreat success")
                 return True
 
             # 周六打完了，但是迟到了只能领取奖励
-            if self.appear_then_click(self.I_REWARD_ALL, interval=1):
+            if self.appear_then_click(self.I_REWARD_ALL, interval=3):
                 logger.info("Already challenged demon_retreat")
-                sleep(1)
-                if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=1):
+                sleep(3)
+                if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=3):
                     pass
                 logger.info(f"The next time the demon retreat is next Saturday")
                 self.custom_next_run(task='DemonRetreat', custom_time=cfg.demon_retreat_time.custom_run_time,
@@ -143,7 +143,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
             if self.appear(self.I_RANK_LSIT):
                 logger.info("Enter demon_retreat false")
                 sleep(3)
-                if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=1):
+                if self.appear_then_click(self.I_DEMON_BACK_CHECK, interval=3):
                     pass
                 sleep(20)
             # 超过五次没有进入进入认为失败
@@ -158,7 +158,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
         # 来晚了直接进入战斗
         if not set(self.O_LATER_ENTER_CHECK.ocr(image=self.device.image)).intersection(set("集结")):
             logger.info("arrive later")
-            self.ui_click_until_disappear(self.I_ENTER_FIRE, interval=1)
+            self.ui_click_until_disappear(self.I_ENTER_FIRE, interval=3)
             self.device.stuck_record_add('BATTLE_STATUS_S')
             success = self.run_demon_battle(cfg.general_battle)
         else:
@@ -201,7 +201,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
                 self.screenshot()
                 if not self.appear(self.I_BUFF):
                     break
-                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.5):
+                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                     continue
 
             logger.info("Click prepare ensure button")
@@ -242,7 +242,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
                 self.ui_click_until_disappear(self.I_WIN)
                 return True
             # 战斗过程中出现准备
-            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.5):
+            if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                 self.device.stuck_record_clear()
                 self.device.stuck_record_add('BATTLE_STATUS_S')
             # 如果出现失败 就点击，返回False
