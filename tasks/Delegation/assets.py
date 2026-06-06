@@ -70,6 +70,6 @@ class DelegationAssets:
 
 	# Ocr Rule Assets
 	# 完成 
-	O_D_DONE = RuleOcr(roi=(960,120,120,55), area=(960,120,120,55), mode="Full", method="Default", keyword="完成", name="d_done")
+	O_D_DONE = RuleOcr(roi=(960,120,120,55), area=(960,120,120,55), mode="Full", method="Default", keyword="完成", name="d_done", offset=(79, 20))
 
 

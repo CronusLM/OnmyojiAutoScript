@@ -13,8 +13,9 @@ from module.logger import logger
 
 class RuleOcr(Digit, DigitCounter, Duration, Single, Full, Quantity):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, offset=(0, 0), **kwargs):
         super().__init__(*args, **kwargs)
+        self.offset = offset
 
 
     def after_process(self, result):
@@ -40,12 +41,12 @@ class RuleOcr(Digit, DigitCounter, Duration, Single, Full, Quantity):
 
     def coord(self) -> tuple:
         """
-        获取一个区域，返回中心坐标（Full模式）或随机坐标（其他模式）
+        获取一个区域，返回中心坐标偏移（Full模式）或随机坐标（其他模式）
         :return:
         """
         x, y, w, h = self.area
         if self.mode == OcrMode.FULL:
-            return x + w // 2, y + h // 2
+            return x + w // 2 + self.offset[0], y + h // 2 + self.offset[1]
         x = np.random.randint(x, x + w)
         y = np.random.randint(y, y + h)
         return x, y
