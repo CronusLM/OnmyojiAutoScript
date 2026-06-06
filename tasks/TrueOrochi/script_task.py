@@ -59,6 +59,25 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
 
             self.check_layer(Layer.TEN)
             self.check_lock(False)
+
+            # 切换到八岐大蛇十层的预设
+            ten_switch = self.config.orochi.switch_soul.ten_switch
+            if ten_switch != '-1,-1':
+                self.ui_get_current_page()
+                self.ui_goto(page_shikigami_records)
+                self.run_switch_soul(ten_switch)
+                self.ui_get_current_page()
+                self.ui_goto(page_soul_zones)
+                self.orochi_enter()
+                self.check_layer(Layer.TEN)
+                self.check_lock(False)
+
+            # 开启御魂加成
+            if self.config.orochi.orochi_config.soul_buff_enable:
+                self.open_buff()
+                self.soul(is_open=True)
+                self.close_buff()
+
             count_orochi_ten = 0
             while 1:
                 self.screenshot()
@@ -81,6 +100,27 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
                     self.run_general_battle()
                     count_orochi_ten += 1
                     continue
+
+            # 关闭御魂加成
+            if self.config.orochi.orochi_config.soul_buff_enable:
+                self.open_buff()
+                self.soul(is_open=False)
+                self.close_buff()
+
+            # 出了真蛇 → 切回真蛇的御魂预设
+            if battle:
+                self.ui_get_current_page()
+                self.ui_goto(page_shikigami_records)
+                if self.config.true_orochi.switch_soul.enable_switch_by_name:
+                    self.run_switch_soul_by_name(
+                        self.config.true_orochi.switch_soul.group_name,
+                        self.config.true_orochi.switch_soul.team_name)
+                elif self.config.true_orochi.switch_soul.enable:
+                    self.run_switch_soul(
+                        self.config.true_orochi.switch_soul.switch_group_team)
+                self.ui_get_current_page()
+                self.ui_goto(page_soul_zones)
+                self.orochi_enter()
 
         if not battle:
             # 如果还没有真蛇，那么就退出

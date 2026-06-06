@@ -101,8 +101,8 @@
   {
     "itemName": "boss_win",
     "imageName": "boss_boss_win.png",
-    "roiFront": "380,43,100,100",
-    "roiBack": "380,43,100,100",
+    "roiFront": "478,45,100,100",
+    "roiBack": "478,45,100,100",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "战斗胜利"
