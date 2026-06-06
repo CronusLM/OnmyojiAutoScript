@@ -2,8 +2,8 @@
   {
     "itemName": "ryou_toppa",
     "imageName": "res_ryou_toppa.png",
-    "roiFront": "1191,352,78,116",
-    "roiBack": "1161,323,118,193",
+    "roiFront": "1195,402,74,110",
+    "roiBack": "1195,402,74,110",
     "method": "Template matching",
     "threshold": 0.6,
     "description": "寮突"
@@ -47,8 +47,8 @@
   {
     "itemName": "guild_orders_rewards",
     "imageName": "res_guild_orders_rewards.png",
-    "roiFront": "1123,31,115,56",
-    "roiBack": "1123,31,115,56",
+    "roiFront": "222,464,72,56",
+    "roiBack": "222,464,72,56",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "勋章奖励标题"
