@@ -40,16 +40,12 @@ class RuleOcr(Digit, DigitCounter, Duration, Single, Full, Quantity):
 
     def coord(self) -> tuple:
         """
-        获取一个区域，随机返回一个坐标
+        获取一个区域，返回中心坐标（Full模式）或随机坐标（其他模式）
         :return:
         """
-        area = None
-        if self.mode == OcrMode.FULL:
-            area = self.area
-        else:
-            area = self.roi
-
         x, y, w, h = self.area
+        if self.mode == OcrMode.FULL:
+            return x + w // 2, y + h // 2
         x = np.random.randint(x, x + w)
         y = np.random.randint(y, y + h)
         return x, y
