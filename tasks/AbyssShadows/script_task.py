@@ -142,7 +142,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
                     break
                 else:
                     #切换区域之前关闭战报
-                    self.appear_then_click(self.I_ABYSS_MAP_EXIT, interval=1)
+                    self.appear_then_click(self.I_ABYSS_MAP_EXIT, interval=3)
                     current_area = self.check_current_area()
                     logger.info(f"Current area is {current_area}, switch to next area")
                     if current_area == AreaType.DRAGON:
@@ -243,7 +243,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
 
     def switch_area(self):
         #确保没有战报页面
-        self.appear_then_click(self.I_ABYSS_MAP_EXIT, interval=1)
+        self.appear_then_click(self.I_ABYSS_MAP_EXIT, interval=3)
         current_area = self.check_current_area()
         logger.info(f"Current area is {current_area}, switch to next area")
         if current_area == AreaType.DRAGON:
@@ -281,7 +281,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
         '''
         while 1:
             # 确保切换区域前不在战报页面
-            if self.appear_then_click(self.I_ABYSS_MAP_EXIT, interval=1):
+            if self.appear_then_click(self.I_ABYSS_MAP_EXIT, interval=3):
                 continue
             self.screenshot()
             # 判断当前区域是否正确
@@ -318,7 +318,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
         while 1:
             self.screenshot()
             # 进入神社
-            if self.appear_then_click(self.I_RYOU_SHENSHE,interval=1):
+            if self.appear_then_click(self.I_RYOU_SHENSHE,interval=3):
                 logger.info("Enter Shenshe")
                 continue
             # 查找狭间
@@ -342,10 +342,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
             
             if self.appear(self.I_ABYSS_DRAGON):
                 match area_name:
-                    case AreaType.DRAGON: is_click = self.click(self.C_ABYSS_DRAGON,interval=2)
-                    case AreaType.PEACOCK: is_click = self.click(self.C_ABYSS_PEACOCK,interval=2)
-                    case AreaType.FOX: is_click = self.click(self.C_ABYSS_FOX,interval=2)
-                    case AreaType.LEOPARD: is_click = self.click(self.C_ABYSS_LEOPARD,interval=2)
+                    case AreaType.DRAGON: is_click = self.click(self.C_ABYSS_DRAGON,interval=3)
+                    case AreaType.PEACOCK: is_click = self.click(self.C_ABYSS_PEACOCK,interval=3)
+                    case AreaType.FOX: is_click = self.click(self.C_ABYSS_FOX,interval=3)
+                    case AreaType.LEOPARD: is_click = self.click(self.C_ABYSS_LEOPARD,interval=3)
                 if is_click:
                     click_times += 1
                     logger.info(f"Click {area_name.name} {click_times} times")
@@ -368,7 +368,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
             # 点击战报按钮
             if self.appear(self.I_ABYSS_MAP):
                 break
-            if self.appear_then_click(self.I_ABYSS_NAVIGATION,interval=1):
+            if self.appear_then_click(self.I_ABYSS_NAVIGATION,interval=3):
                 continue
  
         match enemy_type:
@@ -444,7 +444,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
         # 点击战报
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_ABYSS_NAVIGATION, interval=1.5):
+            if self.appear_then_click(self.I_ABYSS_NAVIGATION, interval=3):
                 logger.info(f"Click {self.I_ABYSS_NAVIGATION.name}")
                 continue
             if self.appear(self.I_ABYSS_MAP):
@@ -461,19 +461,19 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
                 # 出现前往按钮就退出
                 if self.appear(self.I_ABYSS_GOTO_ENEMY):
                     break
-                if self.click(click_area,interval=1.5):
+                if self.click(click_area,interval=3):
                     click_times += 1
                     continue
-                if self.appear_then_click(self.I_ENSURE_BUTTON,interval=1):
+                if self.appear_then_click(self.I_ENSURE_BUTTON,interval=3):
                     continue
         
             # 点击前往按钮
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_ABYSS_GOTO_ENEMY,interval=1):
+                if self.appear_then_click(self.I_ABYSS_GOTO_ENEMY,interval=3):
                     logger.info(f"Click {self.I_ABYSS_GOTO_ENEMY.name}")
                     # 点击敌人后，如果是不同区域会确认框，点击确认                
-                    if self.appear_then_click(self.I_ENSURE_BUTTON, interval=1):
+                    if self.appear_then_click(self.I_ENSURE_BUTTON, interval=3):
                         logger.info(f"Click {self.I_ENSURE_BUTTON.name}")
                     # 跑动画比较花时间
                     sleep(3)
@@ -489,11 +489,11 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
         # 点击战斗按钮
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_ABYSS_FIRE,interval=1):
+            if self.appear_then_click(self.I_ABYSS_FIRE,interval=3):
                   
                 logger.info(f"Click {self.I_ABYSS_FIRE.name}")        
                 # 挑战敌人后，如果是奖励次数上限，会出现确认框   
-                if self.appear_then_click(self.I_ENSURE_BUTTON, interval=1):
+                if self.appear_then_click(self.I_ENSURE_BUTTON, interval=3):
                     logger.info(f"Click {self.I_ENSURE_BUTTON.name}")
                 continue
             if self.appear(self.I_PREPARE_HIGHLIGHT):
@@ -513,7 +513,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
             #确保进入战斗
             self.screenshot()
             if self.wait_until_appear(self.I_EQUIPPING, wait_time=4):
-                self.click(self.I_EQUIPPING, interval=1.5)
+                self.click(self.I_EQUIPPING, interval=3)
             if not self.appear(self.I_EQUIPPING):
                 break
         logger.info(f"Click {self.I_EQUIPPING.name}")
@@ -534,22 +534,22 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
             # 等待设定的战斗时间
             while time.time() - start_time < combat_time:
                 self.screenshot()
-                if self.appear_then_click(self.I_WIN, interval=1.5):
+                if self.appear_then_click(self.I_WIN, interval=3):
                     break
             logger.info("Combat time ended, proceeding to exit.")
             self.device.stuck_record_clear()
         # 战斗提前结束这时没有返回按钮
-        if self.appear_then_click(self.I_WIN, interval=1.5):
+        if self.appear_then_click(self.I_WIN, interval=3):
             return True
 
         # 点击返回
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT, interval=2):
+            if self.appear_then_click(self.I_EXIT, interval=3):
                 continue
-            if self.appear_then_click(self.I_EXIT_ENSURE, interval=2):
+            if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
                 continue
-            if self.appear_then_click(self.I_WIN, interval=2):
+            if self.appear_then_click(self.I_WIN, interval=3):
                 continue
             if self.appear(self.I_ABYSS_NAVIGATION):
                 break
