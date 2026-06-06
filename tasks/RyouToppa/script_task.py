@@ -105,10 +105,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RyouToppaAssets):
         # 点击突破
         while 1:
             self.screenshot()
-            if self.appear_then_click(RealmRaidAssets.I_REALM_RAID, interval=1):
+            if self.appear_then_click(RealmRaidAssets.I_REALM_RAID, interval=3):
                 continue
             if self.appear(self.I_REAL_RAID_REFRESH, threshold=0.8):
-                if self.appear_then_click(self.I_RYOU_TOPPA, interval=1):
+                if self.appear_then_click(self.I_RYOU_TOPPA, interval=3):
                     continue
             # 攻破阴阳寮，说明寮突已开，则退出
             elif self.appear(self.I_SUCCESS_PENETRATION, threshold=0.8):
@@ -149,10 +149,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RyouToppaAssets):
             raise TaskEnd
         if self.config.ryou_toppa.general_battle_config.lock_team_enable:
             logger.info("Lock team.")
-            self.ui_click(self.I_TOPPA_UNLOCK_TEAM, self.I_TOPPA_LOCK_TEAM)
+            self.ui_click(self.I_TOPPA_UNLOCK_TEAM, self.I_TOPPA_LOCK_TEAM, interval=3)
         else:
             logger.info("Unlock team.")
-            self.ui_click(self.I_TOPPA_LOCK_TEAM, self.I_TOPPA_UNLOCK_TEAM)
+            self.ui_click(self.I_TOPPA_LOCK_TEAM, self.I_TOPPA_UNLOCK_TEAM, interval=3)
         # --------------------------------------------------------------------------------------------------------------
         # 开始突破
         # --------------------------------------------------------------------------------------------------------------
@@ -210,21 +210,21 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RyouToppaAssets):
         # 点击寮突
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_SELECT_RYOU_BUTTON, interval=1):
+            if self.appear_then_click(self.I_SELECT_RYOU_BUTTON, interval=3):
                 break
         logger.info(f'Click {self.I_SELECT_RYOU_BUTTON.name}')
 
         # 选择第一个寮
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_GUILD_ORDERS_REWARDS, action=self.C_SELECT_FIRST_RYOU, interval=1):
+            if self.appear_then_click(self.I_GUILD_ORDERS_REWARDS, action=self.C_SELECT_FIRST_RYOU, interval=3):
                 break
         logger.info(f'Click {self.C_SELECT_FIRST_RYOU.name}')
 
         # 点击开始突入
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_START_TOPPA_BUTTON, interval=1):
+            if self.appear_then_click(self.I_START_TOPPA_BUTTON, interval=3):
                 continue
             # 出现寮奖励， 说明寮突已开
             if self.appear(self.I_RYOU_REWARD, threshold=0.8):
@@ -315,7 +315,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RyouToppaAssets):
                 logger.info("Start attach area [%s]" % str(index + 1))
                 return self.run_general_battle(config=self.config.ryou_toppa.general_battle_config)
 
-            if self.appear_then_click(RealmRaidAssets.I_FIRE, interval=2, threshold=0.8):
+            if self.appear_then_click(RealmRaidAssets.I_FIRE, interval=3, threshold=0.8):
                 click_failure_count += 1
                 continue
             if self.click(rcl, interval=5):
