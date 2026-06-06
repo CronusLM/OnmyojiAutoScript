@@ -40,7 +40,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
 
             self.screenshot()
             # 取消继续战斗
-            if self.appear_then_click(self.I_CANCEL_BATTLE, interval=0.8):
+            if self.appear_then_click(self.I_CANCEL_BATTLE, interval=3):
                 logger.info('Cancel continue battle')
                 continue
             # 确认进入庭院(优化：当出现闲庭图片时，点击卷轴关闭区域，然后判断式神录按钮出现就代表登录成功)
@@ -76,19 +76,19 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
             # if self.ocr_appear_click(self.O_LOGIN_SKIP_1, interval=1):
             #     continue
             # 下载插画
-            if self.appear_then_click(self.I_LOGIN_LOAD_DOWN, interval=1):
+            if self.appear_then_click(self.I_LOGIN_LOAD_DOWN, interval=3):
                 logger.info('Download inbetweening')
                 continue
             # 不观看视频
-            if self.appear_then_click(self.I_WATCH_VIDEO_CANCEL, interval=0.6):
+            if self.appear_then_click(self.I_WATCH_VIDEO_CANCEL, interval=3):
                 logger.info('Close video')
                 continue
             # 右上角的红色的关闭
-            if self.appear_then_click(self.I_LOGIN_RED_CLOSE, interval=0.6):
+            if self.appear_then_click(self.I_LOGIN_RED_CLOSE, interval=3):
                 logger.info('Close red close')
                 continue
             # 左上角的黄色关闭
-            if self.appear_then_click(self.I_LOGIN_YELLOW_CLOSE, interval=0.6):
+            if self.appear_then_click(self.I_LOGIN_YELLOW_CLOSE, interval=3):
                 logger.info('Close yellow close')
                 continue
             # 绑定手机号弹窗
@@ -101,7 +101,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                 continue
             # 关闭各种邀请弹窗(主要时结界卡寄养邀请)
             from tasks.Component.GeneralInvite.assets import GeneralInviteAssets as gia
-            if self.appear_then_click(gia.I_I_REJECT, interval=0.8):
+            if self.appear_then_click(gia.I_I_REJECT, interval=3):
                 logger.info("reject invites")
                 continue
             # 关闭阴阳师精灵提示
@@ -109,8 +109,8 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                 logger.info("click onmyoji genie")
                 continue
             # 点击屏幕进入游戏
-            if self.appear(self.I_LOGIN_SPECIFIC_SERVE, interval=0.6) \
-                    and self.ocr_appear_click(self.O_LOGIN_SPECIFIC_SERVE, interval=0.6):
+            if self.appear(self.I_LOGIN_SPECIFIC_SERVE, interval=3) \
+                    and self.ocr_appear_click(self.O_LOGIN_SPECIFIC_SERVE, interval=3):
                 while True:
                     self.screenshot()
                     if self.appear(self.I_LOGIN_SPECIFIC_SERVE):
@@ -127,7 +127,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
 
             # 点击“进入游戏”速度过快会进入区服设置，同时需在检测I_LOGIN_8之前检测，因为新服图标会让I_LOGIN_8向右偏移导致永远无法检测成功
             # 同时修复了点击位置（之前是点击I_CHARACTARS而不是左边的区域）
-            if self.appear(self.I_CHARACTARS, interval=1):
+            if self.appear(self.I_CHARACTARS, interval=3):
                 logger.info('误入区服设置')
                 # https://github.com/runhey/OnmyojiAutoScript/issues/585
                 self.device.click(x=106, y=535)
@@ -142,7 +142,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                     logger.info('Cancel switch from early server to normal server')
                     continue
             if self.ocr_appear_click(self.O_LOGIN_ENTER_GAME, interval=3):
-                self.wait_until_appear(self.I_LOGIN_SPECIFIC_SERVE, True, wait_time=5)
+                self.wait_until_appear(self.I_LOGIN_SPECIFIC_SERVE, True, wait_time=10)
                 continue
 
         return login_success
@@ -183,21 +183,21 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                 timer_harvest.reset()
                 continue
             # 获得奖励
-            if self.appear_then_click(self.I_UI_AWARD, interval=0.2):
+            if self.appear_then_click(self.I_UI_AWARD, interval=3):
                 timer_harvest.reset()
                 continue
             # 偶尔会打开到聊天频道
-            if self.appear_then_click(self.I_HARVEST_CHAT_CLOSE, interval=1):
+            if self.appear_then_click(self.I_HARVEST_CHAT_CLOSE, interval=3):
                 timer_harvest.reset()
                 continue
             # 偶尔会进入其他页面
             # 左上角的黄色关闭
-            if self.appear_then_click(self.I_LOGIN_YELLOW_CLOSE, interval=0.6):
+            if self.appear_then_click(self.I_LOGIN_YELLOW_CLOSE, interval=3):
                 timer_harvest.reset()
                 logger.info('Close yellow close')
                 continue
             # 关闭宠物小屋
-            if self.appear_then_click(self.I_HARVEST_BACK_PET_HOUSE, interval=0.6):
+            if self.appear_then_click(self.I_HARVEST_BACK_PET_HOUSE, interval=3):
                 timer_harvest.reset()
                 logger.info('Close yellow close')
                 continue
@@ -223,38 +223,38 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                 courtyard_affairs_done = True
                 continue
             # 勾玉
-            if self.appear_then_click(self.I_HARVEST_JADE, interval=1.5):
+            if self.appear_then_click(self.I_HARVEST_JADE, interval=3):
                 timer_harvest.reset()
                 continue
             # 签到
-            if self.appear_then_click(self.I_HARVEST_SIGN, interval=1.5):
+            if self.appear_then_click(self.I_HARVEST_SIGN, interval=3):
                 self.wait_until_appear(self.I_HARVEST_SIGN_2, wait_time=2)
                 timer_harvest.reset()
                 continue
             # 某些活动的特殊签到，有空看到就删掉
-            if self.appear_then_click(self.I_HARVEST_SIGN_3, interval=0.7):
+            if self.appear_then_click(self.I_HARVEST_SIGN_3, interval=3):
                 timer_harvest.reset()
                 continue
-            if self.appear_then_click(self.I_HARVEST_SIGN_4, interval=1):
+            if self.appear_then_click(self.I_HARVEST_SIGN_4, interval=3):
                 timer_harvest.reset()
                 continue
-            if self.appear_then_click(self.I_HARVEST_SIGN_2, interval=1.5):
+            if self.appear_then_click(self.I_HARVEST_SIGN_2, interval=3):
                 self.wait_until_appear(self.I_LOGIN_RED_CLOSE, wait_time=2)
                 timer_harvest.reset()
                 continue
             # 999天的签到福袋
-            if self.appear_then_click(self.I_HARVEST_SIGN_999, interval=1.5):
+            if self.appear_then_click(self.I_HARVEST_SIGN_999, interval=3):
                 timer_harvest.reset()
                 continue
             # 判断是否勾选了收取邮件（不收取邮件可以查看每日收获）
             if not skip_default and self.config.restart.harvest_config.enable_mail and self.harvest_mail():
                 timer_harvest.reset()
                 continue
-            if self.appear_then_click(self.I_HARVEST_AP, interval=1, threshold=0.7):
+            if self.appear_then_click(self.I_HARVEST_AP, interval=3, threshold=0.7):
                 timer_harvest.reset()
                 continue
             # 御魂觉醒加成
-            if self.appear_then_click(self.I_HARVEST_SOUL, interval=1):
+            if self.appear_then_click(self.I_HARVEST_SOUL, interval=3):
                 timer_harvest.reset()
                 continue
             # 寮包
@@ -297,9 +297,9 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
             self.screenshot()
             if self.appear(self.I_READ_ALL_MAIL):
                 break
-            if self.appear_then_click_multi_scale(self.I_HARVEST_MAIL, interval=1.5, scale_range=(0.8, 1.1)):
+            if self.appear_then_click_multi_scale(self.I_HARVEST_MAIL, interval=3, scale_range=(0.8, 1.1)):
                 continue
-            if self.appear_then_click(self.I_HARVEST_MAIL_COPY, interval=1.5):
+            if self.appear_then_click(self.I_HARVEST_MAIL_COPY, interval=3):
                 continue
         timeout_timer = Timer(3).start()
         logger.info('Exec harvest mail')
@@ -307,12 +307,12 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
             self.screenshot()
             if timeout_timer.reached():
                 break
-            if self.appear_then_click(self.I_HARVEST_MAIL_CONFIRM, interval=0.8):
+            if self.appear_then_click(self.I_HARVEST_MAIL_CONFIRM, interval=3):
                 break
 
-            if self.appear_then_click(self.I_READ_ALL_MAIL, interval=1.5):
+            if self.appear_then_click(self.I_READ_ALL_MAIL, interval=3):
                 continue
-            if self.appear_then_click(self.I_HARVEST_MAIL_ALL, interval=1.5):
+            if self.appear_then_click(self.I_HARVEST_MAIL_ALL, interval=3):
                 continue
             if self.appear_then_click(self.I_MAIL_RED_POINT, interval=4):
                 continue
@@ -320,7 +320,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
         return True
     
     def harvest_courtyard_affairs(self) -> bool:
-        if not self.ui_click_multi_scale(self.I_NOTE, self.I_PAGE, timeout=3, scale_range=(0.8, 1.2)):
+        if not self.ui_click_multi_scale(self.I_NOTE, self.I_PAGE, timeout=8, scale_range=(0.8, 1.2)):
             logger.warning('courtyard affairs timeout!')
             return False
         count_success = 0
@@ -330,27 +330,27 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                 logger.info('courtyard affairs completed！')
                 break
             # 每日六星御魂
-            if self.appear_then_click(self.I_HARVEST_SOUL_2, interval=1) \
-                    or self.appear_then_click(self.I_HARVEST_SOUL_3, interval=1):
+            if self.appear_then_click(self.I_HARVEST_SOUL_2, interval=3) \
+                    or self.appear_then_click(self.I_HARVEST_SOUL_3, interval=3):
                 continue
             # 点击'获得奖励'
             if self.ui_reward_appear_click():
                 continue
             # 获得奖励
-            if self.appear_then_click(self.I_UI_AWARD, interval=0.2):
+            if self.appear_then_click(self.I_UI_AWARD, interval=3):
                 continue
             # 式神满级，是否提取物经验？确定
-            if self.appear_then_click(self.I_CONFIRM, interval=1):
+            if self.appear_then_click(self.I_CONFIRM, interval=3):
                 continue
 
-            if self.appear_then_click(self.I_DAILY, interval=1):
+            if self.appear_then_click(self.I_DAILY, interval=3):
                 continue
             # 领取成功： 太傻逼了收取结界奖励游戏里面居然没有加上限制
-            if self.appear_then_click(self.I_SUCCESS_CLAIMED, interval=1):
+            if self.appear_then_click(self.I_SUCCESS_CLAIMED, interval=3):
                 continue
             if self.appear_then_click(self.I_SKIP):# 万花牌跳过
                 continue
-            if self.appear_then_click(self.I_LOGIN_RED_CLOSE, interval=1):# 万花牌X
+            if self.appear_then_click(self.I_LOGIN_RED_CLOSE, interval=3):# 万花牌X
                 continue
             # 一键完成
             if count_success >= 3:
