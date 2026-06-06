@@ -93,15 +93,18 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
             if self.appear(self.I_DE_WIN):
                 logger.info('Win battle')
                 self.ui_click_until_disappear(self.I_DE_WIN, interval=3)
+                sleep(3)
                 return True
             if self.appear(self.I_GOLD_WIN):
                 logger.info('Win battle')
                 self.ui_click_until_disappear(self.I_GOLD_WIN, interval=3)
+                sleep(3)
                 return True
 
             if self.appear(self.I_FALSE):
                 logger.warning('False battle')
                 self.ui_click_until_disappear(self.I_FALSE, interval=3)
+                sleep(3)
                 return False
 
     def gold_exit(self, con):
