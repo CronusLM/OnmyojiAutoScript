@@ -89,7 +89,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                     raise TaskEnd('DemonEncounter')
                 if self.appear(self.I_JADE_50):
                     # 没找到boss但地图中央出现宝箱，导致点击宝箱出现50勾玉购买界面
-                    self.ui_click_until_smt_disappear(self.I_DE_FIND, self.I_JADE_50, interval=1)
+                    self.ui_click_until_smt_disappear(self.I_DE_FIND, self.I_JADE_50, interval=3)
                     continue
                 if find_btn_clicked and self.click(self.C_DM_BOSS_CLICK, interval=5):
                     find_btn_clicked = False
@@ -175,11 +175,11 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                 self.device.stuck_record_clear()
                 self.device.stuck_record_add('BATTLE_STATUS_S')
                 logger.info('Boss Gathering...')
-                sleep(2)
+                sleep(3)
                 continue
             if self.appear(self.I_BOSS_WAIT):
-                logger.info('Boss battle failed, waiting for 2 seconds...')
-                sleep(2)
+                logger.info('Boss battle failed, waiting for 3 seconds...')
+                sleep(3)
                 continue
             if self.appear(self.I_PREPARE_HIGHLIGHT):
                 if preset_switched:
@@ -197,7 +197,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                 self.run_general_battle(config=general_battle_config)
                 continue
             logger.info('Unknown scene Or Boss fight failed.waiting for Prepare_Button appear...')
-            self.wait_until_appear(self.I_PREPARE_HIGHLIGHT, wait_time=2)
+            self.wait_until_appear(self.I_PREPARE_HIGHLIGHT, wait_time=3)
 
         self.device.stuck_timer_long = Timer(300, count=300).start()
 
@@ -207,9 +207,9 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_DE_LOCATION):
                 break
-            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3):
                 continue
-            if self.appear_then_click(self.I_BOSS_BACK_WHITE, interval=1):
+            if self.appear_then_click(self.I_BOSS_BACK_WHITE, interval=3):
                 continue
         # 返回到封魔主界面
 
@@ -219,7 +219,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
         :return:
         """
         # 先点四次
-        ocr_timer = Timer(0.8)
+        ocr_timer = Timer(3)
         ocr_timer.start()
         while 1:
             self.screenshot()
@@ -234,7 +234,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             if cu == 0 and re == 4:
                 break
 
-            if self.appear_then_click(self.I_DE_FIND, interval=2.5):
+            if self.appear_then_click(self.I_DE_FIND, interval=3):
                 continue
         logger.info('Lantern count success')
         # 然后领取红色达摩
@@ -267,7 +267,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                     self._mystery(match_click[i])
                 case LanternClass.BOSS:
                     self._boss(match_click[i])
-            time.sleep(1)
+            sleep(3)
 
     def check_lantern(self, index: int = 1):
         """
@@ -330,12 +330,12 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_JADE_50):
                 break
-            if self.click(target_click, interval=1):
+            if self.click(target_click, interval=3):
                 continue
         while 1:
             self.screenshot()
             if not self.appear(self.I_MYSTERY_AMULET) and not (box_buy_config.box_buy_sushi and self.appear(self.I_SUSHI)):
-                if self.appear_then_click(self.I_DE_FIND, interval=2.5):
+                if self.appear_then_click(self.I_DE_FIND, interval=3):
                     break
             # 默认购买蓝票
             if self.appear(self.I_MYSTERY_AMULET):
@@ -380,7 +380,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_LETTER_CLOSE):
                 break
-            if self.click(target_click, interval=1):
+            if self.click(target_click, interval=3):
                 continue
         logger.info('Question answering Start')
         for i in range(1, 4):
@@ -391,7 +391,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             while 1:
                 self.screenshot()
                 if self.ui_reward_appear_click():
-                    time.sleep(0.5)
+                    sleep(3)
                     while 1:
                         self.screenshot()
                         # 等待动画结束
@@ -404,15 +404,15 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                     break
                 # 如果没有出现红色关闭按钮，说明答题结束
                 if not self.appear(self.I_LETTER_CLOSE):
-                    time.sleep(1.8)
+                    sleep(3)
                     self.screenshot()
                     if not self.appear(self.I_LETTER_CLOSE):
                         logger.warning('Answer finish')
                         return
 
                 # 一直点击
-                self.click(answer_click, interval=1.5)
-            time.sleep(0.5)
+                self.click(answer_click, interval=3)
+            sleep(3)
 
     def _battle(self, target_click):
         while 1:
@@ -427,11 +427,11 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                     self.screenshot()
                     if not self.appear(self.I_DE_SMALL_FIRE):
                         break
-                    if self.appear_then_click(self.I_DE_SMALL_FIRE, interval=1):
+                    if self.appear_then_click(self.I_DE_SMALL_FIRE, interval=3):
                         continue
                 break
 
-            if self.click(target_click, interval=1):
+            if self.click(target_click, interval=3):
                 continue
         if self.run_general_battle():
             logger.info('Battle End')
@@ -443,10 +443,10 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             if not self.appear(self.I_DE_LOCATION):
                 logger.info('Battle Start')
                 break
-            if self.appear_then_click(self.I_DE_REALM_FIRE, interval=0.7):
+            if self.appear_then_click(self.I_DE_REALM_FIRE, interval=3):
                 continue
 
-            if self.click(target_click, interval=1):
+            if self.click(target_click, interval=3):
                 continue
         if self.run_general_battle():
             logger.info('Battle End')
@@ -467,7 +467,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             if self.appear(self.I_BOSS_FIRE):
                 self.execute_boss()
                 break
-            if self.click(target_click, interval=2.3):
+            if self.click(target_click, interval=3):
                 continue
 
     def check_time(self):
@@ -508,7 +508,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                 check_timer = Timer(3)
                 check_timer.start()
                 continue
-            if self.appear_then_click(self.I_WIN, interval=1):
+            if self.appear_then_click(self.I_WIN, interval=3):
                 logger.info('Appear win button')
                 check_timer = Timer(3)
                 check_timer.start()
@@ -554,7 +554,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
         while not timer.reached():
             self.screenshot()
             if self.appear(target):
-                if self.appear_then_click(target, interval=1):
+                if self.appear_then_click(target, interval=3):
                     return True
         logger.warning(f'wait_and_click {target.name} timeout')
         return False
