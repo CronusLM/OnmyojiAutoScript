@@ -247,7 +247,7 @@ class GameUi(BaseTask, GameUiAssets):
         self.maybe_screenshot(skip_screenshot)
         timer = Timer(None).start()
         for close in self.ui_close:
-            if self.appear_then_click(close, interval=1.5):
+            if self.appear_then_click(close, interval=3):
                 logger.warning('Trying to switch to supported page')
                 logger.info(f'[{timer.current():.1f}s]Click {close} on {self.ui_current} success')
                 return True
@@ -266,7 +266,7 @@ class GameUi(BaseTask, GameUiAssets):
             # 当前页不等于路径中对应页, 尝试下一页
             if self.ui_current != current_page:
                 continue
-            self.run_additional(current_page, interval=0.6, skip_first_screenshot=False)
+            self.run_additional(current_page, interval=3, skip_first_screenshot=False)
             # 如果已经是最后一页，不再跳转
             if i == len(path) - 1:
                 if len(path) == 1:
@@ -286,11 +286,11 @@ class GameUi(BaseTask, GameUiAssets):
                 if timeout_timer.reached():
                     return False
                 if isinstance(button, list):
-                    exec_operates = [self.appear_then_operate(btn, interval=0.8, skip_first_screenshot=False)
+                    exec_operates = [self.appear_then_operate(btn, interval=3, skip_first_screenshot=False)
                                      for btn in button]
                     if exec_operates[0]:  # 只要第一个成功就跳出
                         break
-                if self.appear_then_operate(button, interval=0.8, skip_first_screenshot=False):
+                if self.appear_then_operate(button, interval=3, skip_first_screenshot=False):
                     break
             else:
                 logger.warning(f'Failed recognize {button} on {current_page}')
@@ -303,7 +303,7 @@ class GameUi(BaseTask, GameUiAssets):
             while not max_wait_timer.reached():
                 if timeout_timer.reached():
                     return False
-                if self.ui_wait_until_appear(next_page, timeout=2.5, skip_first_screenshot=False):
+                if self.ui_wait_until_appear(next_page, timeout=8, skip_first_screenshot=False):
                     logger.info(f'[{max_wait_timer.current():.1f}s]Page arrived {next_page}')
                     self.ui_current = next_page
                     break
