@@ -33,7 +33,7 @@ class HuntAssets:
 
 	# Image Rule Assets
 	# 点击阴界之门 
-	I_NW = RuleImage(roi_front=(1060,602,100,100), roi_back=(1060,602,100,100), threshold=0.8, method="Template matching", file="./tasks/Hunt/netherworld/netherworld_nw.png")
+	I_NW = RuleImage(roi_front=(1067,604,91,92), roi_back=(1067,604,91,92), threshold=0.8, method="Template matching", file="./tasks/Hunt/netherworld/netherworld_nw.png")
 	# 点击挑战 
 	I_NW_CHALLAGE = RuleImage(roi_front=(306,590,171,63), roi_back=(306,590,171,63), threshold=0.8, method="Template matching", file="./tasks/Hunt/netherworld/netherworld_nw_challage.png")
 	# 今日已挑战 

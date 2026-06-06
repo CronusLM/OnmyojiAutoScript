@@ -2,8 +2,8 @@
   {
     "itemName": "nw",
     "imageName": "netherworld_nw.png",
-    "roiFront": "1060,602,100,100",
-    "roiBack": "1060,602,100,100",
+    "roiFront": "1067,604,91,92",
+    "roiBack": "1067,604,91,92",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "点击阴界之门"
