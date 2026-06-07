@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 # @author runhey
 # github https://github.com/runhey
+from time import sleep
 from cached_property import cached_property
 
 from module.exception import TaskEnd
