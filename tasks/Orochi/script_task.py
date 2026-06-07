@@ -25,7 +25,8 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
         if self.config.orochi.switch_soul.enable:
             self.ui_get_current_page()
             self.ui_goto(page_shikigami_records)
-            self.run_switch_soul(self.config.orochi.switch_soul.switch_group_team)
+            if self.config.orochi.switch_soul.switch_group_team != '-1,-1':
+                self.run_switch_soul(self.config.orochi.switch_soul.switch_group_team)
 
         # 御魂切换方式二
         if self.config.orochi.switch_soul.enable_switch_by_name:
@@ -492,7 +493,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
             case Layer.THIRTEEN:
                 group_team = orochi_switch_soul.thirteen_switch
 
-        if orochi_switch_soul.auto_switch_soul:
+        if orochi_switch_soul.auto_switch_soul and group_team and group_team != '-1,-1':
             self.ui_get_current_page()
             self.ui_goto(page_shikigami_records)
             self.run_switch_soul(group_team)

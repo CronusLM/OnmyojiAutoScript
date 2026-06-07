@@ -38,13 +38,13 @@ class Scales(Buy, MallNavbar):
                 break
             if self.appear(self.I_SCA_SELECT_1) and self.appear(self.I_SCA_SELECT_2):
                 return
-            if self.appear_then_click(start_click, interval=1):
+            if self.appear_then_click(start_click, interval=3):
                 continue
         # 设置购买的数量
         if number is None:
-            self.appear_then_click(self.I_BUY_PLUS, interval=0.4)
-            time.sleep(0.5)
-            self.appear_then_click(self.I_BUY_PLUS, interval=0.4)
+            self.appear_then_click(self.I_BUY_PLUS, interval=3)
+            time.sleep(3)
+            self.appear_then_click(self.I_BUY_PLUS, interval=3)
         else:
             # 四次截图数字都一样，就可以退出了
             number_record = []
@@ -59,7 +59,7 @@ class Scales(Buy, MallNavbar):
                         break
                     number_record.pop(0)
 
-                if self.appear_then_click(self.I_BUY_ADD, interval=0.6):
+                if self.appear_then_click(self.I_BUY_ADD, interval=3):
                     continue
 
     def _scales_buy_more(self, start_click, number: int = None):
@@ -71,12 +71,12 @@ class Scales(Buy, MallNavbar):
             self.screenshot()
             if self.appear(self.I_SCA_SIX_STAR) or self.appear(self.I_SCA_REWARD):
                 logger.info('Scales buy success')
-                time.sleep(1)
+                time.sleep(3)
                 while 1:
                     self.screenshot()
                     if not self.appear(self.I_SCA_SIX_STAR):
                         break
-                    if self.click(self.C_SCA_SOULS_BACK, interval=1):
+                    if self.click(self.C_SCA_SOULS_BACK, interval=3):
                         continue
                 # 收获购买的东西
                 logger.info('Scales get success')
@@ -99,18 +99,18 @@ class Scales(Buy, MallNavbar):
             self.screenshot()
             if self.appear(self.I_SCA_SIX_STAR):
                 logger.info('Scales buy success')
-                time.sleep(1.8)
+                time.sleep(3)
                 while 1:
                     self.screenshot()
                     if not self.appear(self.I_SCA_SIX_STAR):
                         break
-                    if self.click(self.C_SCA_SOULS_GET, interval=1.6):
+                    if self.click(self.C_SCA_SOULS_GET, interval=3):
                         continue
                 # 收获购买的东西
                 logger.info('Scales get success')
                 break
 
-            if self.appear_then_click(self.I_SCA_SELECT_1, interval=1.6):
+            if self.appear_then_click(self.I_SCA_SELECT_1, interval=3):
                 continue
 
     def _scales_orochi_new(self, buy_number: int):
@@ -145,7 +145,7 @@ class Scales(Buy, MallNavbar):
                 return
             # 购买
             self._scales_buy_more(self.I_SCA_OROCHI_SCALES)
-            time.sleep(0.5)
+            time.sleep(3)
     def _scales_orochi(self, buy_number: int):
         """
         要求必须是在御魂礼盒界面
@@ -186,7 +186,7 @@ class Scales(Buy, MallNavbar):
             self._scales_buy_more(self.I_SCA_OROCHI_SCALES)
         else:
             self._scales_buy_more(self.I_SCA_OROCHI_SCALES, buy_number)
-        time.sleep(0.5)
+        time.sleep(3)
 
 
     def _scales_demon(self, buy_number: int, buy_class: DemonClass=DemonClass.ODOKURO, buy_position: int=1):
@@ -265,7 +265,7 @@ class Scales(Buy, MallNavbar):
             result = self.O_SCA_DEMON_POSTION.ocr(self.device.image)
             if target_number in result:
                 break
-            if self.click(target_position, interval=0.7):
+            if self.click(target_position, interval=3):
                 continue
         # 购买
         # 一次最多可以买20个所以要分开来
@@ -278,19 +278,19 @@ class Scales(Buy, MallNavbar):
         if buy_cycles_number:
             for i in range(buy_cycles_number):
                 self._scales_buy_more(self.I_SCA_DEMON_BUY)
-                time.sleep(0.5)
+                time.sleep(3)
         if buy_res_number:
             self._scales_buy_more(self.I_SCA_DEMON_BUY, buy_res_number)
-            time.sleep(0.5)
+            time.sleep(3)
 
         # 回到御魂礼盒界面
         while 1:
             self.screenshot()
             if self.appear(self.I_SCA_DEMON_SOULS):
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
-            if self.click(self.C_SCA_SOULS_BACK, interval=1):
+            if self.click(self.C_SCA_SOULS_BACK, interval=3):
                 continue
 
     def _scales_sea(self, buy_number: int, buy_rule: str='auto'):
@@ -341,10 +341,10 @@ class Scales(Buy, MallNavbar):
         if buy_cycles_number:
             for i in range(buy_cycles_number):
                 self._scales_buy_sea_more(self.I_SCA_PICTURE_BOOK)
-                time.sleep(0.5)
+                time.sleep(3)
         if buy_res_number and buy_res_number >= 2:
             self._scales_buy_sea_more(self.I_SCA_PICTURE_BOOK, buy_res_number)
-            time.sleep(0.5)
+            time.sleep(3)
 
 
 

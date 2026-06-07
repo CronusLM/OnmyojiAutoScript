@@ -29,12 +29,12 @@ class ThousandThings(GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_TT_CHECK):
                 break
-            if self.appear_then_click(self.I_TT_ENTER, interval=1):
+            if self.appear_then_click(self.I_TT_ENTER, interval=3):
                 continue
         logger.info('Enter Thousand Things')
         self.screenshot()
         if not self.appear(self.I_TT_TICKET_BULE) and not self.appear(self.I_TT_BLACK) and not self.appear(self.I_TT_AP):
-            time.sleep(1)
+            time.sleep(3)
         if con.mystery_amulet:
             self.tt_buy_mystery_amulet()
         if con.black_daruma_fragment:
@@ -45,7 +45,7 @@ class ThousandThings(GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_TT_ENTER):
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
         logger.info('Exit Thousand Things')
 
@@ -65,12 +65,12 @@ class ThousandThings(GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_TT_BUY_UP):
                 break
-            if self.ocr_appear_click(self.O_TT_BLUE_TICKET, interval=1):
+            if self.ocr_appear_click(self.O_TT_BLUE_TICKET, interval=3):
                 continue
         logger.info('Buy mystery amulet')
         self.tt_get_reward(self.I_TT_BUY_CONFIRM)
         logger.info('Buy mystery amulet success')
-        time.sleep(0.5)
+        time.sleep(3)
         return True
 
     def tt_buy_black_daruma_scrap(self):
@@ -84,12 +84,12 @@ class ThousandThings(GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_TT_BUY_UP):
                 break
-            if self.ocr_appear_click(self.O_TT_BLACK, interval=1):
+            if self.ocr_appear_click(self.O_TT_BLACK, interval=3):
                 continue
         logger.info('Buy black daruma scrap')
         self.tt_get_reward(self.I_TT_BUY_CONFIRM)
         logger.info('Buy black daruma scrap success')
-        time.sleep(0.5)
+        time.sleep(3)
         return True
 
     def tt_buy_ap(self):
@@ -109,15 +109,15 @@ class ThousandThings(GameUi, RichManAssets):
             if click_count >= 4:
                 logger.warning('Buy ap failed')
                 break
-            if self.appear_then_click(self.I_TT_BUY_UP, interval=0.5):
+            if self.appear_then_click(self.I_TT_BUY_UP, interval=3):
                 click_count += 1
                 continue
-            if not appear_max and self.ocr_appear_click(self.O_TT_AP, interval=2.3):
+            if not appear_max and self.ocr_appear_click(self.O_TT_AP, interval=3):
                 continue
         logger.info('Buy ap')
         self.tt_get_reward(self.I_TT_BUY_CONFIRM)
         logger.info('Buy ap success')
-        time.sleep(0.5)
+        time.sleep(3)
         return True
 
     def tt_check_money(self, mix: int) -> bool:
@@ -149,7 +149,7 @@ class ThousandThings(GameUi, RichManAssets):
                 break
 
             if self.ui_reward_appear_click():
-                sleep(0.5)
+                sleep(3)
                 while 1:
                     self.screenshot()
                     # 等待动画结束
@@ -162,7 +162,7 @@ class ThousandThings(GameUi, RichManAssets):
                         continue
                 break
 
-            if self.appear_then_click(image_button, interval=2):
+            if self.appear_then_click(image_button, interval=3):
                 click_count += 1
                 continue
         return True

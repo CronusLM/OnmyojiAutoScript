@@ -49,9 +49,9 @@ class Honor(Special):
                 break
 
             # 向下滑动寻找商品
-            if self.swipe(self.S_SP_DOWN, interval=2):
+            if self.swipe(self.S_SP_DOWN, interval=3):
                 swipe_count += 1
-                time.sleep(2)
+                time.sleep(3)
 
     def _honor_mystery_amulet(self, enable: bool=False):
         logger.hr('Buy mystery amulet', 3)
@@ -72,7 +72,7 @@ class Honor(Special):
             return
         # 使用动态位置点击购买
         self.appear_then_click(self.I_HONOR_BLUE)
-        time.sleep(1)
+        time.sleep(3)
 
     def _honor_black_daruma_scrap(self, enable: bool=False):
         logger.hr('Buy black daruma scrap', 3)
@@ -93,7 +93,7 @@ class Honor(Special):
             return
         # 使用动态位置点击购买
         self.buy_more(self.I_HONOR_BLACK)
-        time.sleep(0.5)
+        time.sleep(3)
 
 
 if __name__ == '__main__':

@@ -31,12 +31,12 @@ class Guild(Buy, GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_GUILD_CLOSE_RED):
                 break
-            if self.appear_then_click(self.I_GUILD_SHRINE, interval=0.8):
+            if self.appear_then_click(self.I_GUILD_SHRINE, interval=3):
                 continue
-            if self.appear_then_click(self.I_GUILD_STORE, interval=1.1):
+            if self.appear_then_click(self.I_GUILD_STORE, interval=3):
                 continue
         logger.info('Enter guild store success')
-        time.sleep(0.5)
+        time.sleep(3)
         # while 1:
         #     self.screenshot()
         #     # 功勋商店 购买皮肤券 现在问题是皮肤券作为下滑判断标志,下滑过程中roi_front[1]发生了变化,
@@ -86,8 +86,8 @@ class Guild(Buy, GameUi, RichManAssets):
             if items_all_done:
                 logger.info(f'All items have been purchased {items}')
                 break
-            if self.swipe(self.S_GUILD_STORE, interval=1.5):
-                time.sleep(2)
+            if self.swipe(self.S_GUILD_STORE, interval=3):
+                time.sleep(3)
                 continue
 
 
@@ -96,9 +96,9 @@ class Guild(Buy, GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_GUILD_SHRINE):
                 break
-            if self.appear_then_click(self.I_GUILD_CLOSE_RED, interval=1):
+            if self.appear_then_click(self.I_GUILD_CLOSE_RED, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
 
     def _guild_mystery_amulet(self):
@@ -112,7 +112,7 @@ class Guild(Buy, GameUi, RichManAssets):
             logger.warning('No mystery amulet can buy')
             return False
         self.buy_more(self.I_GUILD_BLUE, number)
-        time.sleep(0.5)
+        time.sleep(3)
         return True
 
     def _guild_black_daruma_scrap(self):
@@ -126,7 +126,7 @@ class Guild(Buy, GameUi, RichManAssets):
             logger.warning('No black daruma can buy')
             return False
         self.buy_one(self.I_GUILD_SCRAP, self.I_GUILD_CHECK_SCRAP)
-        time.sleep(0.5)
+        time.sleep(3)
         return True
 
     def _guild_skin_ticket(self, num: int = 0):
@@ -145,7 +145,7 @@ class Guild(Buy, GameUi, RichManAssets):
             return False
         # 购买功勋商店皮肤券
         self.buy_more(self.I_GUILD_SKIN, number)
-        time.sleep(0.5)
+        time.sleep(3)
         return True
 
     def check_remain(self, image: RuleImage) -> int:

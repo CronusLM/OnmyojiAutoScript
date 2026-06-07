@@ -58,7 +58,7 @@ class Medal(FriendshipPoints):
                                money_ocr=self.I_MALL_RESOURCE_MEDAL.build_mall_resource_ocr(self.device.image),
                                buy_number=con.broken_amulet, buy_max=99, buy_money=20)
 
-        time.sleep(1)
+        time.sleep(3)
 
 
 if __name__ == '__main__':

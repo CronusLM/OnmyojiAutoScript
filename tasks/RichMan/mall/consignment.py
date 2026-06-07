@@ -29,7 +29,7 @@ class Consignment(Buy, MallNavbar):
             return
         self._enter_consignment()
         # 等待页面加载
-        time.sleep(0.5)
+        time.sleep(3)
         self.screenshot()
         # 进入寄售屋兑换页面
         self.ui_click(self.I_CON_ENTER, self.I_CON_ENTER_CHECK)

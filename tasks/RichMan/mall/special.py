@@ -46,8 +46,8 @@ class Special(Buy, MallNavbar):
                 logger.info('Swipe to bottom')
                 break
 
-            if self.swipe(self.S_SP_DOWN, interval=2):
-                time.sleep(2)
+            if self.swipe(self.S_SP_DOWN, interval=3):
+                time.sleep(3)
 
     def _special_totom(self, totem_pass: bool):
         """
@@ -70,7 +70,7 @@ class Special(Buy, MallNavbar):
         # 用金币买的没必要再检查金币
         # 购买
         self.buy_more(self.I_SP_BUY_TOTEM)
-        time.sleep(1)
+        time.sleep(3)
 
     def _special_medium(self, buy_number: int = 10):
         """
@@ -103,10 +103,10 @@ class Special(Buy, MallNavbar):
         if buy_cycles_number:
             for i in range(buy_cycles_number):
                 self.buy_more(self.I_SP_BUY_MEDIUM)
-                time.sleep(0.5)
+                time.sleep(3)
         if buy_res_number:
             self.buy_more(self.I_SP_BUY_MEDIUM, buy_res_number)
-            time.sleep(0.5)
+            time.sleep(3)
 
     def _special_low(self, buy_number: int = 10):
         """
@@ -138,10 +138,10 @@ class Special(Buy, MallNavbar):
         if buy_cycles_number:
             for i in range(buy_cycles_number):
                 self.buy_more(self.I_SP_BUY_LOW)
-                time.sleep(0.5)
+                time.sleep(3)
         if buy_res_number:
             self.buy_more(self.I_SP_BUY_LOW, buy_res_number)
-            time.sleep(0.5)
+            time.sleep(3)
 
     def _special_check_remain(self, target: RuleImage):
         """

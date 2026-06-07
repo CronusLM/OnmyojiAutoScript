@@ -90,6 +90,10 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             }
             return match[team]
 
+        if group == -1 or team == -1:
+            logger.info(f'Switch soul skip: group={group}, team={team}')
+            return
+
         # 滑动至分组最上层(分組過多, 导致第一个分组显示不全)
         cur_text = ""
         while 1:

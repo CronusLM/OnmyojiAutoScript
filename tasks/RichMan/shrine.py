@@ -25,14 +25,14 @@ class Shrine(GameUi, RichManAssets):
             self.screenshot()
             if self.appear(self.I_S_NEXT_PERIOD):
                 break
-            if self.click(self.C_C_SHRINE, interval=2):
+            if self.click(self.C_C_SHRINE, interval=3):
                 continue
             # if self.appear_then_click(self.I_CENTER1, interval=1):
             #     continue
             # if self.appear_then_click(self.I_CENTER2, interval=1):
             #     continue
         logger.info('Enter Shrine')
-        time.sleep(0.5)
+        time.sleep(3)
         if con.black_daruma:
             self.shrine_black_daruma()
         if con.white_daruma_five:
@@ -78,12 +78,12 @@ class Shrine(GameUi, RichManAssets):
         if not self.appear(self.I_S_BUY_BLACK, threshold=0.6):
             logger.info('Already bought black daruma')
             self.ui_click_until_disappear(self.I_UI_BACK_RED)
-            time.sleep(0.5)
+            time.sleep(3)
             return
         self.ui_click(self.I_S_BUY_BLACK, self.I_S_CONFIRM_BLACK)
         self.ui_get_reward(self.I_S_CONFIRM_BLACK)
         self.ui_click_until_disappear(self.I_UI_BACK_RED)
-        time.sleep(1)
+        time.sleep(3)
 
     def shrine_white_five(self):
         logger.hr('Shrine white five', 2)
@@ -98,12 +98,12 @@ class Shrine(GameUi, RichManAssets):
         if not self.appear(self.I_S_BUY_WHITE_FIVE, threshold=0.9):
             logger.info('Already bought white five')
             self.ui_click_until_disappear(self.I_UI_BACK_RED)
-            time.sleep(1)
+            time.sleep(3)
             return
         self.ui_click(self.I_S_BUY_WHITE_FIVE, self.I_S_CONFIRM_WHITE_FIVE)
         self.ui_get_reward(self.I_S_CONFIRM_WHITE_FIVE)
         self.ui_click_until_disappear(self.I_UI_BACK_RED)
-        time.sleep(1)
+        time.sleep(3)
 
     def shrine_white_four(self):
         logger.hr('Shrine white four', 2)
@@ -118,13 +118,12 @@ class Shrine(GameUi, RichManAssets):
         if not self.appear(self.I_S_BUY_WHITE_FOUR, threshold=0.9):
             logger.info('Already bought white four')
             self.ui_click_until_disappear(self.I_UI_BACK_RED)
-            time.sleep(1)
+            time.sleep(3)
             return
         self.ui_click(self.I_S_BUY_WHITE_FOUR, self.I_S_CONFIRM_WHITE_FOUR)
         self.ui_get_reward(self.I_S_CONFIRM_WHITE_FOUR)
         self.ui_click_until_disappear(self.I_UI_BACK_RED)
-        time.sleep(1)
-
+        time.sleep(3)
 
 
 if __name__ == '__main__':
