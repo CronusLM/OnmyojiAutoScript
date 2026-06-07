@@ -27,7 +27,7 @@ class Summon(BaseTask, SummonAssets):
             case 2: target_swipe = self.S_RANDOM_SWIPE_3
             case 3: target_swipe = self.S_RANDOM_SWIPE_4
             case _: target_swipe = self.S_RANDOM_SWIPE_1
-        self.swipe(target_swipe, interval=0.5)
+        self.swipe(target_swipe, interval=3)
 
     def summon_mystery_pattern(self):
         """
@@ -109,22 +109,22 @@ class Summon(BaseTask, SummonAssets):
                 self.screenshot()
                 if self.appear(self.I_ONE_TICKET):
                     break
-                if self.appear_then_click(self.I_BLUE_TICKET, interval=1):
+                if self.appear_then_click(self.I_BLUE_TICKET, interval=3):
                     continue
 
             # 画一张票
-            time.sleep(0.5)
+            time.sleep(3)
             while 1:
                 self.screenshot()
-                if self.appear(self.I_SM_CONFIRM, interval=0.6):
+                if self.appear(self.I_SM_CONFIRM, interval=3):
                     self.ui_click_until_disappear(self.I_SM_CONFIRM)
                     break
-                if self.appear(self.I_SM_CONFIRM_2, interval=0.6):
+                if self.appear(self.I_SM_CONFIRM_2, interval=3):
                     self.ui_click_until_disappear(self.I_SM_CONFIRM_2)
                     break
-                if self.appear(self.I_ONE_TICKET, interval=1):
-                    # 某些时候会点击到 “语言召唤”
-                    if self.appear_then_click(self.I_UI_CANCEL, interval=0.8):
+                if self.appear(self.I_ONE_TICKET, interval=3):
+                    # 某些时候会点击到 "语言召唤"
+                    if self.appear_then_click(self.I_UI_CANCEL, interval=3):
                         continue
                     if draw_mystery_pattern:
                         self.summon_mystery_pattern()

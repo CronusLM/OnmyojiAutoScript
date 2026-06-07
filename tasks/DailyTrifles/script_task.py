@@ -6,7 +6,6 @@ from time import sleep
 from datetime import time, datetime, timedelta
 
 from exceptiongroup import catch
-from tasks.DailyTrifles.page import page_store_gift_room
 from winerror import NOERROR
 
 from tasks.GameUi.game_ui import GameUi
@@ -81,15 +80,15 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
             count += 1
 
             for i in range(len(list)):
-                sleep(1)
+                sleep(3)
                 self.ui_get_current_page()
                 self.ui_goto(page_main)
                 self.ui_get_current_page()
                 self.ui_goto(page_summon)
-                self.appear_then_click(self.I_UI_BACK_RED, interval=1)
+                self.appear_then_click(self.I_UI_BACK_RED, interval=3)
                 x, y = list[i].coord()
                 self.device.click(x, y)
-                sleep(1)
+                sleep(3)
                 self.screenshot()
                 if self.appear(self.I_RECALL_TICKET):
                     break
@@ -129,22 +128,22 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
                 self.screenshot()
                 if self.appear(self.I_RECALL_ONE_TICKET):
                     break
-                if self.appear_then_click(self.I_RECALL_TICKET, interval=1):
+                if self.appear_then_click(self.I_RECALL_TICKET, interval=3):
                     continue
 
             # 画一张票
-            sleep(1)
+            sleep(3)
             while 1:
                 self.screenshot()
-                if self.appear(self.I_RECALL_SM_CONFIRM, interval=0.6):
+                if self.appear(self.I_RECALL_SM_CONFIRM, interval=3):
                     self.ui_click_until_disappear(self.I_RECALL_SM_CONFIRM)
                     break
-                if self.appear(self.I_SM_CONFIRM_2, interval=0.6):
+                if self.appear(self.I_SM_CONFIRM_2, interval=3):
                     self.ui_click_until_disappear(self.I_SM_CONFIRM_2)
                     break
-                if self.appear(self.I_RECALL_ONE_TICKET, interval=1):
-                    # 某些时候会点击到 “语言召唤”
-                    if self.appear_then_click(self.I_UI_CANCEL, interval=0.8):
+                if self.appear(self.I_RECALL_ONE_TICKET, interval=3):
+                    # 某些时候会点击到 "语言召唤"
+                    if self.appear_then_click(self.I_UI_CANCEL, interval=3):
                         continue
                     self.summon()
                     continue
@@ -160,19 +159,19 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
             self.screenshot()
             if self.appear(self.I_LUCK_TITLE):
                 break
-            if self.appear_then_click(self.I_FRIENDSHIP_UP, interval=1):
+            if self.appear_then_click(self.I_FRIENDSHIP_UP, interval=3):
                 continue
-            if self.ocr_appear_click(self.O_LUCK_MSG, interval=1):
+            if self.ocr_appear_click(self.O_LUCK_MSG, interval=3):
                 continue
         logger.info('Start luck msg')
-        check_timer = Timer(2)
+        check_timer = Timer(5)
         check_timer.start()
         while 1:
             self.screenshot()
 
-            if self.appear_then_click(self.I_CLICK_BLESS, interval=1):
+            if self.appear_then_click(self.I_CLICK_BLESS, interval=3):
                 continue
-            if self.appear_then_click(self.I_ONE_CLICK_BLESS, interval=1):
+            if self.appear_then_click(self.I_ONE_CLICK_BLESS, interval=3):
                 continue
             if self.ui_reward_appear_click():
                 logger.info('Get reward of luck msg')
@@ -190,17 +189,17 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
             self.screenshot()
             if self.appear(self.I_L_LOVE):
                 break
-            if self.appear_then_click(self.I_FRIENDSHIP_UP, interval=1):
+            if self.appear_then_click(self.I_FRIENDSHIP_UP, interval=3):
                 continue
-            if self.appear_then_click(self.I_L_FRIENDS, interval=1):
+            if self.appear_then_click(self.I_L_FRIENDS, interval=3):
                 continue
         logger.info('Start friend love')
-        check_timer = Timer(2)
+        check_timer = Timer(5)
         check_timer.start()
         while 1:
             self.screenshot()
 
-            if self.appear_then_click(self.I_L_COLLECT, interval=1):
+            if self.appear_then_click(self.I_L_COLLECT, interval=3):
                 continue
             if self.ui_reward_appear_click():
                 logger.info('Get reward of friend love')
@@ -226,17 +225,21 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
 
     def run_store_sign(self):
 
-        self.ui_goto_page(page_store_gift_room)
-        self.screenshot()
-        self.appear_then_click(self.I_GIFT_RECOMMEND, interval=1)
+        while 1:
+            self.screenshot()
+            if self.appear(self.I_GIFT_RECOMMEND):
+                break
+            if self.appear_then_click(self.I_ROOM_GIFT, interval=3):
+                continue
+        self.appear_then_click(self.I_GIFT_RECOMMEND, interval=3)
         logger.info('Enter store sign')
-        sleep(1)  # 等个动画
+        sleep(3)  # 等个动画
         self.screenshot()
         if not self.appear(self.I_GIFT_SIGN):
             logger.warning('There is no gift sign')
             return
 
-        if self.ui_get_reward(self.I_GIFT_SIGN, click_interval=2.5):
+        if self.ui_get_reward(self.I_GIFT_SIGN, click_interval=3):
             logger.info('Get reward of gift sign')
 
     def run_buy_sushi(self):
@@ -247,9 +250,9 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
             self.screenshot()
             if self.appear(RichManAssets.I_SIDE_CHECK_SPECIAL):
                 break
-            if self.appear_then_click(RichManAssets.I_MALL_SUNDRY, interval=1):
+            if self.appear_then_click(RichManAssets.I_MALL_SUNDRY, interval=3):
                 continue
-            if self.appear_then_click(RichManAssets.I_SIDE_SURE_SPECIAL, interval=1):
+            if self.appear_then_click(RichManAssets.I_SIDE_SURE_SPECIAL, interval=3):
                 continue
 
         def detect_buy_count(base_element) -> (int, int):
@@ -285,7 +288,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
                 count, price = detect_buy_count(self.I_STORE_COST_TYPE_JADE)
                 if count >= self.config.daily_trifles.trifles_config.buy_sushi_count:
                     break
-                self.ui_click_until_disappear(self.I_STORE_COST_TYPE_JADE, interval=2)
+                self.ui_click_until_disappear(self.I_STORE_COST_TYPE_JADE, interval=3)
                 logger.info(f"Buy Sushi With {price} Jade")
                 continue
 
@@ -294,7 +297,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
                 count, price = detect_buy_count(self.I_SPECIAL_SUSHI)
                 if count >= self.config.daily_trifles.trifles_config.buy_sushi_count:
                     break
-                self.ui_click(self.I_SPECIAL_SUSHI, stop=self.I_STORE_COST_TYPE_JADE, interval=2)
+                self.ui_click(self.I_SPECIAL_SUSHI, stop=self.I_STORE_COST_TYPE_JADE, interval=3)
                 continue
         return
 
