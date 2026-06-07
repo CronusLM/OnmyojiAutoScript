@@ -134,6 +134,12 @@ class RestartAssets:
 	I_EARLY_SERVER_CANCEL = RuleImage(roi_front=(435,404,172,56), roi_back=(435,404,172,56), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_early_server_cancel.png")
 	# 取消继续战斗 
 	I_CANCEL_BATTLE = RuleImage(roi_front=(471,395,129,55), roi_back=(367,227,545,296), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_cancel_battle.png")
+	# 本应用今日不再展示
+	I_HW_AD_CHECH = RuleImage(roi_front=(933,564,51,54), roi_back=(933,564,51,54), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_chech.png")
+	# 华为广告弹窗关闭按钮
+	I_HW_AD_CLOSE = RuleImage(roi_front=(1025,121,81,77), roi_back=(1025,121,81,77), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_close.png")
+	# description
+	I_HW_AD_LOGO = RuleImage(roi_front=(540,534,190,57), roi_back=(540,534,190,57), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_logo.png")
 
 
 	# Ocr Rule Assets

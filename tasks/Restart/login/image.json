@@ -169,5 +169,32 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "取消继续战斗"
+  },
+  {
+    "itemName": "hw_ad_chech",
+    "imageName": "login_hw_ad_chech.png",
+    "roiFront": "933,564,51,54",
+    "roiBack": "933,564,51,54",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "本应用今日不再展示"
+  },
+  {
+    "itemName": "hw_ad_close",
+    "imageName": "login_hw_ad_close.png",
+    "roiFront": "1025,121,81,77",
+    "roiBack": "1025,121,81,77",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "华为广告弹窗关闭按钮"
+  },
+  {
+    "itemName": "hw_ad_logo",
+    "imageName": "login_hw_ad_logo.png",
+    "roiFront": "540,534,190,57",
+    "roiBack": "540,534,190,57",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "识别华为广告弹窗"
   }
 ]

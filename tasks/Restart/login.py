@@ -39,6 +39,14 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                 orientation_timer.reset()
 
             self.screenshot()
+            # ===== 华为渠道广告处理 =====
+            if self.appear(self.I_HW_AD_LOGO):
+                if self.appear_then_click(self.I_HW_AD_CHECH, interval=3):
+                    logger.info('Huawei ad: check don\'t show today')
+                    continue
+                if self.appear_then_click(self.I_HW_AD_CLOSE, interval=3):
+                    logger.info('Huawei ad: close')
+                    continue
             # 取消继续战斗
             if self.appear_then_click(self.I_CANCEL_BATTLE, interval=3):
                 logger.info('Cancel continue battle')
