@@ -58,9 +58,9 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             self.screenshot()
             if self.is_in_real_battle(False):  # 战斗阶段
                 return True
-            if self.appear_then_click(self.I_DISABLE_7DAYS_DIFF_SOUL, interval=0.6):  # 关闭御魂不一致提示
+            if self.appear_then_click(self.I_DISABLE_7DAYS_DIFF_SOUL, interval=3):  # 关闭御魂不一致提示
                 continue
-            if self.appear_then_click(self.I_CONFIRM_CLOSE_DIFF_SOUL, interval=0.6):  # 确认关闭御魂不一致提示
+            if self.appear_then_click(self.I_CONFIRM_CLOSE_DIFF_SOUL, interval=3):  # 确认关闭御魂不一致提示
                 continue
             if self.is_in_prepare(False):  # 战斗准备阶段
                 if not getattr(config, 'lock_team_enable', False):  # 没有锁定阵容
@@ -74,7 +74,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                 continue
             # 未知界面, 既不是准备界面也不是战斗界面
             # logger.info('Wait for preparation page')  # 这玩意刷屏
-            sleep(random.uniform(0.4, 0.8))
+            sleep(3)
         return False
 
     def run_general_battle_back(self, config: GeneralBattleConfig = None, exit_four: bool = False) -> bool:
@@ -150,7 +150,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             self.screenshot()
             if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
                 continue
-            if self.appear_then_click(self.I_FALSE, interval=1.5):
+            if self.appear_then_click(self.I_FALSE, interval=3):
                 continue
             if not self.appear(self.I_EXIT):
                 break
@@ -207,7 +207,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             if win:
                 # 点击赢了
                 action_click = random.choice([self.C_WIN_1, self.C_WIN_2, self.C_WIN_3])
-                if self.appear_then_click(self.I_WIN, action=action_click, interval=2):
+                if self.appear_then_click(self.I_WIN, action=action_click, interval=3):
                     continue
                 if not self.appear(self.I_WIN):
                     break
@@ -297,7 +297,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
 
             # 判断有无坐标的偏移
             self.appear_then_click(self.I_LOCAL)
-            time.sleep(0.3)
+            time.sleep(3)
             # 点击绿标
             self.device.click(x, y)
 
@@ -373,14 +373,14 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                                   (tmp.roi_back[0], tmp.roi_back[1], tmp.roi_back[0] + color_size[0],
                                    tmp.roi_back[1] + color_size[1]))
             if color_similar(color_tmp, unselected_color):
-                self.click(tmp, interval=0.2)
+                self.click(tmp, interval=3)
                 continue
             break
 
         logger.info("Select preset group")
 
         # 选择预设的队伍
-        time.sleep(0.5)
+        time.sleep(3)
         tmp = self.__getattribute__("C_PRESET_TEAM_" + str(preset_team))
         if tmp is None:
             tmp = self.C_PRESET_TEAM_1
@@ -393,7 +393,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                                   (tmp.roi_back[0], tmp.roi_back[1], tmp.roi_back[0] + color_size[0],
                                    tmp.roi_back[1] + color_size[1]))
             if color_similar(color_tmp, unselected_color):
-                self.click(tmp, interval=0.2)
+                self.click(tmp, interval=3)
                 continue
             break
 
@@ -406,7 +406,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             self.screenshot()
             if not self.appear(self.I_PRESET_ENSURE):
                 break
-            if self.appear_then_click(self.I_PRESET_ENSURE, threshold=0.8, interval=2):
+            if self.appear_then_click(self.I_PRESET_ENSURE, threshold=0.8, interval=3):
                 continue
         logger.info("Click preset ensure")
 
@@ -423,7 +423,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             # 重新设置为长战斗
             # self.device.stuck_record_add('BATTLE_STATUS_S')
         else:
-            time.sleep(0.4)  # 这样的好像不对
+            time.sleep(3)  # 这样的好像不对
 
     # 判断是否在战斗中
     def is_in_battle(self, is_screenshot: bool = True) -> bool:
@@ -497,7 +497,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                 self.screenshot()
                 if self.appear(lock_image):
                     break
-                if self.appear_then_click(unlock_image, interval=1):
+                if self.appear_then_click(unlock_image, interval=3):
                     continue
         else:
             logger.info("Unlock team")
@@ -505,7 +505,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                 self.screenshot()
                 if self.appear(unlock_image):
                     break
-                if self.appear_then_click(lock_image, interval=1):
+                if self.appear_then_click(lock_image, interval=3):
                     continue
 
     def check_and_open_buff(self, buff: BuffClass or list[BuffClass] = None):
@@ -517,7 +517,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         if not buff:
             return
         logger.info(f'Open buff {buff}')
-        self.ui_click(self.I_BUFF, self.I_CLOUD, interval=2)
+        self.ui_click(self.I_BUFF, self.I_CLOUD, interval=3)
         if isinstance(buff, BuffClass):
             buff = [buff]
         match_method = {
@@ -537,13 +537,13 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         for b in buff:
             func, is_open = match_method[b]
             func(is_open)
-            time.sleep(0.1)
+            time.sleep(3)
         logger.info(f'Open buff success')
         while 1:
             self.screenshot()
             if not self.appear(self.I_CLOUD):
                 break
-            if self.appear_then_click(self.I_BUFF, interval=1):
+            if self.appear_then_click(self.I_BUFF, interval=3):
                 continue
 
     def boss_mark(self, enable=True) -> bool:
@@ -561,7 +561,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
             logger.info('Boss mark skipped due to maybe no boss')
             self.device.stuck_record_add('BATTLE_STATUS_S')
             return False
-        if self.click(self.O_BOSS_MARK, interval=1.8):
+        if self.click(self.O_BOSS_MARK, interval=3):
             return False
         return False
 

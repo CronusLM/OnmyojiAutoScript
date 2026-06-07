@@ -180,16 +180,16 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
         while 1:
             self.screenshot()
             if not self.is_in_room() and \
-                    not self.appear_then_click(self.I_GI_SURE, interval=0.8) and \
+                    not self.appear_then_click(self.I_GI_SURE, interval=3) and \
                     not self.appear(self.I_BACK_YELLOW):
                 break
-            if self.appear_then_click(self.I_GI_SURE, interval=0.5):
+            if self.appear_then_click(self.I_GI_SURE, interval=3):
                 continue
-            if not self.appear(self.I_GI_SURE) and self.appear_then_click(self.I_BACK_YELLOW, interval=0.8):
-                self.wait_until_appear(self.I_GI_SURE, wait_time=0.8)
+            if not self.appear(self.I_GI_SURE) and self.appear_then_click(self.I_BACK_YELLOW, interval=3):
+                self.wait_until_appear(self.I_GI_SURE, wait_time=3)
                 continue
-            if not self.appear(self.I_GI_SURE) and self.appear_then_click(self.I_BACK_YELLOW_SEA, interval=0.8):
-                self.wait_until_appear(self.I_GI_SURE, wait_time=0.8)
+            if not self.appear(self.I_GI_SURE) and self.appear_then_click(self.I_BACK_YELLOW_SEA, interval=3):
+                self.wait_until_appear(self.I_GI_SURE, wait_time=3)
                 continue
         return True
 
@@ -313,8 +313,8 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
         self.screenshot()
         self.O_FRIEND_NAME_1.keyword = name
         self.O_FRIEND_NAME_2.keyword = name
-        appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=2)
-        appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=2)
+        appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=3)
+        appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=3)
         if not appear_1 and not appear_2:
             logger.info('Current page no friend')
             return False
@@ -323,8 +323,8 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
             self.screenshot()
             if self.appear(self.I_SELECTED):
                 break
-            appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=2)
-            appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=2)
+            appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=3)
+            appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=3)
 
         return True
 
@@ -343,11 +343,11 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                 break
             if self.appear(self.I_INVITE_ENSURE):
                 break
-            if self.appear_then_click(self.I_ADD_2, interval=1):
+            if self.appear_then_click(self.I_ADD_2, interval=3):
                 continue
-            if self.appear_then_click(self.I_ADD_5_4, interval=1):
+            if self.appear_then_click(self.I_ADD_5_4, interval=3):
                 continue
-            if self.appear_then_click(self.I_ADD_SEA, interval=1):
+            if self.appear_then_click(self.I_ADD_SEA, interval=3):
                 continue
 
         friend_class = []
@@ -391,15 +391,15 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                 self.screenshot()
                 if self.appear(self.I_FLAG_2_ON):
                     break
-                if self.appear_then_click(self.I_FLAG_2_OFF, interval=1):
+                if self.appear_then_click(self.I_FLAG_2_OFF, interval=3):
                     continue
 
             logger.info(f'Now find friend in ”最近“')
-            sleep(1)
+            sleep(3)
             if not is_select:
                 if self.detect_select(name):
                     is_select = True
-            sleep(1)
+            sleep(3)
             if not is_select:
                 if self.detect_select(name):
                     is_select = True
@@ -416,35 +416,35 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                 self.screenshot()
                 if self.appear(self.I_FLAG_1_ON):
                     break
-                if self.appear_then_click(self.I_FLAG_1_OFF, interval=1):
+                if self.appear_then_click(self.I_FLAG_1_OFF, interval=3):
                     continue
             while index == 1:
                 self.screenshot()
                 if self.appear(self.I_FLAG_2_ON):
                     break
-                if self.appear_then_click(self.I_FLAG_2_OFF, interval=1):
+                if self.appear_then_click(self.I_FLAG_2_OFF, interval=3):
                     continue
             while index == 2:
                 self.screenshot()
                 if self.appear(self.I_FLAG_3_ON):
                     break
-                if self.appear_then_click(self.I_FLAG_3_OFF, interval=1):
+                if self.appear_then_click(self.I_FLAG_3_OFF, interval=3):
                     continue
             while index == 3:
                 self.screenshot()
                 if self.appear(self.I_FLAG_4_ON):
                     break
-                if self.appear_then_click(self.I_FLAG_4_OFF, interval=1):
+                if self.appear_then_click(self.I_FLAG_4_OFF, interval=3):
                     continue
 
             # 选中好友， 在这里游戏获取在线的好友并不是很快，根据不同的设备会有不同的时间，而且没有什么元素提供我们来判断
             # 所以这里就直接等待一段时间
             logger.info(f'Now find friend in {friend_class[index]}')
-            sleep(1)
+            sleep(3)
             if not is_select:
                 if self.detect_select(name):
                     is_select = True
-            sleep(1)
+            sleep(3)
             if not is_select:
                 if self.detect_select(name):
                     is_select = True
@@ -481,7 +481,7 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
             success = self.invite_friend(config.friend_2, config.find_mode)
             if not success:
                 logger.warning('Invite friend 2 failed')
-        sleep(0.5)
+        sleep(3)
 
     def invite_again(self, default_invite: bool=True) -> bool:
         """
@@ -502,7 +502,7 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                 self.screenshot()
                 if self.appear(self.I_I_DEFAULT):
                     break
-                if self.appear_then_click(self.I_I_NO_DEFAULT, interval=1):
+                if self.appear_then_click(self.I_I_NO_DEFAULT, interval=3):
                     continue
         else:
             logger.info('Click no default invite')
@@ -510,7 +510,7 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                 self.screenshot()
                 if self.appear(self.I_I_NO_DEFAULT):
                     break
-                if self.appear_then_click(self.I_I_DEFAULT, interval=1):
+                if self.appear_then_click(self.I_I_DEFAULT, interval=3):
                     continue
 
         # 点击确认
@@ -539,14 +539,14 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
                     self.screenshot()
                     if self.appear(self.I_I_DEFAULT):
                         break
-                    if self.appear_then_click(self.I_I_NO_DEFAULT, interval=1):
+                    if self.appear_then_click(self.I_I_NO_DEFAULT, interval=3):
                         continue
         # 点击确认
         while 1:
             self.screenshot()
             if not self.appear(self.I_GI_SURE):
                 break
-            if self.appear_then_click(self.I_GI_SURE, interval=1):
+            if self.appear_then_click(self.I_GI_SURE, interval=3):
                 continue
 
         return True
@@ -567,13 +567,13 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
             # https://github.com/runhey/OnmyojiAutoScript/issues/230
             if self.appear(GeneralBattleAssets.I_EXIT):
                 return False
-            if self.appear_then_click(self.I_I_NO_DEFAULT, interval=1):
+            if self.appear_then_click(self.I_I_NO_DEFAULT, interval=3):
                 continue
-            if self.appear_then_click(self.I_GI_SURE, interval=1):
+            if self.appear_then_click(self.I_GI_SURE, interval=3):
                 continue
-            if self.appear_then_click(self.I_I_ACCEPT_DEFAULT, interval=1):
+            if self.appear_then_click(self.I_I_ACCEPT_DEFAULT, interval=3):
                 continue
-            if self.appear_then_click(self.I_I_ACCEPT, interval=1):
+            if self.appear_then_click(self.I_I_ACCEPT, interval=3):
                 continue
         return True
 
