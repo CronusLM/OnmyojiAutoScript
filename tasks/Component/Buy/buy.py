@@ -32,13 +32,13 @@ class Buy(BaseTask, BuyAssets):
                 break
 
             if isinstance(start_click, RuleImage):
-                if self.appear_then_click(start_click, interval=1):
+                if self.appear_then_click(start_click, interval=3):
                     continue
             elif isinstance(start_click, RuleOcr):
-                if self.ocr_appear_click(start_click, interval=1):
+                if self.ocr_appear_click(start_click, interval=3):
                     continue
             elif isinstance(start_click, RuleClick):
-                if self.click(start_click, interval=1):
+                if self.click(start_click, interval=3):
                     continue
         while 1:
             self.screenshot()
@@ -50,12 +50,12 @@ class Buy(BaseTask, BuyAssets):
                     self.screenshot()
                     if not self.appear(self.I_BUY_RMB):
                         break
-                    if self.click(self.C_BUY_CANCEL, interval=1):
+                    if self.click(self.C_BUY_CANCEL, interval=3):
                         continue
                 return False
 
             if self.appear(self.I_BUY_SUCCESS):
-                self.ui_click_until_smt_disappear(random_click(), self.I_BUY_SUCCESS, interval=0.8)
+                self.ui_click_until_smt_disappear(random_click(), self.I_BUY_SUCCESS, interval=3)
                 logger.info('Get reward success')
                 break
 
@@ -71,7 +71,7 @@ class Buy(BaseTask, BuyAssets):
                         continue
                 break
 
-            if self.click(self.C_BUY_ONE, interval=2.8):
+            if self.click(self.C_BUY_ONE, interval=3):
                 continue
 
         return True
@@ -96,22 +96,22 @@ class Buy(BaseTask, BuyAssets):
                 return
 
             if isinstance(start_click, RuleImage):
-                if self.appear_then_click(start_click, interval=1):
+                if self.appear_then_click(start_click, interval=3):
                     try_click_count += 1
                     continue
             elif isinstance(start_click, RuleOcr):
-                if self.ocr_appear_click(start_click, interval=1):
+                if self.ocr_appear_click(start_click, interval=3):
                     try_click_count += 1
                     continue
             elif isinstance(start_click, RuleClick):
-                if self.click(start_click, interval=1):
+                if self.click(start_click, interval=3):
                     try_click_count += 1
                     continue
         # 设置购买的数量
         if number is None:
-            self.appear_then_click(self.I_BUY_PLUS, interval=0.4)
-            time.sleep(0.5)
-            self.appear_then_click(self.I_BUY_PLUS, interval=0.4)
+            self.appear_then_click(self.I_BUY_PLUS, interval=3)
+            time.sleep(3)
+            self.appear_then_click(self.I_BUY_PLUS, interval=3)
         else:
             # 四次截图数字都一样，就可以退出了
             number_record = []
@@ -120,7 +120,7 @@ class Buy(BaseTask, BuyAssets):
             while 1:
                 self.screenshot()
 
-                if self.appear_then_click(self.I_BUY_ADD, interval=0.8):
+                if self.appear_then_click(self.I_BUY_ADD, interval=3):
                     continue
 
                 if not ocr_timer.reached():
@@ -142,7 +142,7 @@ class Buy(BaseTask, BuyAssets):
             self.screenshot()
 
             if self.ui_reward_appear_click():
-                time.sleep(0.5)
+                time.sleep(3)
                 while 1:
                     self.screenshot()
                     # 等待动画结束
@@ -156,11 +156,11 @@ class Buy(BaseTask, BuyAssets):
 
             # 如果这个购买已达上限
             if self.appear(self.I_UI_CONFIRM_SAMLL):
-                self.ui_click_until_disappear(self.I_UI_CONFIRM_SAMLL, interval=1)
+                self.ui_click_until_disappear(self.I_UI_CONFIRM_SAMLL, interval=3)
                 logger.warning('Buy number limit')
                 break
 
-            if self.click(self.C_BUY_MORE, interval=2):
+            if self.click(self.C_BUY_MORE, interval=3):
                 continue
 
     def buy_check_money(self, target: RuleOcr, minimum: int):
