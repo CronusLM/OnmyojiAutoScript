@@ -109,8 +109,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 if out_dokan_timer.reached():
                     logger.warning("long hours away from dokan,exit")
                     break
-                logger.info("out of dokan scene,wait for 2 seconds")
-                sleep(2)
+                logger.info("out of dokan scene,wait for 3 seconds")
+                sleep(3)
                 continue
             out_dokan_timer.clear()
 
@@ -118,12 +118,12 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             if (current_scene == DokanScene.RYOU_DOKAN_SCENE_BATTLE_OVER or
                     current_scene == DokanScene.RYOU_DOKAN_SCENE_WIN):
                 # 随便点击个地方退出奖励界面
-                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=2)
-                sleep(2)
+                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=3)
+                sleep(3)
                 continue
             # 道馆结束弹窗 突破排名
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_TOPPA_RANK:
-                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=2)
+                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=3)
                 continue
 
             # 场景状态：寻找合适道馆中
@@ -167,7 +167,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
 
                 self.device.click_record_clear()
                 self.device.stuck_record_clear()
-                sleep(2)
+                sleep(3)
                 continue
             # 场景状态：等待馆主战开始
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_BOSS_WAITING:
@@ -179,7 +179,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                     # 有权限且当前道馆突破 不再打馆主,直接放弃突破
                     self.abandoned_toppa()
                 # 等待馆主战开启
-                sleep(2)
+                sleep(3)
                 continue
             # 场景状态：在寮境,馆主战进行中,且右下角有挑战
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_MASTER_BATTLING:
@@ -187,7 +187,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 logger.info(f"{current_scene} dokan_master_count:{count},first_master_killed:{first_master_killed}")
                 if (count - (1 if first_master_killed else 0)) > 0:
                     logger.info("start Master_first")
-                    self.click(self.I_RYOU_DOKAN_START_CHALLENGE, interval=2)
+                    self.click(self.I_RYOU_DOKAN_START_CHALLENGE, interval=3)
                     continue
                 # 放弃突破
                 if cfg.dokan_config.try_start_dokan:
@@ -197,7 +197,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             # 场景状态：检查右下角有没有挑战？通常是失败了，并退出来到集结界面，可重新开始点击右下角挑战进入战斗
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_START_CHALLENGE:
                 self.switch_soul_in_dokan()
-                self.click(self.I_RYOU_DOKAN_START_CHALLENGE, interval=1)
+                self.click(self.I_RYOU_DOKAN_START_CHALLENGE, interval=3)
                 continue
             # 场景状态：馆主第一阵容 且战斗未开始
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_BATTLE_MASTER_FIRST:
@@ -265,7 +265,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 logger.info(f"Fail CD: start cheering={cfg.dokan_config.dokan_auto_cheering_while_cd}..")
                 if cfg.dokan_config.dokan_auto_cheering_while_cd:
                     self.start_cheering()
-                sleep(2)
+                sleep(3)
                 continue
             # 场景状态：战斗中，左上角的加油图标
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_FIGHTING:
@@ -282,11 +282,11 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 # 打两次的,第一次选择 继续挑战,第二次没有选项
                 if cfg.attack_count_config.daily_attack_count == 2:
                     if self.appear(self.I_RYOU_DOKAN_FAILED_VOTE_BATTLE_AGAIN):
-                        self.ui_click_until_disappear(self.I_RYOU_DOKAN_FAILED_VOTE_BATTLE_AGAIN)
+                        self.ui_click_until_disappear(self.I_RYOU_DOKAN_FAILED_VOTE_BATTLE_AGAIN, interval=3)
                 else:
                     if self.appear(self.I_RYOU_DOKAN_FAILED_VOTE_KEEP_BOUNTY):
                         logger.info("Dokan challenge failed: vote for keep the awards")
-                        self.ui_click_until_disappear(self.I_RYOU_DOKAN_FAILED_VOTE_KEEP_BOUNTY)
+                        self.ui_click_until_disappear(self.I_RYOU_DOKAN_FAILED_VOTE_KEEP_BOUNTY, interval=3)
                 continue
             # 场景状态：道馆已经结束
             if current_scene == DokanScene.RYOU_DOKAN_SCENE_FINISHED:
@@ -348,7 +348,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             if self.appear(self.I_RYOU_DOKAN_TOPPA_RANK):
                 logger.info("Dokan challenge success / failed")
                 # 只是点击尝试关闭改弹窗
-                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=2)
+                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=3)
                 continue
 
             # 如果出现赢 就点击
@@ -393,7 +393,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 if count > 0:
                     logger.info("--------New battle starts---------")
                     # 长延时防止过快点击
-                    self.ui_click_until_disappear(self.I_RYOU_DOKAN_IN_FIELD, interval=1.3)
+                    self.ui_click_until_disappear(self.I_RYOU_DOKAN_IN_FIELD, interval=3)
                     self.device.stuck_record_add('BATTLE_STATUS_S')
                     count -= 1
                     # 绿标式神, should we check there's a green marked role?
@@ -411,7 +411,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                     win = True
                     break
 
-            sleep(0.2)
+            sleep(3)
             continue
 
         logger.info(f"Win: {win}")
@@ -424,7 +424,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         logger.hr('Try to choose attack priority')
         max_try = 5
 
-        if not self.appear_then_click(self.I_RYOU_DOKAN_ATTACK_PRIORITY, interval=2):
+        if not self.appear_then_click(self.I_RYOU_DOKAN_ATTACK_PRIORITY, interval=3):
             logger.error(f"can not find dokan priority option button, choose attack priority process skipped")
             return False
 
@@ -440,7 +440,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 logger.warn("give up priority selection!")
                 break
 
-            if self.appear_then_click(target_attack, interval=1.8):
+            if self.appear_then_click(target_attack, interval=3):
                 self.attack_priority_selected = True
                 logger.info(f"selected attack priority: {attack_priority}")
                 break
@@ -460,8 +460,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             self.random_click_swipt()
             result = True
         if random_click:
-            # 0到2秒之间的随机浮点数
-            sleep_time = random.uniform(0, 2)
+            # 3到5秒之间的随机浮点数
+            sleep_time = random.uniform(3, 5)
             # 只保留2位小数
             sleep_time = round(sleep_time, 2)
             if not self.config.dokan.dokan_config.anti_detect_click_fixed_random_area:
@@ -487,8 +487,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
 
             result = True
         if random_delay:
-            # 0到2秒之间的随机浮点数
-            sleep_time = random.uniform(0, 5)
+            # 3到5秒之间的随机浮点数
+            sleep_time = random.uniform(3, 5)
             # 只保留2位小数
             sleep_time = round(sleep_time, 2)
             time.sleep(sleep_time)
@@ -506,7 +506,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 break
             if self.appear(self.I_RYOU_DOKAN_QUIT_BATTLE_ENSURE):
                 # 借用下,猜测是一样的确定按钮,如果不一样,会卡住
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN_QUIT_BATTLE_ENSURE, interval=2)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN_QUIT_BATTLE_ENSURE, interval=3)
                 continue
             if self.appear(self.I_RYOU_DOKAN_DOKAN_QUIT):
                 self.click(self.I_RYOU_DOKAN_DOKAN_QUIT, interval=3)
@@ -527,10 +527,10 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             if in_dokan:
                 break
             if cur_scene == DokanScene.RYOU_DOKAN_RYOU:
-                self.ui_click_until_disappear(self.I_RYOU_SHENSHE)
+                self.ui_click_until_disappear(self.I_RYOU_SHENSHE, interval=3)
                 continue
             if cur_scene == DokanScene.RYOU_DOKAN_SHENSHE:
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN, interval=1)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN, interval=3)
                 continue
             if not in_dokan:
                 self.ui_get_current_page()
@@ -561,7 +561,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 logger.info("ocr detect result pos={pos}, try click pos, x={x}, y={y}")
                 self.device.click(x=x, y=y)
             try_count += 1
-            time.sleep(1)
+            time.sleep(3)
         return True
 
     def find_dokan(self, score=4.6):
@@ -619,7 +619,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 # 又因为出现挑战按钮动画时长较长,因此需要耗时
                 self.screenshot()
                 while self.appear(self.I_CENTER_CHALLENGE):
-                    self.click(self.C_DOKAN_CANCEL_SELECT_DOKAN, interval=1.5)
+                    self.click(self.C_DOKAN_CANCEL_SELECT_DOKAN, interval=3)
                     self.wait_animate_stable(self.C_DOKAN_CANCEL_SELECT_DOKAN_CHECK_ANIMATE, interval=0.5, timeout=1.5)
 
                 # 获取赏金金额
@@ -634,7 +634,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 self.I_RIGHTPAD_POINT_BOUNTY.roi_back = self.position_offset(item, (-10, -10, 20, 20))
                 # Note: 道馆不可挑战时(被别的寮打了),8秒后跳过
                 if not self.ui_click_until_appear_or_timeout(self.I_RIGHTPAD_POINT_BOUNTY, self.I_CENTER_CHALLENGE,
-                                                             interval=1.5, timeout=8):
+                                                              interval=3, timeout=8):
                     logger.info(f"can't find challenge button,idx={idx} item={item}")
                     # 道馆不可挑战,挑战按钮不会弹出 ,直接进行下一个
                     continue
@@ -684,7 +684,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                     if self.appear(self.I_CENTER_CHALLENGE):
                         return True
                     self.device.click(x, y)
-                    sleep(0.5)
+                    sleep(3)
             return False
 
         while num_fresh < self.config.dokan.dokan_config.find_dokan_refresh_count:
@@ -692,8 +692,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 sleep(3)
                 if find_challengeable():
                     logger.info("find challengeable dokan")
-                    self.ui_click(self.I_CENTER_CHALLENGE, self.I_CHALLENGE_ENSURE, interval=1)
-                    self.ui_click_until_disappear(self.I_CHALLENGE_ENSURE, interval=1)
+                    self.ui_click(self.I_CENTER_CHALLENGE, self.I_CHALLENGE_ENSURE, interval=3)
+                    self.ui_click_until_disappear(self.I_CHALLENGE_ENSURE, interval=3)
                     # 更新可挑战次数
                     self.config.dokan.attack_count_config.del_attack_count(1, self.config.save)
                     # 恢复初始位置信息,防止下次使用出错
@@ -705,8 +705,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             # 恢复初始位置信息,防止下次使用出错
             restore_roi()
             logger.info("=========refresh dokan list=========")
-            self.ui_click(self.C_DOKAN_REFRESH, self.I_REFRESH_ENSURE, interval=1)
-            self.ui_click_until_disappear(self.I_REFRESH_ENSURE, interval=1)
+            self.ui_click(self.C_DOKAN_REFRESH, self.I_REFRESH_ENSURE, interval=3)
+            self.ui_click_until_disappear(self.I_REFRESH_ENSURE, interval=3)
 
             logger.info("Refresh Done")
             num_fresh += 1
@@ -714,8 +714,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         # 刷新次数用完,仍未找到符合条件的道馆,选择当前列表(约4个)中系数最低的
         if find_challengeable(ignore_score=True):
             logger.warning("can't find challengeable dokan,select random one")
-            self.ui_click(self.I_CENTER_CHALLENGE, self.I_CHALLENGE_ENSURE, interval=1)
-            self.ui_click_until_disappear(self.I_CHALLENGE_ENSURE, interval=1)
+            self.ui_click(self.I_CENTER_CHALLENGE, self.I_CHALLENGE_ENSURE, interval=3)
+            self.ui_click_until_disappear(self.I_CHALLENGE_ENSURE, interval=3)
             # 更新可挑战次数
             self.config.dokan.attack_count_config.del_attack_count(1, self.config.save)
             return True
@@ -728,15 +728,15 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         while True:
             self.screenshot()
             if self.appear(self.I_RYOU_DOKAN_DOKAN_INFO_CLOSE):
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN_DOKAN_INFO_CLOSE)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN_DOKAN_INFO_CLOSE, interval=3)
                 logger.info("Create Dokan Success")
                 break
             if self.appear(self.I_RYOU_DOKAN_CREATE_DOKAN_ENSURE):
                 self.ui_click_until_appear_or_timeout(self.I_RYOU_DOKAN_CREATE_DOKAN_ENSURE,
-                                                      stop=self.I_RYOU_DOKAN_DOKAN_INFO_CLOSE, interval=2, timeout=10)
+                                                      stop=self.I_RYOU_DOKAN_DOKAN_INFO_CLOSE, interval=3, timeout=10)
                 continue
             if self.ui_click_until_appear_or_timeout(self.I_RYOU_DOKAN_CREATE_DOKAN,
-                                                     self.I_RYOU_DOKAN_CREATE_DOKAN_ENSURE, 2, 10):
+                                                     self.I_RYOU_DOKAN_CREATE_DOKAN_ENSURE, 3, 10):
                 continue
             break
 
@@ -782,8 +782,8 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         while not cheering_timer.reached():
             self.screenshot()
             # 出现观战标志点击观战
-            if self.appear_then_click(self.I_RYOU_DOKAN_CD, interval=2.5):
-                sleep(1)  # 等待一下寮排名展示动画
+            if self.appear_then_click(self.I_RYOU_DOKAN_CD, interval=3):
+                sleep(3)  # 等待一下寮排名展示动画
                 continue
             # 寻找前往按钮并点击
             if self.list_appear_click(self.L_GOTO_CHEERING, interval=3, max_swipe=3):
@@ -796,23 +796,23 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         while not cheering_timer.reached():
             self.screenshot()
             # 道馆成员战斗成功或失败或馆主战结束出现排名, 交给上层处理
-            if self.appear(self.I_RYOU_DOKAN_WIN, interval=1) or self.appear(self.I_FALSE) or self.appear(self.I_RYOU_DOKAN_TOPPA_RANK):
-                self.click(random_click(), interval=1)
+            if self.appear(self.I_RYOU_DOKAN_WIN, interval=3) or self.appear(self.I_FALSE) or self.appear(self.I_RYOU_DOKAN_TOPPA_RANK):
+                self.click(random_click(), interval=3)
                 logger.info(f'Cheer finish, count[{cheer_cnt}]')
                 self.device.stuck_record_clear()
                 return
             # 灰色助威
-            if self.is_in_battle(False) and self.appear(self.I_RYOU_DOKAN_CHEERING_GRAY, interval=1):
+            if self.is_in_battle(False) and self.appear(self.I_RYOU_DOKAN_CHEERING_GRAY, interval=3):
                 continue
             # 亮色助威
-            if self.is_in_battle(False) and self.appear_then_click(self.I_RYOU_DOKAN_CHEERING, interval=1.5):
+            if self.is_in_battle(False) and self.appear_then_click(self.I_RYOU_DOKAN_CHEERING, interval=3):
                 cheer_cnt += 1
                 logger.attr(cheer_cnt, f'cheer, count time[{cheering_timer.current():.1f}s]')
                 self.device.stuck_record_clear()
                 self.device.click_record_clear()
                 self.device.stuck_record_add('PAUSE')
                 continue
-            sleep(random.uniform(0.8, 1.6))
+            sleep(random.uniform(3, 5))
         # 助威时间到了且道馆还未结束, 则退出观战交给上层重新挑战
         self.exit_battle()
         self.device.stuck_record_clear()
@@ -859,7 +859,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             if self.appear(self.I_RYOU_DOKAN_CENTER_TOP):
                 break
             if self.appear(self.I_RYOU_DOKAN_QUIT_BATTLE_ENSURE):
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN_QUIT_BATTLE_ENSURE)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN_QUIT_BATTLE_ENSURE, interval=3)
                 break
             # 退出时,意外弹出"确认退出集结场景" 弹窗,导致卡住
             # 只能怀疑是上面两个appear的耗时 导致screenshot 过时导致错误点击
@@ -877,7 +877,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             # 点击确认按钮后,会出现突破排名弹窗,需要点击空白区域关闭
             self.ui_click(self.I_DOKAN_ABANDONED_TOPPA_ENSURE, stop=self.I_RYOU_DOKAN_TOPPA_RANK)
             self.click_until_smt_disappear(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, stop=self.I_DOKAN_ABANDONED_TOPPA_TITLE,
-                                           interval=2)
+                                           interval=3)
 
         # 动画延时
         self.wait_until_appear(self.I_DOKAN_ABANDONED_TOPPA_TITLE, True, 5)
@@ -885,20 +885,20 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         # 投票放弃突破,一般来说,都主动放弃突破了,基本上点放弃没有错(虽然项目中做了继续的按钮图)
         if self.appear(self.I_DOKAN_ABANDONED_TOPPA_TITLE):
             if self.appear(self.I_RYOU_DOKAN_ABANDONED_TOPPA_ABANDONED):
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN_ABANDONED_TOPPA_ABANDONED)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN_ABANDONED_TOPPA_ABANDONED, interval=3)
 
         #
         # 再战道馆
         else:
             # 保留赏金
             if self.appear(self.I_RYOU_DOKAN_FAILED_VOTE_KEEP_BOUNTY):
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN_FAILED_VOTE_KEEP_BOUNTY)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN_FAILED_VOTE_KEEP_BOUNTY, interval=3)
 
     def switch_soul_in_dokan(self):
         if self.switch_soul_done:
             return
         logger.info("start switch soul...")
-        self.ui_click_until_disappear(self.I_RYOU_DOKAN_SHIKIGAMI, interval=2)
+        self.ui_click_until_disappear(self.I_RYOU_DOKAN_SHIKIGAMI, interval=3)
 
         if self.config.dokan.switch_soul_config.enable:
             self.run_switch_soul(self.config.dokan.switch_soul_config.switch_group_team)
@@ -909,7 +909,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         self.switch_soul_done = True
         # back to dokan
         from tasks.GameUi.assets import GameUiAssets as gua
-        self.ui_click_until_disappear(gua.I_BACK_Y, interval=2)
+        self.ui_click_until_disappear(gua.I_BACK_Y, interval=3)
 
     def next_run(self, skip_today=False, is_dokan_activated=False):
         """
@@ -990,7 +990,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
         """
         start_time = time.time()
         while (time.time() - start_time) < timeout:
-            sleep(0.3)
+            sleep(3)
             self.screenshot()
             if self.appear(stop):
                 return True
@@ -1090,7 +1090,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
             if self.appear(self.I_RYOU_DOKAN_TOPPA_RANK):
                 logger.info("Dokan challenge success / failed")
                 # 只是点击尝试关闭改弹窗
-                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=2)
+                self.click(self.C_DOKAN_TOPPA_RANK_CLOSE_AREA, interval=3)
                 continue
 
             # 如果开启战斗过程随机滑动-如果启用绿标则禁止滑动
@@ -1123,12 +1123,12 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 if cfg.dokan_config.random_delay:
                     self.anti_detect(False, False, True)
 
-                self.ui_click_until_disappear(self.I_RYOU_DOKAN_IN_FIELD, interval=0.4)
+                self.ui_click_until_disappear(self.I_RYOU_DOKAN_IN_FIELD, interval=3)
                 anti_wait_long_time()
                 battle_count_limit -= 1
                 continue
 
-            sleep(0.02)
+            sleep(3)
             continue
 
         self.stop_green_mark()
