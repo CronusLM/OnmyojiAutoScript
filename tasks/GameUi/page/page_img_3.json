@@ -11,7 +11,7 @@
   {
     "itemName": "main_goto_onmyodo",
     "imageName": "page_main_goto_onmyodo.png",
-    "roiFront": "960,590,39,36",
+    "roiFront": "972,601,88,81",
     "roiBack": "960,590,120,100",
     "method": "Template matching",
     "threshold": 0.5,
@@ -20,7 +20,7 @@
   {
     "itemName": "main_goto_friends",
     "imageName": "page_main_goto_friends.png",
-    "roiFront": "845,590,55,55",
+    "roiFront": "862,601,85,81",
     "roiBack": "845,590,120,100",
     "method": "Template matching",
     "threshold": 0.7,
@@ -29,7 +29,7 @@
   {
     "itemName": "main_goto_daily",
     "imageName": "page_main_goto_daily.png",
-    "roiFront": "779,612,51,67",
+    "roiFront": "767,612,63,67",
     "roiBack": "754,595,89,97",
     "method": "Template matching",
     "threshold": 0.7,
@@ -38,7 +38,7 @@
   {
     "itemName": "main_goto_mall",
     "imageName": "page_main_goto_mall.png",
-    "roiFront": "663,661,41,22",
+    "roiFront": "657,621,52,62",
     "roiBack": "644,613,81,78",
     "method": "Template matching",
     "threshold": 0.7,
@@ -47,8 +47,8 @@
   {
     "itemName": "main_goto_guild",
     "imageName": "page_main_goto_guild.png",
-    "roiFront": "495,590,50,22",
-    "roiBack": "495,590,120,100",
+    "roiFront": "527,622,80,62",
+    "roiBack": "508,605,120,100",
     "method": "Template matching",
     "threshold": 0.7,
     "description": "description"
@@ -56,8 +56,8 @@
   {
     "itemName": "main_goto_team",
     "imageName": "page_main_goto_team.png",
-    "roiFront": "395,590,38,48",
-    "roiBack": "395,590,120,100",
+    "roiFront": "428,607,57,82",
+    "roiBack": "402,600,120,100",
     "method": "Template matching",
     "threshold": 0.7,
     "description": "description"
@@ -65,7 +65,7 @@
   {
     "itemName": "main_goto_collection",
     "imageName": "page_main_goto_collection.png",
-    "roiFront": "70,590,36,41",
+    "roiFront": "82,601,72,81",
     "roiBack": "70,590,120,100",
     "method": "Template matching",
     "threshold": 0.7,
