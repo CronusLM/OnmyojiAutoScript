@@ -72,11 +72,18 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
                 self.check_layer(Layer.TEN)
                 self.check_lock(False)
 
-            # 开启御魂加成
+            # 开启御魂加成（需在庭院界面操作）
             if self.config.orochi.orochi_config.soul_buff_enable:
+                self.ui_get_current_page()
+                self.ui_goto(page_main)
                 self.open_buff()
                 self.soul(is_open=True)
                 self.close_buff()
+                self.ui_get_current_page()
+                self.ui_goto(page_soul_zones)
+                self.orochi_enter()
+                self.check_layer(Layer.TEN)
+                self.check_lock(False)
 
             count_orochi_ten = 0
             while 1:
@@ -101,8 +108,10 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
                     count_orochi_ten += 1
                     continue
 
-            # 关闭御魂加成
+            # 关闭御魂加成（需在庭院界面操作）
             if self.config.orochi.orochi_config.soul_buff_enable:
+                self.ui_get_current_page()
+                self.ui_goto(page_main)
                 self.open_buff()
                 self.soul(is_open=False)
                 self.close_buff()
