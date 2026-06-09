@@ -57,20 +57,12 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
                 self.check_times(False)
                 raise TaskEnd('TrueOrochi')
 
-            self.check_layer(Layer.TEN)
-            self.check_lock(False)
-
             # 切换到八岐大蛇十层的预设
             ten_switch = self.config.orochi.switch_soul.ten_switch
             if ten_switch != '-1,-1':
                 self.ui_get_current_page()
                 self.ui_goto(page_shikigami_records)
                 self.run_switch_soul(ten_switch)
-                self.ui_get_current_page()
-                self.ui_goto(page_soul_zones)
-                self.orochi_enter()
-                self.check_layer(Layer.TEN)
-                self.check_lock(False)
 
             # 开启御魂加成（需在庭院界面操作）
             if self.config.orochi.orochi_config.soul_buff_enable:
@@ -79,11 +71,13 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
                 self.open_buff()
                 self.soul(is_open=True)
                 self.close_buff()
-                self.ui_get_current_page()
-                self.ui_goto(page_soul_zones)
-                self.orochi_enter()
-                self.check_layer(Layer.TEN)
-                self.check_lock(False)
+
+            # 前往御魂副本 → 选层 → 解锁
+            self.ui_get_current_page()
+            self.ui_goto(page_soul_zones)
+            self.orochi_enter()
+            self.check_layer(Layer.TEN)
+            self.check_lock(False)
 
             count_orochi_ten = 0
             while 1:
