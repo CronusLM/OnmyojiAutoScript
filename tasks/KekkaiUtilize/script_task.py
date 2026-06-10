@@ -358,7 +358,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
 
             if self.appear(self.I_U_ENTER_REALM):
                 break
-            if self.appear_then_click(self.I_UTILIZE_ADD, interval=2):
+            if self.appear_then_click(self.I_UTILIZE_ADD, interval=3):
                 continue
         logger.info('Enter utilize')
         return True
@@ -478,7 +478,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 self.save_image(wait_time=0, push_flag=False, content='进入好友结界超时', image_type='png')
                 logger.warning('Appear friend realm timeout')
                 return
-            if self.appear_then_click(self.I_CHECK_FRIEND_REALM_2, interval=1.5):
+            if self.appear_then_click(self.I_CHECK_FRIEND_REALM_2, interval=3):
                 logger.info('Click too fast to enter the friend\'s realm pool')
                 continue
             if self.appear_then_click(self.I_U_ENTER_REALM, interval=3.5):
