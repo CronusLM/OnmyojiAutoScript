@@ -387,12 +387,12 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AreaBossAssets):
 
         while try_num > 0:
             self.click(battle, interval=3)
-            if self.wait_until_appear(self.I_AB_CLOSE_RED, wait_time=3):
+            if self.wait_until_appear(self.I_AB_CLOSE_RED, wait_time=3) or self.appear(self.I_FIRE):
                 break
             try_num -= 1
         # 打开鬼王详情界面失败,直接返回
         self.screenshot()
-        if self.appear(self.I_AB_CLOSE_RED):
+        if self.appear(self.I_AB_CLOSE_RED) or self.appear(self.I_FIRE):
             return True
         return False
 
