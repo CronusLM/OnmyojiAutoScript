@@ -213,7 +213,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                     break
             else:
                 # 如果失败且 点击失败后
-                if self.appear_then_click(self.I_FALSE, threshold=0.6):
+                if self.appear_then_click(self.I_FALSE, threshold=0.6, interval=3):
                     continue
                 if not self.appear(self.I_FALSE, threshold=0.6):
                     return False
