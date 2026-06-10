@@ -2,8 +2,8 @@
   {
     "itemName": "ryou_shenshe",
     "imageName": "res_ryou_shenshe.png",
-    "roiFront": "850,660,100,60",
-    "roiBack": "850,660,100,60",
+    "roiFront": "859,632,82,71",
+    "roiBack": "859,632,82,71",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "阴阳寮->神社的按钮"
@@ -352,7 +352,7 @@
   },
   {
     "itemName": "scene_ryou",
-    "imageName": "scene_ryou.png",
+    "imageName": "res_scene_ryou.png",
     "roiFront": "1161,674,75,31",
     "roiBack": "1161,674,75,31",
     "method": "Template matching",
@@ -361,7 +361,7 @@
   },
   {
     "itemName": "scene_shenshe",
-    "imageName": "scene_shenshe.png",
+    "imageName": "res_scene_shenshe.png",
     "roiFront": "477,165,63,65",
     "roiBack": "477,165,65,80",
     "method": "Template matching",
