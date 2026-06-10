@@ -520,7 +520,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                 
             if self.appear_then_click(self.I_FIRE, interval=3):
                 continue
-            if self.click(click, interval=1.8):
+            if self.click(click, interval=3):
                 continue
                 
         logger.info(f'Click fire {order} success')
