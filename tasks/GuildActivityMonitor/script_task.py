@@ -105,34 +105,37 @@ class ScriptTask(GameUi):
         try:
             output = self.device.adb_shell(['dumpsys', 'notification', '--noredact'])
 
-            # 通知时间提取逻辑 - 只获取最新的通知
             notification_time = 0
             notification_text = ""
 
-            # 查找所有通知块，每个块包含时间戳和文本
-            notification_blocks = re.findall(r'(when=(\d+)[\s\S]*?(?=when=|\Z))', output)
-            
-            if notification_blocks:
-                # 找到最新的通知块
-                latest_block_time = 0
-                latest_text = ""
-                
-                for block, time_str in notification_blocks:
-                    current_time = float(time_str)
-                    if current_time > latest_block_time:
-                        latest_block_time = current_time
-                        # 在当前块中查找活动类型
-                        if re.search(r'宴会[^\w]', block) or '寮宴会' in block:
-                            latest_text = '宴会'
-                        elif re.search(r'狭间[^\w]', block) or '狭间暗域' in block:
-                            latest_text = '狭间'
-                        elif re.search(r'退治[^\w]', block) or '首领退治' in block:
-                            latest_text = '退治'
-                        elif re.search(r'道馆[^\w]', block) or '道馆突破' in block:
-                            latest_text = '道馆'
-                
-                notification_time = latest_block_time
-                notification_text = latest_text
+            # 按 NotificationRecord( 分割每条通知
+            records = output.split('NotificationRecord(')
+
+            for record in records:
+                # 只处理阴阳师的通知
+                if 'com.netease.onmyoji' not in record:
+                    continue
+
+                # 提取时间戳
+                time_match = re.search(r'mCreationTimeMs=(\d+)', record)
+                if not time_match:
+                    continue
+                current_time = float(time_match.group(1))
+
+                # 提取通知文本中的活动关键字
+                text = ""
+                if re.search(r'宴会[^\w]', record) or '寮宴会' in record:
+                    text = '宴会'
+                elif re.search(r'狭间[^\w]', record) or '狭间暗域' in record:
+                    text = '狭间'
+                elif re.search(r'退治[^\w]', record) or '首领退治' in record:
+                    text = '退治'
+                elif re.search(r'道馆[^\w]', record) or '道馆突破' in record:
+                    text = '道馆'
+
+                if current_time > notification_time:
+                    notification_time = current_time
+                    notification_text = text
 
             return notification_time, notification_text
         except Exception as e:
