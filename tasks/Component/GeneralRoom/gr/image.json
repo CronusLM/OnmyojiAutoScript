@@ -124,5 +124,14 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
+  },
+  {
+    "itemName": "create_ensure_3",
+    "imageName": "gr_create_ensure_3.png",
+    "roiFront": "808,557,132,63",
+    "roiBack": "808,557,132,63",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "description"
   }
 ]

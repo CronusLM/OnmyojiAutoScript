@@ -41,6 +41,8 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
                 return True
             if self.appear(self.I_CREATE_ENSURE_2):
                 return True
+            if self.appear(self.I_CREATE_ENSURE_3):
+                return True
 
     def ensure_private(self) -> bool:
         """
@@ -94,11 +96,14 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
         logger.info('Create ensure')
         appear1 = self.I_CREATE_ENSURE.match(self.device.image)
         appear2 = self.I_CREATE_ENSURE_2.match(self.device.image)
+        appear3 = self.I_CREATE_ENSURE_3.match(self.device.image)
         target = None
         if appear1:
             target = self.I_CREATE_ENSURE
         elif appear2:
             target = self.I_CREATE_ENSURE_2
+        elif appear3:
+            target = self.I_CREATE_ENSURE_3
         if not target:
             logger.warning('No create ensure button')
             return False
