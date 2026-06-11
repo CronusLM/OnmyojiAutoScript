@@ -113,7 +113,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralInvite, SwitchSoul, HuntAssets):
                 continue
             if self.appear_then_click(self.I_KIRIN_CHALLAGE, interval=3):
                 continue
-            if self.appear_then_click(self.I_KIRIN_START_CHALLAGE, interval=2.5):
+            if self.appear_then_click(self.I_KIRIN_START_CHALLAGE, interval=3):
                 continue
             if self.appear(self.I_KIRIN_END):
                 # 今日已挑战

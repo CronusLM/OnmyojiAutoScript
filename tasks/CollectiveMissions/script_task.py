@@ -85,9 +85,9 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             self.screenshot()
             if self.appear(self.I_CM_SHRINE) or self.appear(self.I_CHECK_MAIN):
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
 
         self.set_next_run(task='CollectiveMissions', success=True, finish=True)
@@ -180,7 +180,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             if self.ui_reward_appear_click(True):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_CM_REWARDS, interval=1):
+            if self.appear_then_click(self.I_CM_REWARDS, interval=3):
                 check_timer.reset()
                 continue
             if check_timer.reached():
@@ -202,7 +202,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             self.screenshot()
             if self.appear(self.I_CM_PRESENT):
                 break
-            if self.click(match_click[index], interval=1.5):
+            if self.click(match_click[index], interval=3):
                 continue
         # 开始捐材料
         logger.info('Start to donate')
@@ -242,7 +242,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             self.screenshot()
             if self.appear(self.I_CM_MATTER):
                 break
-            if not window_control and self.swipe(match_swipe[max_index], interval=2.5):
+            if not window_control and self.swipe(match_swipe[max_index], interval=3):
                 swipe_count += 1
                 time.sleep(1.5)
                 continue
@@ -252,7 +252,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
                 logger.info('Swipe to the most matter failed')
                 logger.info('Please check your game resolution')
                 break
-            if window_control and self.click(random.choice(random_click), interval=0.7):
+            if window_control and self.click(random.choice(random_click), interval=3):
                 click_count += 1
                 continue
 
@@ -273,7 +273,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             if self.ui_reward_appear_click(False):
                 reward_number += 1
                 continue
-            if self.appear_then_click(self.I_CM_PRESENT, interval=1):
+            if self.appear_then_click(self.I_CM_PRESENT, interval=3):
                 continue
         self.ui_reward_appear_click(True)
         logger.info('Donate finished')
@@ -306,7 +306,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
                 # 无法刷新
                 logger.warning(f'[SelectMission] cannot refresh, brightness/color mismatch at click_cnt={click_cnt}')
                 return False
-            if self.appear_then_click(self.I_CM_SWITCH, interval=2):
+            if self.appear_then_click(self.I_CM_SWITCH, interval=3):
                 logger.info(f"尝试切换任务")
                 click_cnt += 1
 
@@ -337,7 +337,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
                 self.ui_click(self.I_UI_BACK_RED, self.I_CM_RECORDS)
                 return False
 
-            if self.click(self.L_SL_LONG, interval=2.5):
+            if self.click(self.L_SL_LONG, interval=3):
                 time.sleep(1)
                 continue
         # 领取奖励
@@ -349,7 +349,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             if self.ui_reward_appear_click(True):
                 check_timer.reset()
                 continue
-            if self.appear_then_click(self.I_SL_SUBMIT, interval=1):
+            if self.appear_then_click(self.I_SL_SUBMIT, interval=3):
                 check_timer.reset()
                 continue
             if check_timer.reached():
@@ -384,7 +384,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
             if self.ui_reward_appear_click(False):
                 reward_number += 1
                 continue
-            if self.appear_then_click(self.I_FEED_SUBMIT, interval=1):
+            if self.appear_then_click(self.I_FEED_SUBMIT, interval=3):
                 continue
         self.ui_reward_appear_click(True)
         logger.info('Donate finished')

@@ -71,14 +71,14 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
                 return True  # 成功进入战斗
             if click_cnt >= max_click:  # 异常情况,怎么都无法进入
                 break
-            if self.appear_then_click(self.I_START_CHALLENGE, interval=1):  # 兵藏秘境确认挑战
+            if self.appear_then_click(self.I_START_CHALLENGE, interval=3):  # 兵藏秘境确认挑战
                 continue
-            if self.appear_then_click(self.I_BCMJ_RESET_CONFIRM, interval=1):  # 兵藏秘境确认重置
+            if self.appear_then_click(self.I_BCMJ_RESET_CONFIRM, interval=3):  # 兵藏秘境确认重置
                 continue
-            if self.appear(self.I_REAL_MONEY, interval=1):  # 这里因为门票不够而不是其他异常所以success默认还是true
+            if self.appear(self.I_REAL_MONEY, interval=3):  # 这里因为门票不够而不是其他异常所以success默认还是true
                 logger.warning('Ticket is not enough')
                 return False
-            if self.appear_then_click(self.O_FIRE, interval=1.2):  # 挑战按钮
+            if self.appear_then_click(self.O_FIRE, interval=3):  # 挑战按钮
                 self.device.stuck_record_clear()
                 click_cnt += 1
                 continue
@@ -98,19 +98,19 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
         }
         while True:
             self.screenshot()
-            if win is not None and self.appear(self.O_FIRE, interval=1.5):
+            if win is not None and self.appear(self.O_FIRE, interval=3):
                 break
             if mode_wait_dict.get(self.conf.herotest.layer, None) is not None and \
                     mode_wait_dict[self.conf.herotest.layer]():
                 win = True
                 continue
-            if self.appear(self.I_WIN, interval=1.2) or \
-                    self.appear(self.I_DE_WIN, interval=1.2) or \
-                    self.appear(self.I_REWARD, interval=1.2):
+            if self.appear(self.I_WIN, interval=3) or \
+                    self.appear(self.I_DE_WIN, interval=3) or \
+                    self.appear(self.I_REWARD, interval=3):
                 win = True
                 self.click(pages.random_click(ltrb=(False, True, True, False)))
                 continue
-            if self.appear(self.I_FALSE, interval=1.5):
+            if self.appear(self.I_FALSE, interval=3):
                 win = False
                 self.click(pages.random_click(ltrb=(False, True, True, False)))
                 continue
@@ -123,21 +123,21 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
         if self.wait_until_appear(self.I_BCMJ_SKILL_ADD_CONFIRM, wait_time=2):
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_BCMJ_SKILL_ADD1, interval=1):
+                if self.appear_then_click(self.I_BCMJ_SKILL_ADD1, interval=3):
                     break
-                if self.appear_then_click(self.I_BCMJ_SKILL_ADD2, interval=1):
+                if self.appear_then_click(self.I_BCMJ_SKILL_ADD2, interval=3):
                     break
-                if self.appear_then_click(self.I_BCMJ_BLESS, interval=1):
+                if self.appear_then_click(self.I_BCMJ_BLESS, interval=3):
                     break
                 if self.appear_then_click(
-                        self.I_BCMJ_PROPERTY_ADD_CRITICAL, interval=1
+                        self.I_BCMJ_PROPERTY_ADD_CRITICAL, interval=3
                 ):
                     break
                 if self.appear_then_click(
-                        self.I_BCMJ__DEFALUT_ATTRIBUTE, interval=1
+                        self.I_BCMJ__DEFALUT_ATTRIBUTE, interval=3
                 ):
                     break
-            if self.appear_then_click(self.I_BCMJ_SKILL_ADD_CONFIRM, interval=1):
+            if self.appear_then_click(self.I_BCMJ_SKILL_ADD_CONFIRM, interval=3):
                 return True
         return False
 
@@ -162,9 +162,9 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
         target_skills = target_skill_dict[self.conf.herotest.skill_mode]
         while True:
             self.screenshot()
-            if any(self.appear_then_click(ts, interval=1) for ts in target_skills):
+            if any(self.appear_then_click(ts, interval=3) for ts in target_skills):
                 break
-        self.ui_click_until_disappear(self.I_BCMJ_SKILL_ADD_CONFIRM, interval=1.5)
+        self.ui_click_until_disappear(self.I_BCMJ_SKILL_ADD_CONFIRM, interval=3)
         return True
 
     def switch_hero(self, layer: Layer):
@@ -179,11 +179,11 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
         check_hero_img, switch_hero_img = switch_hero_dict[layer]
         while True:
             self.screenshot()
-            if self.appear_then_click(switch_hero_img, interval=1):
+            if self.appear_then_click(switch_hero_img, interval=3):
                 continue
-            appeared = self.appear(check_hero_img, interval=1)
+            appeared = self.appear(check_hero_img, interval=3)
             if not appeared and self.appear(self.I_CHECK_HERO_TEST):
-                self.click(self.C_SWITCH_HERO_BTN, interval=1.5)
+                self.click(self.C_SWITCH_HERO_BTN, interval=3)
                 continue
             if appeared:
                 break
@@ -269,10 +269,10 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
                 raise ValueError(f'Unknown layer on lock: {self.conf.herotest.layer}')
         if self.conf.general_battle.lock_team_enable:
             logger.info("Lock team")
-            self.ui_click(unlock_img, lock_img, interval=0.8)
+            self.ui_click(unlock_img, lock_img, interval=3)
         else:
             logger.info("Unlock team")
-            self.ui_click(lock_img, unlock_img, interval=0.8)
+            self.ui_click(lock_img, unlock_img, interval=3)
 
     def init_pages(self):
         """初始化页面"""
