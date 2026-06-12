@@ -276,7 +276,7 @@ class ScriptTask(StateMachine, GameUi, BaseActivity, SwitchSoul, ActivityShikiga
         # 运行战斗
         self.run_general_battle(config=self.get_general_battle_conf())
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         # 通用战斗结束判断
         self.device.stuck_record_add("BATTLE_STATUS_S")
         self.device.click_record_clear()

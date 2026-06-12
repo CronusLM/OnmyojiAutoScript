@@ -269,7 +269,7 @@ class ScriptTask(RightActivity, GeneralBattle, SwitchSoul, Star56):
             self.current_count = tmp_battle_count + 1
             return True if success else False
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         # 重写
         self.device.stuck_record_add('BATTLE_STATUS_S')
         self.device.click_record_clear()

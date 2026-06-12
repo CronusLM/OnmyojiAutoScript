@@ -223,7 +223,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
 
 
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         """
         重写 三轮战斗 战斗过程中点击准备 返回到寮信息界面
         :param random_click_swipt_enable:
