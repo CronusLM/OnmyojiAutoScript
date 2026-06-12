@@ -36,7 +36,7 @@ class RealmRaidAssets:
 	# 点击的式神录 
 	I_SHIKIGAMI = RuleImage(roi_front=(1206,608,54,51), roi_back=(1206,608,54,51), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_shikigami.png")
 	# 进攻 
-	I_FIRE = RuleImage(roi_front=(982,626,136,63), roi_back=(982,626,136,63), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_fire.png")
+	I_FIRE = RuleImage(roi_front=(982,494,136,63), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_fire.png")
 	# 打完个后出现的领取奖励 
 	I_SOUL_RAID = RuleImage(roi_front=(577,502,100,100), roi_back=(577,502,100,100), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_soul_raid.png")
 	# 刷新确认 

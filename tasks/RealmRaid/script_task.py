@@ -54,10 +54,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             if self.appear(self.I_FIRE, threshold=0.8):
                 break
 
-            if self.appear_then_click(self.I_SOUL_RAID, interval=1.5):
+            if self.appear_then_click(self.I_SOUL_RAID, interval=3):
                 while 1:
                     self.screenshot()
-                    if self.appear_then_click(self.I_SOUL_RAID, interval=1.5):
+                    if self.appear_then_click(self.I_SOUL_RAID, interval=3):
                         continue
                     if not self.appear(self.I_SOUL_RAID, threshold=0.6):
                         break
@@ -65,7 +65,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
 
             target = self.medal_grid.find_anyone(self.device.image)
             if target:
-                self.appear_then_click(target, interval=2)  # 点击勋章,但是设置为两秒的间隔，适应不同的模拟器速度
+                self.appear_then_click(target, interval=3)  # 点击勋章,但是设置为两秒的间隔，适应不同的模拟器速度
                 is_click = not is_click
 
             if is_click:
@@ -76,7 +76,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
         self.wait_until_appear(self.I_FIRE)
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_FIRE, interval=2):
+            if self.appear_then_click(self.I_FIRE, interval=3):
                 continue
             if not self.appear(self.I_FIRE, threshold=0.8):
                 break
@@ -139,7 +139,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                 self.screenshot()
                 if not self.appear(self.I_FROG_RAID):
                     break
-                if self.appear_then_click(self.I_FROG_RAID, interval=1):
+                if self.appear_then_click(self.I_FROG_RAID, interval=3):
                     continue
         # 判断是不是锁定阵容
         self.ensure_lock(con.general_battle_config.lock_team_enable)
@@ -158,7 +158,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             #看到弹窗点掉，不然会卡死
             if self.appear(self.I_FRESH_ENSURE):
                 logger.info("Pop-up detected: Refresh Confirmation. Clicking Confirm.")
-                self.appear_then_click(self.I_FRESH_ENSURE, interval=1.5)
+                self.appear_then_click(self.I_FRESH_ENSURE, interval=3)
                 continue
             # 检查票数
             if not self.check_ticket(con.raid_config.number_base):
@@ -184,7 +184,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                     if self.appear(self.I_FRESH_ENSURE):
                         logger.info("Closing obstructing refresh dialog (Click Ensure)...")
                         # 点击“确定”来完成刷新（或者你可以改成点取消）
-                        self.appear_then_click(self.I_FRESH_ENSURE, interval=2)
+                        self.appear_then_click(self.I_FRESH_ENSURE, interval=3)
                     success = False
                     break
             # 判断是不是左上角第一个
@@ -259,9 +259,9 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
         if lock_team_enable:
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_UNLOCK, interval=1):
+                if self.appear_then_click(self.I_UNLOCK, interval=3):
                     continue
-                if self.appear_then_click(self.I_UNLOCK_2, interval=1):
+                if self.appear_then_click(self.I_UNLOCK_2, interval=3):
                     continue
                 if self.appear(self.I_LOCK_2, threshold=0.9):
                     break
@@ -271,9 +271,9 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
         else:
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_LOCK, interval=1):
+                if self.appear_then_click(self.I_LOCK, interval=3):
                     continue
-                if self.appear_then_click(self.I_LOCK_2, interval=1):
+                if self.appear_then_click(self.I_LOCK_2, interval=3):
                     continue
                 if self.appear(self.I_UNLOCK_2, threshold=0.9):
                     break
@@ -432,7 +432,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                     result = self.O_TEXT.ocr(self.device.image)
                     if not re.search(r'[\u4e00-\u9fff]', result) and re.search(r'(\d+)/(\d+)', result):
                         return True
-                    if self.appear_then_click(self.I_SOUL_RAID, interval=1.5):
+                    if self.appear_then_click(self.I_SOUL_RAID, interval=3):
                         continue
 
         # if self.appear(self.I_SOUL_RAID):
@@ -445,7 +445,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
         #         self.screenshot()
         #         if not self.appear(self.I_SOUL_RAID, threshold=0.7):
         #             return True
-        #         if self.appear_then_click(self.I_SOUL_RAID, interval=1.5):
+        #         if self.appear_then_click(self.I_SOUL_RAID, interval=3):
         #             continue
 
     def check_refresh(self, screenshot: bool=True) -> bool:
@@ -464,13 +464,13 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             self.screenshot()
             if self.appear(self.I_FRESH_ENSURE):
                 break
-            if self.appear_then_click(self.I_FRESH, interval=1):
+            if self.appear_then_click(self.I_FRESH, interval=3):
                 continue
         while 1:
             self.screenshot()
             if not self.appear(self.I_FRESH_ENSURE):
                 return True
-            if self.appear_then_click(self.I_FRESH_ENSURE, interval=1):
+            if self.appear_then_click(self.I_FRESH_ENSURE, interval=3):
                 continue
 
     def fire(self, order: int):
