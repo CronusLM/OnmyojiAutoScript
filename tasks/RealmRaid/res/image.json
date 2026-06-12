@@ -12,7 +12,7 @@
     "itemName": "medal_5",
     "imageName": "res_medal_5.png",
     "roiFront": "238,205,212,53",
-    "roiBack": "238,205,212,53",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "五个勋章"
@@ -21,7 +21,7 @@
     "itemName": "medal_4",
     "imageName": "res_medal_4.png",
     "roiFront": "241,483,193,46",
-    "roiBack": "241,483,193,46",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -30,7 +30,7 @@
     "itemName": "medal_3",
     "imageName": "res_medal_3.png",
     "roiFront": "240,210,193,41",
-    "roiBack": "240,210,193,41",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -39,7 +39,7 @@
     "itemName": "medal_2",
     "imageName": "res_medal_2.png",
     "roiFront": "572,478,198,48",
-    "roiBack": "572,478,198,48",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -48,7 +48,7 @@
     "itemName": "medal_1",
     "imageName": "res_medal_1.png",
     "roiFront": "570,206,199,52",
-    "roiBack": "570,206,199,52",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"
@@ -165,7 +165,7 @@
     "itemName": "medal_3_2",
     "imageName": "res_medal_3_2.png",
     "roiFront": "575,489,188,32",
-    "roiBack": "575,489,188,32",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "3徽章新图2号"
@@ -174,7 +174,7 @@
     "itemName": "medal_3_3",
     "imageName": "res_medal_3_3.png",
     "roiFront": "902,479,201,50",
-    "roiBack": "902,479,201,50",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"

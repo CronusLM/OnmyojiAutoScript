@@ -14,15 +14,15 @@ class RealmRaidAssets:
 	# 点击结界突破的图片 
 	I_REALM_RAID = RuleImage(roi_front=(197,565,63,64), roi_back=(197,565,63,64), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_realm_raid.png")
 	# 五个勋章 
-	I_MEDAL_5 = RuleImage(roi_front=(238,205,212,53), roi_back=(238,205,212,53), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_5.png")
+	I_MEDAL_5 = RuleImage(roi_front=(238,205,212,53), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_5.png")
 	# description 
-	I_MEDAL_4 = RuleImage(roi_front=(241,483,193,46), roi_back=(241,483,193,46), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_4.png")
+	I_MEDAL_4 = RuleImage(roi_front=(241,483,193,46), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_4.png")
 	# description 
-	I_MEDAL_3 = RuleImage(roi_front=(240,210,193,41), roi_back=(240,210,193,41), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3.png")
+	I_MEDAL_3 = RuleImage(roi_front=(240,210,193,41), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3.png")
 	# description 
-	I_MEDAL_2 = RuleImage(roi_front=(572,478,198,48), roi_back=(572,478,198,48), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_2.png")
+	I_MEDAL_2 = RuleImage(roi_front=(572,478,198,48), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_2.png")
 	# description 
-	I_MEDAL_1 = RuleImage(roi_front=(570,206,199,52), roi_back=(570,206,199,52), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_1.png")
+	I_MEDAL_1 = RuleImage(roi_front=(570,206,199,52), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_1.png")
 	# 没有勋章的 
 	I_MEDAL_0 = RuleImage(roi_front=(567,342,206,51), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_0.png")
 	# 右上角红色的关闭 
@@ -48,9 +48,9 @@ class RealmRaidAssets:
 	# description 
 	I_MEDAL_5_FROG = RuleImage(roi_front=(903,479,201,49), roi_back=(189,182,967,376), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_5_frog.png")
 	# 3徽章新图2号 
-	I_MEDAL_3_2 = RuleImage(roi_front=(575,489,188,32), roi_back=(575,489,188,32), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3_2.png")
+	I_MEDAL_3_2 = RuleImage(roi_front=(575,489,188,32), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3_2.png")
 	# description 
-	I_MEDAL_3_3 = RuleImage(roi_front=(902,479,201,50), roi_back=(902,479,201,50), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3_3.png")
+	I_MEDAL_3_3 = RuleImage(roi_front=(902,479,201,50), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3_3.png")
 
 
 	# Image Rule Assets
