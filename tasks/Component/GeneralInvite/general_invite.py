@@ -58,7 +58,7 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
             return False
         if is_first:
             _ = self.room_type
-            self.timer_invite = Timer(20)
+            self.timer_invite = Timer(25)
             self.timer_invite.start()
             self.ensure_room_type(config.invite_number)
             self.invite_friends(config)
@@ -123,7 +123,7 @@ class GeneralInvite(BaseTask, GeneralInviteAssets):
 
             if self.timer_invite and self.timer_invite.reached():
                 if is_first:
-                    logger.info('Invitation is triggered every 20s')
+                    logger.info('Invitation is triggered every 25s')
                     self.timer_invite.reset()
                 else:
                     logger.info('Wait for 30s and invite again')
