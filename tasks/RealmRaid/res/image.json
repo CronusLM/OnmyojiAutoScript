@@ -111,7 +111,7 @@
     "itemName": "fire",
     "imageName": "res_fire.png",
     "roiFront": "982,626,136,63",
-    "roiBack": "982,626,136,63",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "进攻"
