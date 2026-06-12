@@ -118,7 +118,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul):
                     self.screenshot()
                     if self.appear(self.I_CHECK_MAIN) or self.appear(self.I_CHECK_TEAM):
                         break
-                    if self.click(self.C_REWARD_2, interval=2):
+                    if self.click(self.C_REWARD_2, interval=3):
                         continue
                 return True
 
