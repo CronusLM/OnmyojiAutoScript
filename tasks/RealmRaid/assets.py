@@ -12,19 +12,19 @@ class RealmRaidAssets:
 
 	# Image Rule Assets
 	# 点击结界突破的图片 
-	I_REALM_RAID = RuleImage(roi_front=(246,628,63,64), roi_back=(246,628,63,64), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_realm_raid.png")
+	I_REALM_RAID = RuleImage(roi_front=(197,565,63,64), roi_back=(197,565,63,64), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_realm_raid.png")
 	# 五个勋章 
-	I_MEDAL_5 = RuleImage(roi_front=(238,205,212,53), roi_back=(216,187,919,364), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_5.png")
+	I_MEDAL_5 = RuleImage(roi_front=(238,205,212,53), roi_back=(238,205,212,53), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_5.png")
 	# description 
-	I_MEDAL_4 = RuleImage(roi_front=(241,483,193,46), roi_back=(228,178,899,362), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_4.png")
+	I_MEDAL_4 = RuleImage(roi_front=(241,483,193,46), roi_back=(241,483,193,46), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_4.png")
 	# description 
-	I_MEDAL_3 = RuleImage(roi_front=(240,210,193,41), roi_back=(229,189,894,345), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3.png")
+	I_MEDAL_3 = RuleImage(roi_front=(240,210,193,41), roi_back=(240,210,193,41), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_3.png")
 	# description 
-	I_MEDAL_2 = RuleImage(roi_front=(572,478,198,48), roi_back=(217,193,923,354), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_2.png")
+	I_MEDAL_2 = RuleImage(roi_front=(572,478,198,48), roi_back=(572,478,198,48), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_2.png")
 	# description 
-	I_MEDAL_1 = RuleImage(roi_front=(570,206,199,52), roi_back=(237,198,892,336), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_1.png")
+	I_MEDAL_1 = RuleImage(roi_front=(570,206,199,52), roi_back=(570,206,199,52), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_1.png")
 	# 没有勋章的 
-	I_MEDAL_0 = RuleImage(roi_front=(536,336,176,51), roi_back=(231,200,898,336), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_0.png")
+	I_MEDAL_0 = RuleImage(roi_front=(567,342,206,51), roi_back=(567,342,206,51), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_medal_0.png")
 	# 右上角红色的关闭 
 	I_BACK_RED = RuleImage(roi_front=(1178,101,57,64), roi_back=(1178,101,57,64), threshold=0.7, method="Template matching", file="./tasks/RealmRaid/res/res_back_red.png")
 	# 没有锁的状态图标 
@@ -36,7 +36,7 @@ class RealmRaidAssets:
 	# 点击的式神录 
 	I_SHIKIGAMI = RuleImage(roi_front=(1206,608,54,51), roi_back=(1206,608,54,51), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_shikigami.png")
 	# 进攻 
-	I_FIRE = RuleImage(roi_front=(982,494,136,63), roi_back=(140,129,1024,584), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_fire.png")
+	I_FIRE = RuleImage(roi_front=(982,626,136,63), roi_back=(982,626,136,63), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_fire.png")
 	# 打完个后出现的领取奖励 
 	I_SOUL_RAID = RuleImage(roi_front=(577,502,100,100), roi_back=(577,502,100,100), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_soul_raid.png")
 	# 刷新确认 
@@ -61,7 +61,9 @@ class RealmRaidAssets:
 	# 呱太入侵， 第一次进入结界时候出现 
 	I_FROG_RAID = RuleImage(roi_front=(511,301,282,100), roi_back=(511,301,282,100), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_frog_raid.png")
 	# 个人 
-	I_RR_PERSON = RuleImage(roi_front=(1203,236,56,100), roi_back=(1203,236,56,155), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_rr_person.png")
+	I_RR_PERSON = RuleImage(roi_front=(1203,276,56,107), roi_back=(1203,276,56,107), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_rr_person.png")
+	# 寮突破进攻 
+	I_FIRE_2 = RuleImage(roi_front=(930,618,136,63), roi_back=(930,618,136,63), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_fire_2.png")
 
 
 	# Ocr Rule Assets

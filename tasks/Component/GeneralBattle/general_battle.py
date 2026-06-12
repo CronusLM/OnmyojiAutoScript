@@ -24,7 +24,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
     使用这个通用的战斗必须要求这个任务的config有config_general_battle
     """
 
-    def run_general_battle(self, config: GeneralBattleConfig = None, buff: BuffClass or list[BuffClass] = None) -> bool:
+    def run_general_battle(self, config: GeneralBattleConfig = None, buff: BuffClass or list[BuffClass] = None, false_button=None) -> bool:
         """
         运行脚本
         :return:
@@ -42,7 +42,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         if self.is_in_battle(False):
             self.green_mark(config.green_enable, config.green_mark)
         # 战中设置
-        win = self.battle_wait(config.random_click_swipt_enable)
+        win = self.battle_wait(config.random_click_swipt_enable, false_button=false_button)
         if win:
             return True
         else:
@@ -157,11 +157,12 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
 
         return True
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         """
         等待战斗结束 ！！！
         很重要 这个函数是原先写的， 优化版本在tasks/Secret/script_task下。本着不改动原先的代码的原则，所以就不改了
         :param random_click_swipt_enable:
+        :param false_button: 可指定失败按钮资产，默认使用 self.I_FALSE
         :return:
         """
         # 有的时候是长战斗，需要在设置stuck检测为长战斗
@@ -170,6 +171,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
         self.device.click_record_clear()
         # 战斗过程 随机点击和滑动 防封
         logger.info("Start battle process")
+        false_btn = false_button or self.I_FALSE
         win: bool = False
         while 1:
             self.screenshot()
@@ -182,7 +184,7 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                 break
 
             # 如果出现失败 就点击，返回False
-            if self.appear(self.I_FALSE, threshold=0.8):
+            if self.appear(false_btn, threshold=0.8):
                 logger.info("Battle result is false")
                 win = False
                 break
@@ -213,9 +215,9 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                     break
             else:
                 # 如果失败且 点击失败后
-                if self.appear_then_click(self.I_FALSE, threshold=0.6, interval=3):
+                if self.appear_then_click(false_btn, threshold=0.6, interval=3):
                     continue
-                if not self.appear(self.I_FALSE, threshold=0.6):
+                if not self.appear(false_btn, threshold=0.6):
                     return False
         # 最后保证能点击 获得奖励
         if not self.wait_until_appear(self.I_REWARD, wait_time=10):

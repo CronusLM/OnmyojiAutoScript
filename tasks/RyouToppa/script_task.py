@@ -317,9 +317,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RyouToppaAssets):
                 if self.appear(self.I_TOPPA_RECORD, threshold=0.85):
                     continue
                 logger.info("Start attach area [%s]" % str(index + 1))
-                return self.run_general_battle(config=self.config.ryou_toppa.general_battle_config)
+                return self.run_general_battle(config=self.config.ryou_toppa.general_battle_config,
+                                                false_button=self.I_FALSE_2)
 
-            if self.appear_then_click(RealmRaidAssets.I_FIRE, interval=3, threshold=0.8):
+            if self.appear_then_click(RealmRaidAssets.I_FIRE_2, interval=3, threshold=0.8):
                 click_failure_count += 1
                 continue
             if self.click(rcl, interval=5):

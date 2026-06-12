@@ -304,5 +304,14 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "战斗信息标识"
+  },
+  {
+    "itemName": "false_2",
+    "imageName": "gb_false_2.png",
+    "roiFront": "212,153,100,100",
+    "roiBack": "413,124,100,100",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": ""
   }
 ]

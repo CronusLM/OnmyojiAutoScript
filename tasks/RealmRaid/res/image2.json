@@ -34,5 +34,14 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "个人"
+  },
+  {
+    "itemName": "fire_2",
+    "imageName": "res_fire_2.png",
+    "roiFront": "930,618,136,63",
+    "roiBack": "930,618,136,63",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "寮突破进攻"
   }
 ]
