@@ -57,7 +57,7 @@
     "itemName": "medal_0",
     "imageName": "res_medal_0.png",
     "roiFront": "567,342,206,51",
-    "roiBack": "567,342,206,51",
+    "roiBack": "140,129,1024,584",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "没有勋章的"
