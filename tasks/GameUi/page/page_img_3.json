@@ -2,8 +2,8 @@
   {
     "itemName": "main_goto_shikigami_records",
     "imageName": "page_main_goto_shikigami_records.png",
-    "roiFront": "1080,590,56,64",
-    "roiBack": "1080,590,120,100",
+    "roiFront": "1097,623,66,64",
+    "roiBack": "1080,607,100,90",
     "method": "Template matching",
     "threshold": 0.7,
     "description": "式神录"
