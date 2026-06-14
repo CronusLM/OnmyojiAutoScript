@@ -57,7 +57,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                     logger.info('Click scroll close area because courtyard appears')
                     self.screenshot()  # 点击后立即获取最新截图，确保后续状态检查准确
                     continue
-            if self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS, interval=0.2):
+            if self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS, interval=3):
                 if confirm_timer.reached():
                     logger.info('Login to main confirm (shikigami records button appears)')
                     break
@@ -68,7 +68,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
             else:
                 confirm_timer.reset()
             # 登录成功
-            if self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS, interval=0.5):
+            if self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS, interval=3):
                 logger.info('Login success: shikigami records button appears')
                 login_success = True
             elif self.appear(self.I_LOGIN_SCROOLL_OPEN, interval=0.5):
