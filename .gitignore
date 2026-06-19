@@ -43,7 +43,6 @@ oas-backend.bat
 .eslintrc.js
 .prettierrc.js
 # ai
-AGENTS.md
 CLAUDE.md
 .codex/
 .claude/
