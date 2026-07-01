@@ -20,8 +20,8 @@
   {
     "itemName": "main_goto_exploration",
     "imageName": "page_main_goto_exploration.png",
-    "roiFront": "642,105,70,85",
-    "roiBack": "350,70,650,150",
+    "roiFront": "660,100,40,70",
+    "roiBack": "280,70,800,150",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "description"

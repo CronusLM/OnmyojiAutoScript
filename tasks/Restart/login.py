@@ -150,7 +150,18 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets):
                     logger.info('Cancel switch from early server to normal server')
                     continue
             if self.ocr_appear_click(self.O_LOGIN_ENTER_GAME, interval=3):
-                self.wait_until_appear(self.I_LOGIN_SPECIFIC_SERVE, True, wait_time=10)
+                wait_timer = Timer(10).start()
+                while 1:
+                    self.screenshot()
+                    if self.appear(self.I_LOGIN_SPECIFIC_SERVE):
+                        break
+                    if self.appear(self.I_MAIN_GOTO_SHIKIGAMI_RECORDS):
+                        login_success = True
+                        break
+                    if wait_timer.reached():
+                        break
+                if login_success:
+                    break
                 continue
 
         return login_success
