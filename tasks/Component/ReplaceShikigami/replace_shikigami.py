@@ -19,7 +19,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
         # 判定的依据是是否出现了 式神录 这个图片
         if screenshot:
             self.screenshot()
-        return self.appear_multi_scale(self.I_RS_RECORDS_SHIKI, interval=0.5)
+        return self.appear_multi_scale(self.I_RS_RECORDS_SHIKI, interval=3)
 
     def switch_shikigami_class(self, shikigami_class: ShikigamiClass = ShikigamiClass.N):
         """
@@ -51,16 +51,16 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
 
             if self.appear(check_selected):
                 break
-            if self.appear(check_click, interval=1):
+            if self.appear(check_click, interval=3):
                 if not (self.wait_until_pos_stable(check_click, stable_time=1.5, timeout=3.5)
                         and self.appear(check_click)):
                     continue
                 if self.appear(check_selected):
                     break
-                self.click(check_click, interval=2)
+                self.click(check_click, interval=3)
                 continue
-            self.wait_animate_stable(rule=self.C_SHIKIGAMI_SWITCH_1, interval=0.8)
-            if self.click(self.C_SHIKIGAMI_SWITCH_1, interval=3.5):
+            self.wait_animate_stable(rule=self.C_SHIKIGAMI_SWITCH_1, interval=3)
+            if self.click(self.C_SHIKIGAMI_SWITCH_1, interval=3):
                 continue
         logger.info('Select shikigami class: %s' % shikigami_class)
 
@@ -75,7 +75,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not self.appear(self.I_RS_LEVEL_MAX):
                 break
             else:
-                self.appear_then_click(self.I_RS_LEVEL_MAX, interval=2)
+                self.appear_then_click(self.I_RS_LEVEL_MAX, interval=3)
         logger.info('Unset all shikigami max lv')
 
     def set_shikigami(self, shikigami_order: int = 7, stop_image: RuleImage = None):
@@ -113,7 +113,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not self.appear(stop_image):
                 break
 
-            if self.appear_then_click(self.I_U_CONFIRM_SMALL, interval=2):
+            if self.appear_then_click(self.I_U_CONFIRM_SMALL, interval=3):
                 clicked = False  # 点击了确认, 恢复选式神的操作
                 continue
 
@@ -121,13 +121,13 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not clicked and self.click(click_match, interval=3):
                 clicked = True
                 continue
-            if not clicked and self.click(_click_match[6], interval=4.5):
+            if not clicked and self.click(_click_match[6], interval=3):
                 # 有的时候第七个格子被占用到寄养上去了
                 # 导致一直无法选上
                 clicked = True
                 continue
-            if self.appear_then_click(self.I_U_CIRCLE_ALTERNATE, interval=2.5):
-                self.appear_then_click(self.I_U_CONFIRM_ALTERNATE, interval=1.5)
+            if self.appear_then_click(self.I_U_CIRCLE_ALTERNATE, interval=3):
+                self.appear_then_click(self.I_U_CONFIRM_ALTERNATE, interval=3)
                 continue
         logger.info('Set shikigami: %d' % shikigami_order)
 
