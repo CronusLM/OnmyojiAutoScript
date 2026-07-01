@@ -52,7 +52,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if self.appear(check_selected):
                 break
             if self.appear(check_click, interval=3):
-                if not (self.wait_until_pos_stable(check_click, stable_time=1.5, timeout=3.5)
+                if not (self.wait_until_pos_stable(check_click, stable_time=1.5, timeout=15)
                         and self.appear(check_click)):
                     continue
                 if self.appear(check_selected):
