@@ -317,6 +317,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
         
         while 1:
             self.screenshot()
+            # Entering Shenshe can resume an active Abyss Shadows map directly.
+            if self.appear(self.I_ABYSS_NAVIGATION):
+                logger.info("Already in abyss_shadows")
+                break
             # 进入神社
             if self.appear_then_click(self.I_RYOU_SHENSHE,interval=3):
                 logger.info("Enter Shenshe")
