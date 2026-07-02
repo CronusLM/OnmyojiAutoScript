@@ -104,24 +104,46 @@ class GeneralBattle(GeneralBuff, GeneralBattleAssets):
                 break
         logger.info(f"Click {self.I_EXIT.name}")
 
-        # 点击返回确认
-        while 1:
-            self.screenshot()
-            if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
-                continue
-            if self.appear(self.I_FALSE):
-                break
-        logger.info(f"Click {self.I_EXIT_ENSURE.name}")
+        if exit_four:
+            # 退四：退出确认后等待失败画面（最多10秒超时），防止卡死
+            timeout_check = Timer(10).start()
+            while 1:
+                self.screenshot()
+                if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+                    continue
+                if self.appear(self.I_FALSE):
+                    break
+                if timeout_check.reached():
+                    logger.warning("Exit four: timeout waiting for failure screen after exit confirm")
+                    break
+            logger.info(f"Click {self.I_EXIT_ENSURE.name}")
 
-        # 点击失败确认
-        self.wait_until_appear(self.I_FALSE)
-        while 1:
-            self.screenshot()
-            if self.appear_then_click(self.I_FALSE, interval=3):
-                continue
-            if not self.appear(self.I_FALSE):
-                break
-        logger.info(f"Click {self.I_FALSE.name}")
+            # 点击失败确认（如有）
+            while 1:
+                self.screenshot()
+                if self.appear_then_click(self.I_FALSE, interval=3):
+                    continue
+                if not self.appear(self.I_FALSE):
+                    break
+            logger.info(f"Click {self.I_FALSE.name} (exit_four)")
+        else:
+            # 原逻辑不变（非退四场景）
+            while 1:
+                self.screenshot()
+                if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+                    continue
+                if self.appear(self.I_FALSE):
+                    break
+            logger.info(f"Click {self.I_EXIT_ENSURE.name}")
+
+            self.wait_until_appear(self.I_FALSE)
+            while 1:
+                self.screenshot()
+                if self.appear_then_click(self.I_FALSE, interval=3):
+                    continue
+                if not self.appear(self.I_FALSE):
+                    break
+            logger.info(f"Click {self.I_FALSE.name}")
 
         return True
 
