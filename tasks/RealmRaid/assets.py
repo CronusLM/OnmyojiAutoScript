@@ -57,7 +57,7 @@ class RealmRaidAssets:
 	# 出现呱太勋章 
 	I_FROG_MEDAL = RuleImage(roi_front=(912,12,32,35), roi_back=(912,12,32,35), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_frog_medal.png")
 	# 已经进攻三次了 
-	I_RR_THREE = RuleImage(roi_front=(346,584,42,44), roi_back=(346,584,42,44), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_rr_three.png")
+	I_RR_THREE = RuleImage(roi_front=(428,584,42,46), roi_back=(428,584,42,46), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_rr_three.png")
 	# 呱太入侵， 第一次进入结界时候出现 
 	I_FROG_RAID = RuleImage(roi_front=(511,301,282,100), roi_back=(511,301,282,100), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_frog_raid.png")
 	# 个人 

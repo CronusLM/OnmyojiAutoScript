@@ -11,8 +11,8 @@
   {
     "itemName": "rr_three",
     "imageName": "res_rr_three.png",
-    "roiFront": "346,584,42,44",
-    "roiBack": "346,584,42,44",
+    "roiFront": "428,584,42,46",
+    "roiBack": "428,584,42,46",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "已经进攻三次了"
