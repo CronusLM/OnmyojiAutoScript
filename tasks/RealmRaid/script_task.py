@@ -187,10 +187,10 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                         self.appear_then_click(self.I_FRESH_ENSURE, interval=3)
                     success = False
                     break
-            # 判断是不是左上角第一个
+            # 判断是不是右下角第九个
             lock_before = con.general_battle_config.lock_team_enable
-            if index == 1:
-                logger.info('Now is the first one')
+            if index == 9:
+                logger.info('Now is the ninth one')
                 if con.raid_config.exit_four:
                     logger.info('Exit four enable')
                     self.fire(index)
