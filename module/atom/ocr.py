@@ -44,9 +44,12 @@ class RuleOcr(Digit, DigitCounter, Duration, Single, Full, Quantity):
         获取一个区域，返回中心坐标偏移（Full模式）或随机坐标（其他模式）
         :return:
         """
-        x, y, w, h = self.area
         if self.mode == OcrMode.FULL:
+            x, y, w, h = self.area
             return x + w // 2 + self.offset[0], y + h // 2 + self.offset[1]
+        # 上游 79950346：非 FULL 模式点击区域应为 ROI（搜索区域）而非 AREA，
+        # 修复每月活动点击挑战时误触门票/体力切换（原代码误写 self.area）
+        x, y, w, h = self.roi
         x = np.random.randint(x, x + w)
         y = np.random.randint(y, y + h)
         return x, y
