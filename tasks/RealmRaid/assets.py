@@ -61,7 +61,7 @@ class RealmRaidAssets:
 	# 呱太入侵， 第一次进入结界时候出现 
 	I_FROG_RAID = RuleImage(roi_front=(511,301,282,100), roi_back=(511,301,282,100), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_frog_raid.png")
 	# 个人 
-	I_RR_PERSON = RuleImage(roi_front=(1203,276,56,107), roi_back=(1203,276,56,107), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_rr_person.png")
+	I_RR_PERSON = RuleImage(roi_front=(1203,250,56,107), roi_back=(1203,250,56,107), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_rr_person.png")
 	# 寮突破进攻 
 	I_FIRE_2 = RuleImage(roi_front=(930,618,136,63), roi_back=(395,120,700,575), threshold=0.8, method="Template matching", file="./tasks/RealmRaid/res/res_fire_2.png")
 
