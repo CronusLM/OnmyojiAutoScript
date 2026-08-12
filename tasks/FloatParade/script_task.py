@@ -25,9 +25,9 @@ class ScriptTask(RightActivity, FloatParadeAssets, TalismanPassAssets):
             self.screenshot()
             if self.appear(self.I_FP_UPGRADE):
                 break
-            if self.appear_then_click(self.I_FP_ACCESS, interval=0.8):
+            if self.appear_then_click(self.I_FP_ACCESS, interval=3):
                 continue
-            if self.appear_then_click(self.I_FP_RED_CLOSE, interval=1.5):
+            if self.appear_then_click(self.I_FP_RED_CLOSE, interval=3):
                 continue
             if self.appear_then_click(self.I_FP_GIFT_CLOSE, interval=3):
                 continue
@@ -52,9 +52,9 @@ class ScriptTask(RightActivity, FloatParadeAssets, TalismanPassAssets):
         if not self.appear(self.I_ENTRY_MILEAGE):
             return
         logger.hr("Get mileage reward")
-        self.ui_click( click=self.I_ENTRY_MILEAGE, stop=self.I_CLAIM_MILEAGE, interval=1.9)
-        self.ui_get_reward(self.I_CLAIM_MILEAGE)
-        self.ui_click_until_disappear(self.I_UI_BACK_RED, interval=1.8)
+        self.ui_click( click=self.I_ENTRY_MILEAGE, stop=self.I_CLAIM_MILEAGE, interval=3)
+        self.ui_get_reward(self.I_CLAIM_MILEAGE, click_interval=3)
+        self.ui_click_until_disappear(self.I_UI_BACK_RED, interval=3)
         logger.info('Got mileage reward')
 
     def get_flower(self, level1: LevelReward = LevelReward.TWO, level2: LevelReward = LevelReward.TWO):
@@ -68,27 +68,27 @@ class ScriptTask(RightActivity, FloatParadeAssets, TalismanPassAssets):
             LevelReward.THREE: self.I_FP_SELECT_3,
         }
         logger.info('Click level reward')
-        check_timer = Timer(2)
+        check_timer = Timer(3)
         check_timer.start()
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=0.8):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
             # 批量选择
-            if self.appear_then_click(self.I_BATCH_SELECTION, interval=1.5):
+            if self.appear_then_click(self.I_BATCH_SELECTION, interval=3):
                 continue
-            if self.appear_then_click(self.I_BATCH_SELECTION_CONFIRM, interval=0.8):
+            if self.appear_then_click(self.I_BATCH_SELECTION_CONFIRM, interval=3):
                 continue
 
-            if self.appear(self.I_FP_GIFT_FLAG1) and self.appear_then_click(match_level[level1], interval=0.8):
+            if self.appear(self.I_FP_GIFT_FLAG1) and self.appear_then_click(match_level[level1], interval=3):
                 logger.info(f'Select {level1} reward')
-                if self.appear_then_click(self.I_OVERFLOW_CONFIRME, interval=0.8):
+                if self.appear_then_click(self.I_OVERFLOW_CONFIRME, interval=3):
                     pass
                 check_timer.reset()
                 continue
-            if self.appear(self.I_FP_GIFT_FLAG2) and self.appear_then_click(match_level[level2], interval=0.8):
+            if self.appear(self.I_FP_GIFT_FLAG2) and self.appear_then_click(match_level[level2], interval=3):
                 logger.info(f'Select {level2} reward')
-                if self.appear_then_click(self.I_OVERFLOW_CONFIRME, interval=0.8):
+                if self.appear_then_click(self.I_OVERFLOW_CONFIRME, interval=3):
                     pass
                 check_timer.reset()
                 continue
@@ -103,14 +103,14 @@ class ScriptTask(RightActivity, FloatParadeAssets, TalismanPassAssets):
 
             apper_get_all_0 = self.appear(self.I_FP_GETALL0)  # 出现一键领取就不大会点”任务“
             if apper_get_all_0:
-                self.click(self.I_FP_GETALL0, interval=2.1)
+                self.click(self.I_FP_GETALL0, interval=3)
                 check_timer.reset()
                 continue
-            elif self.appear_then_click(self.I_FP_TASKS, interval=2.5):
+            elif self.appear_then_click(self.I_FP_TASKS, interval=3):
                 check_timer.reset()
                 continue
 
-            if self.appear_then_click(self.I_RED_POINT_0, interval=1.5):
+            if self.appear_then_click(self.I_RED_POINT_0, interval=3):
                 continue
 
 

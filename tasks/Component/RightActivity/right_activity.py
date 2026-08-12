@@ -15,7 +15,7 @@ class RightActivity(GameUi, RightActivityAssets):
         self.ui_get_current_page()
         self.ui_goto(page_main)
 
-        self.ui_click(self.I_TOGGLE_BUTTON, target, interval=2)
+        self.ui_click(self.I_TOGGLE_BUTTON, target, interval=3)
         self.ui_click_until_disappear(target, interval=3)
 
     def right_open(self):
