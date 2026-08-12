@@ -20,6 +20,46 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
         self.O_LOGIN_SPECIFIC_SERVE.keyword = self.character
         # self.specific_usr = kwargs['config'].
 
+    def _handle_hw_ad(self) -> bool:
+        """
+        华为渠道广告处理：一次启动可能连续出现多个不同的广告（内容不同、SDK 框架相同），
+        以 SDK 固定元素（关闭按钮/勾选框）为判据，独立循环逐个关闭，直到广告全部消失或超时。
+        :return: True 表示当前有广告且已处理完；False 表示当前无广告
+        """
+        # 广告判据：SDK 固定右上角关闭按钮，或广告 logo，任一出现即视为广告
+        if not (self.appear(self.I_HW_AD_CLOSE) or self.appear(self.I_HW_AD_LOGO)):
+            return False
+        logger.info('Huawei ad detected, start handling loop')
+        # 超时兜底：广告连续出现超过 60s 直接放行，避免卡死
+        timeout_timer = Timer(60).start()
+        # 广告消失判定：连续 3s 未检测到任何广告特征即认为所有广告已关闭
+        gone_timer = Timer(3)
+        while 1:
+            if timeout_timer.reached():
+                logger.warning('Huawei ad handling timeout, give up')
+                return True
+            self.screenshot()
+            # 勾选"本应用今日不再展示"，从源头抑制后续广告
+            if self.appear_then_click(self.I_HW_AD_CHECH, interval=3):
+                logger.info('Huawei ad: check don\'t show today')
+                gone_timer.reset()
+                continue
+            # 点击右上角关闭按钮
+            if self.appear_then_click(self.I_HW_AD_CLOSE, interval=3):
+                logger.info('Huawei ad: close')
+                gone_timer.reset()
+                continue
+            # 广告特征仍在（如动画过渡/加载中），继续循环
+            if self.appear(self.I_HW_AD_CLOSE) or self.appear(self.I_HW_AD_LOGO):
+                gone_timer.reset()
+                continue
+            # 无广告特征，连续 3s 确认后退出
+            if not gone_timer.started():
+                gone_timer.start()
+            elif gone_timer.reached():
+                logger.info('Huawei ad all closed')
+                return True
+
     def _app_handle_login(self) -> bool:
         """
         最终是在庭院界面
@@ -41,13 +81,9 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
 
             self.screenshot()
             # ===== 华为渠道广告处理 =====
-            if self.appear(self.I_HW_AD_LOGO):
-                if self.appear_then_click(self.I_HW_AD_CHECH, interval=3):
-                    logger.info('Huawei ad: check don\'t show today')
-                    continue
-                if self.appear_then_click(self.I_HW_AD_CLOSE, interval=3):
-                    logger.info('Huawei ad: close')
-                    continue
+            # 一次启动可能连续出现多个不同的广告，由 _handle_hw_ad 独立循环逐个关闭
+            if self._handle_hw_ad():
+                continue
             # 取消继续战斗
             if self.appear_then_click(self.I_CANCEL_BATTLE, interval=3):
                 logger.info('Cancel continue battle')
