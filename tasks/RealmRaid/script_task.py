@@ -557,7 +557,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                          method="Template matching",
                          file="./tasks/RyouToppa/dev/loser_sign_1.png")
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         return self.battle_wait_v2(random_click_swipt_enable=random_click_swipt_enable)
 
 
