@@ -173,7 +173,18 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
             # 点击’进入游戏‘
             if not self.appear(self.I_LOGIN_8):
                 continue
-            
+
+            # 检测到“进入游戏”界面后，等待3秒确认是否有华为广告弹出，处理完广告后再点击进入游戏
+            ad_wait_timer = Timer(3).start()
+            while 1:
+                self.screenshot()
+                if self._handle_hw_ad():
+                    logger.info('Huawei ad handled before clicking enter game')
+                    ad_wait_timer.reset()
+                    continue
+                if ad_wait_timer.reached():
+                    break
+
             # 登录体验服时，点击“进入游戏”速度过快，可能会出现体验服的弹窗
             if self.appear(self.I_EARLY_SERVER):
                 if self.appear_then_click(self.I_EARLY_SERVER_CANCEL):
