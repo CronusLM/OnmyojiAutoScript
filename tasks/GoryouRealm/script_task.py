@@ -41,7 +41,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, GoryouRealmAssets):
             if self.appear(self.I_GR_FIRE):
                 logger.info('Enter GoryouRealm')
                 break
-            if self.click(match_click[goryou_class], interval=1):
+            if self.click(match_click[goryou_class], interval=3):
                 continue
         self.check_lock(con.general_battle_config.lock_team_enable, self.I_GR_LOCK, self.I_GR_UNLOCK)
 
@@ -64,7 +64,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, GoryouRealmAssets):
             # 点击挑战
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_GR_FIRE, interval=1):
+                if self.appear_then_click(self.I_GR_FIRE, interval=3):
                     pass
                 if not self.appear(self.I_GR_FIRE):
                     self.run_general_battle(config=con.general_battle_config)
