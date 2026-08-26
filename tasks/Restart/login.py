@@ -175,7 +175,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
                 continue
 
             # 检测到“进入游戏”界面后，等待3秒确认是否有华为广告弹出，处理完广告后再点击进入游戏
-            ad_wait_timer = Timer(3).start()
+            ad_wait_timer = Timer(15).start()
             while 1:
                 self.screenshot()
                 if self._handle_hw_ad():
