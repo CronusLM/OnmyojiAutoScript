@@ -115,14 +115,9 @@ class RyouToppaAssets:
 	C_SELECT_FIRST_RYOU = RuleClick(roi_front=(1148,138,21,22), roi_back=(1148,138,21,22), name="select_first_ryou")
 
 
-	# Ocr Rule Assets
-	# 寮突破进攻机会数 
-	O_NUMBER = RuleOcr(roi=(271,560,48,31), area=(271,560,48,31), mode="DigitCounter", method="Default", keyword="", name="number")
-
-
 	# Image Rule Assets
 	# 寮突 
-	I_RYOU_TOPPA = RuleImage(roi_front=(1195,402,74,110), roi_back=(1195,402,74,110), threshold=0.6, method="Template matching", file="./tasks/RyouToppa/res/res_ryou_toppa.png")
+	I_RYOU_TOPPA = RuleImage(roi_front=(1196,374,70,110), roi_back=(1196,374,70,110), threshold=0.6, method="Template matching", file="./tasks/RyouToppa/res/res_ryou_toppa.png")
 	# 寮突选择阴阳寮按钮 
 	I_SELECT_RYOU_BUTTON = RuleImage(roi_front=(560,577,156,46), roi_back=(560,577,156,46), threshold=0.8, method="Template matching", file="./tasks/RyouToppa/res/res_select_ryou_button.png")
 	# 寮突未选择阴阳寮 
@@ -139,5 +134,10 @@ class RyouToppaAssets:
 	I_REAL_RAID_REFRESH = RuleImage(roi_front=(963,569,174,60), roi_back=(963,569,174,60), threshold=0.8, method="Template matching", file="./tasks/RyouToppa/res/res_real_raid_refresh.png")
 	# 击破后的寮奖励 
 	I_RYOU_REWARD_90 = RuleImage(roi_front=(134,415,232,38), roi_back=(134,415,232,38), threshold=0.8, method="Template matching", file="./tasks/RyouToppa/res/res_ryou_reward_90.png")
+
+
+	# Ocr Rule Assets
+	# 寮突破进攻机会数 
+	O_NUMBER = RuleOcr(roi=(271,560,48,31), area=(271,560,48,31), mode="DigitCounter", method="Default", keyword="", name="number")
 
 
