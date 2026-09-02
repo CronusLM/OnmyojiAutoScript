@@ -15,6 +15,13 @@ class DemonEncounterAssets:
 	C_DM_BOSS_CLICK = RuleClick(roi_front=(593,274,100,100), roi_back=(593,274,100,100), name="dm_boss_click")
 
 
+	# Ocr Rule Assets
+	# 人数 
+	O_DE_BOSS_PEOPLE = RuleOcr(roi=(880,591,100,35), area=(880,591,100,35), mode="DigitCounter", method="Default", keyword="", name="de_boss_people")
+	# Ocr-description 
+	O_DE_BEST_BOSS_PEOPLE = RuleOcr(roi=(902,564,100,31), area=(902,564,100,31), mode="DigitCounter", method="Default", keyword="", name="de_best_boss_people")
+
+
 	# Image Rule Assets
 	# 地震鲇 
 	I_BOSS_NAMAZU = RuleImage(roi_front=(589,294,100,100), roi_back=(589,294,100,100), threshold=0.8, method="Template matching", file="./tasks/DemonEncounter/boss/boss_boss_namazu.png")
@@ -50,13 +57,6 @@ class DemonEncounterAssets:
 	I_BOSS_WAIT = RuleImage(roi_front=(490,50,350,150), roi_back=(490,50,350,150), threshold=0.8, method="Template matching", file="./tasks/DemonEncounter/boss/boss_boss_wait.png")
 	# 战斗结束标识，左下角有战绩按钮 
 	I_BOSS_DONE_CHECK = RuleImage(roi_front=(0,450,100,130), roi_back=(0,450,100,130), threshold=0.8, method="Template matching", file="./tasks/DemonEncounter/boss/boss_boss_done_check.png")
-
-
-	# Ocr Rule Assets
-	# 人数 
-	O_DE_BOSS_PEOPLE = RuleOcr(roi=(880,591,100,35), area=(880,591,100,35), mode="DigitCounter", method="Default", keyword="", name="de_boss_people")
-	# Ocr-description 
-	O_DE_BEST_BOSS_PEOPLE = RuleOcr(roi=(902,564,100,31), area=(902,564,100,31), mode="DigitCounter", method="Default", keyword="", name="de_best_boss_people")
 
 
 	# Click Rule Assets

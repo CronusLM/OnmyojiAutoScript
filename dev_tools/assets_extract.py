@@ -186,13 +186,15 @@ class OcrExtractor:
         :return:
         """
         description: str = f'\t# {item["description"]} \n'
+        offset = item.get('offset')
+        offset_exp = f', offset=({", ".join(offset.split(","))})' if offset else ''
         name: str = f'\tO_{name_transform(item["itemName"])} = RuleOcr(' \
                     f'roi=({item["roiFront"]}), ' \
                     f'area=({item["roiBack"]}), ' \
                     f'mode="{item["mode"]}", ' \
                     f'method="{item["method"]}", ' \
                     f'keyword="{item["keyword"]}", ' \
-                    f'name="{item["itemName"]}")\n'
+                    f'name="{item["itemName"]}"{offset_exp})\n'
         return description + name
 
 

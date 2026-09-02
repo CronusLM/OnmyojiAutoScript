@@ -75,13 +75,13 @@ class RestartAssets:
 	# description 
 	I_HARVEST_MAIL_2 = RuleImage(roi_front=(156,125,65,60), roi_back=(120,94,290,536), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_harvest_mail_2.png")
 	# 系统邮件打开状态 
-	I_SYSTEM_MAIL_OPEN = RuleImage(roi_front=(1201,223,51,112), roi_back=(1197,219,59,118), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_system_mail_open.png")
+	I_SYSTEM_MAIL_OPEN = RuleImage(roi_front=(1179,203,67,135), roi_back=(1179,203,67,135), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_system_mail_open.png")
 	# 特殊邮件关闭状态 
-	I_SPECIAL_MAIL_CLOSE = RuleImage(roi_front=(1200,379,53,108), roi_back=(1185,342,80,178), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_special_mail_close.png")
+	I_SPECIAL_MAIL_CLOSE = RuleImage(roi_front=(1181,360,58,129), roi_back=(1181,360,58,129), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_special_mail_close.png")
 	# 系统邮件关闭状态 
-	I_SYSTEM_MAIL_CLOSE = RuleImage(roi_front=(1200,222,53,112), roi_back=(1186,193,81,156), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_system_mail_close.png")
+	I_SYSTEM_MAIL_CLOSE = RuleImage(roi_front=(1183,209,53,123), roi_back=(1183,209,53,123), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_system_mail_close.png")
 	# 特殊邮件打开状态 
-	I_SPECIAL_MAIL_OPEN = RuleImage(roi_front=(1201,380,55,110), roi_back=(1190,348,79,162), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_special_mail_open.png")
+	I_SPECIAL_MAIL_OPEN = RuleImage(roi_front=(1177,361,70,131), roi_back=(1177,361,70,131), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_special_mail_open.png")
 	# 一键已读所有邮件 
 	I_READ_ALL_MAIL = RuleImage(roi_front=(180,605,130,35), roi_back=(149,588,182,72), threshold=0.8, method="Template matching", file="./tasks/Restart/harvest/harvest_read_all_mail.png")
 	# 邮件红点 
@@ -93,6 +93,17 @@ class RestartAssets:
 	C_LOGIN_ENSURE_LOGIN_CHARACTER_IN_SAME_SVR = RuleClick(roi_front=(600,240,500,400), roi_back=(600,240,500,400), name="login_ensure_login_character_in_same_svr")
 	# 卷轴关闭区域点击(用户新增，用于点击I_LOGIN_SCROOLL_CLOSE的区域而不依赖图片识别) 
 	C_LOGIN_SCROLL_CLOSE_AREA = RuleClick(roi_front=(1181,634,28,39), roi_back=(1162,595,77,112), name="login_scroll_close_area")
+
+
+	# Ocr Rule Assets
+	# 正在连接服务器 
+	O_LOGIN_NETWORK = RuleOcr(roi=(534,649,189,39), area=(210,492,100,100), mode="Single", method="Default", keyword="正在连接服务器", name="login_network")
+	# Ocr-description 
+	O_LOGIN_ENTER_GAME = RuleOcr(roi=(550,567,176,56), area=(558,574,154,49), mode="Single", method="Default", keyword="进入游戏", name="login_enter_game")
+	# 点击屏幕跳过 
+	O_LOGIN_SKIP_1 = RuleOcr(roi=(1046,35,130,37), area=(1046,35,130,37), mode="Single", method="Default", keyword="点击屏幕跳过", name="login_skip_1")
+	# 登录指定角色，默认第一个 
+	O_LOGIN_SPECIFIC_SERVE = RuleOcr(roi=(110,120,350,600), area=(110,120,350,600), mode="Full", method="Default", keyword="", name="login_specific_serve")
 
 
 	# Image Rule Assets
@@ -132,22 +143,11 @@ class RestartAssets:
 	I_EARLY_SERVER_CANCEL = RuleImage(roi_front=(435,404,172,56), roi_back=(435,404,172,56), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_early_server_cancel.png")
 	# 取消继续战斗 
 	I_CANCEL_BATTLE = RuleImage(roi_front=(471,395,129,55), roi_back=(367,227,545,296), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_cancel_battle.png")
-	# 本应用今日不再展示
+	# 本应用今日不再展示 
 	I_HW_AD_CHECH = RuleImage(roi_front=(933,564,51,54), roi_back=(933,564,51,54), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_chech.png")
-	# 华为广告弹窗关闭按钮
+	# 华为广告弹窗关闭按钮 
 	I_HW_AD_CLOSE = RuleImage(roi_front=(1025,121,81,77), roi_back=(1025,121,81,77), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_close.png")
-	# description
+	# 识别华为广告弹窗 
 	I_HW_AD_LOGO = RuleImage(roi_front=(540,534,190,57), roi_back=(540,534,190,57), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_logo.png")
-
-
-	# Ocr Rule Assets
-	# 正在连接服务器 
-	O_LOGIN_NETWORK = RuleOcr(roi=(534,649,189,39), area=(210,492,100,100), mode="Single", method="Default", keyword="正在连接服务器", name="login_network")
-	# Ocr-description 
-	O_LOGIN_ENTER_GAME = RuleOcr(roi=(550,567,176,56), area=(558,574,154,49), mode="Single", method="Default", keyword="进入游戏", name="login_enter_game")
-	# 点击屏幕跳过 
-	O_LOGIN_SKIP_1 = RuleOcr(roi=(1046,35,130,37), area=(1046,35,130,37), mode="Single", method="Default", keyword="点击屏幕跳过", name="login_skip_1")
-	# 登录指定角色，默认第一个 
-	O_LOGIN_SPECIFIC_SERVE = RuleOcr(roi=(110,120,350,600), area=(110,120,350,600), mode="Full", method="Default", keyword="", name="login_specific_serve")
 
 

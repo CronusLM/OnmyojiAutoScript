@@ -19,31 +19,6 @@ class CollectiveMissionsAssets:
 	C_CM_3 = RuleClick(roi_front=(903,470,136,58), roi_back=(903,470,136,58), name="cm_3")
 
 
-	# Image Rule Assets
-	# 神社 
-	I_CM_SHRINE = RuleImage(roi_front=(875,628,55,60), roi_back=(853,604,100,100), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_shrine.png")
-	# 集体任务 
-	I_CM_CM = RuleImage(roi_front=(157,169,210,161), roi_back=(137,131,246,235), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_cm.png")
-	# 提交 
-	I_CM_PRESENT = RuleImage(roi_front=(559,594,160,66), roi_back=(559,594,160,66), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_present.png")
-	# 判断是否到达 
-	I_CM_RECORDS = RuleImage(roi_front=(1032,617,54,63), roi_back=(960,562,193,138), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_records.png")
-	# 将材料拉满的按钮，用来判断是否拉满 
-	I_CM_MATTER = RuleImage(roi_front=(860,396,36,37), roi_back=(843,119,66,459), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_matter.png")
-	# description 
-	I_CM_ADD_1 = RuleImage(roi_front=(904,142,48,48), roi_back=(904,142,48,48), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_1.png")
-	# description 
-	I_CM_ADD_2 = RuleImage(roi_front=(903,262,52,53), roi_back=(903,262,52,53), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_2.png")
-	# description 
-	I_CM_ADD_3 = RuleImage(roi_front=(904,389,48,45), roi_back=(904,389,48,45), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_3.png")
-	# description 
-	I_CM_ADD_4 = RuleImage(roi_front=(904,510,47,47), roi_back=(904,510,47,47), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_4.png")
-	# 领取奖励 
-	I_CM_REWARDS = RuleImage(roi_front=(567,463,145,60), roi_back=(200,458,914,88), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_rewards.png")
-	# description 
-	I_CM_SWITCH = RuleImage(roi_front=(414,478,43,58), roi_back=(401,470,72,77), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_switch.png")
-
-
 	# Ocr Rule Assets
 	# Ocr-description 
 	O_CM_1 = RuleOcr(roi=(217,133,115,43), area=(217,133,115,43), mode="Single", method="Default", keyword="", name="cm_1")
@@ -78,6 +53,31 @@ class CollectiveMissionsAssets:
 	S_CM_MATTER_3 = RuleSwipe(roi_front=(688,392,35,38), roi_back=(1117,388,50,45), mode="default", name="cm_matter_3")
 	# description 
 	S_CM_MATTER_4 = RuleSwipe(roi_front=(689,524,21,22), roi_back=(903,518,46,32), mode="default", name="cm_matter_4")
+
+
+	# Image Rule Assets
+	# 神社 
+	I_CM_SHRINE = RuleImage(roi_front=(875,628,55,60), roi_back=(853,604,100,100), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_shrine.png")
+	# 集体任务 
+	I_CM_CM = RuleImage(roi_front=(157,169,210,161), roi_back=(137,131,246,235), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_cm.png")
+	# 提交 
+	I_CM_PRESENT = RuleImage(roi_front=(559,594,160,66), roi_back=(559,594,160,66), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_present.png")
+	# 判断是否到达 
+	I_CM_RECORDS = RuleImage(roi_front=(1032,617,54,63), roi_back=(960,562,193,138), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_records.png")
+	# 将材料拉满的按钮，用来判断是否拉满 
+	I_CM_MATTER = RuleImage(roi_front=(860,396,36,37), roi_back=(843,119,66,459), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_matter.png")
+	# description 
+	I_CM_ADD_1 = RuleImage(roi_front=(904,142,48,48), roi_back=(904,142,48,48), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_1.png")
+	# description 
+	I_CM_ADD_2 = RuleImage(roi_front=(903,262,52,53), roi_back=(903,262,52,53), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_2.png")
+	# description 
+	I_CM_ADD_3 = RuleImage(roi_front=(904,389,48,45), roi_back=(904,389,48,45), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_3.png")
+	# description 
+	I_CM_ADD_4 = RuleImage(roi_front=(904,510,47,47), roi_back=(904,510,47,47), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_add_4.png")
+	# 领取奖励 
+	I_CM_REWARDS = RuleImage(roi_front=(567,463,145,60), roi_back=(200,458,914,88), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_rewards.png")
+	# description 
+	I_CM_SWITCH = RuleImage(roi_front=(414,478,43,58), roi_back=(401,470,72,77), threshold=0.8, method="Template matching", file="./tasks/CollectiveMissions/cm/cm_cm_switch.png")
 
 
 	# Image Rule Assets

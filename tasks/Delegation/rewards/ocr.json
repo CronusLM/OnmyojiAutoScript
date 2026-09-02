@@ -1,11 +1,12 @@
 [
   {
     "itemName": "d_done",
-    "imageName": "",
-    "roiFront": "972,129,113,517",
-    "roiBack": "972,129,113,517",
+    "roiFront": "960,120,120,55",
+    "roiBack": "960,120,120,55",
+    "mode": "Full",
     "method": "Default",
-    "threshold": 0,
-    "description": "完成"
+    "keyword": "完成",
+    "description": "完成",
+    "offset": "79,20"
   }
 ]

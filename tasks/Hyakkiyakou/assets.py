@@ -147,6 +147,18 @@ class HyakkiyakouAssets:
 	I_BEAN10 = RuleImage(roi_front=(560,640,32,35), roi_back=(531,634,72,47), threshold=0.8, method="Template matching", file="./tasks/Hyakkiyakou/hya/hya_bean10.png")
 
 
+	# Ocr Rule Assets
+	# 最坏的情况下来判断豆子的数量 
+	O_BEAN_NUMBER = RuleOcr(roi=(119,645,45,29), area=(119,645,45,29), mode="Digit", method="Default", keyword="", name="bean_number")
+
+
+	# Swipe Rule Assets
+	# description 
+	S_BEAN_05TO10 = RuleSwipe(roi_front=(390,648,21,22), roi_back=(577,647,21,23), mode="default", name="bean_05to10")
+	# description 
+	S_BEAN_10TO05 = RuleSwipe(roi_front=(565,647,24,24), roi_back=(390,647,22,22), mode="default", name="bean_10to05")
+
+
 	# Image Rule Assets
 	# description 
 	I_FRIEND_SAME_1 = RuleImage(roi_front=(349,124,83,50), roi_back=(349,124,83,50), threshold=0.8, method="Template matching", file="./tasks/Hyakkiyakou/hya/hya_friend_same_1.png")
@@ -170,18 +182,6 @@ class HyakkiyakouAssets:
 	I_FRIEND_RYOU_2 = RuleImage(roi_front=(536,127,80,45), roi_back=(536,127,80,45), threshold=0.8, method="Template matching", file="./tasks/Hyakkiyakou/hya/hya_friend_ryou_2.png")
 	# 判断是否进入邀请页面 
 	I_CHECK_INVITATION = RuleImage(roi_front=(629,140,272,57), roi_back=(308,113,826,100), threshold=0.8, method="Template matching", file="./tasks/Hyakkiyakou/hya/hya_check_invitation.png")
-
-
-	# Ocr Rule Assets
-	# 最坏的情况下来判断豆子的数量 
-	O_BEAN_NUMBER = RuleOcr(roi=(119,645,45,29), area=(119,645,45,29), mode="Digit", method="Default", keyword="", name="bean_number")
-
-
-	# Swipe Rule Assets
-	# description 
-	S_BEAN_05TO10 = RuleSwipe(roi_front=(390,648,21,22), roi_back=(577,647,21,23), mode="default", name="bean_05to10")
-	# description 
-	S_BEAN_10TO05 = RuleSwipe(roi_front=(565,647,24,24), roi_back=(390,647,22,22), mode="default", name="bean_10to05")
 
 
 	# Click Rule Assets

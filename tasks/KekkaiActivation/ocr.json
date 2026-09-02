@@ -16,5 +16,14 @@
     "method": "Default",
     "keyword": "",
     "description": "识别结界卡每小时收益"
+  },
+  {
+    "itemName": "slot_card_number",
+    "roiFront": "677,290,353,90",
+    "roiBack": "677,290,353,90",
+    "mode": "Single",
+    "method": "Default",
+    "keyword": "",
+    "description": "识别卡槽中结界卡收益"
   }
 ]

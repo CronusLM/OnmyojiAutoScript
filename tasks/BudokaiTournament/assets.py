@@ -10,11 +10,6 @@ from module.atom.list import RuleList
 class BudokaiTournamentAssets: 
 
 
-	# Click Rule Assets
-	# Close cultivation drills boss detail
-	C_BOSS_DETAIL_CLOSE = RuleClick(roi_front=(1182,73,47,43), roi_back=(1182,73,47,43), name="boss_detail_close")
-
-
 	# Image Rule Assets
 	# 自己发现 
 	I_IMG2 = RuleImage(roi_front=(225,70,60,54), roi_back=(187,48,152,432), threshold=0.8, method="Template matching", file="./tasks/BudokaiTournament/bt/bt_img2.png")
@@ -30,5 +25,10 @@ class BudokaiTournamentAssets:
 	I_ITEM_7 = RuleImage(roi_front=(1186,215,42,37), roi_back=(1164,122,80,434), threshold=0.8, method="Template matching", file="./tasks/BudokaiTournament/bt/bt_item_7.png")
 	# 搜寻 
 	I_IMG1 = RuleImage(roi_front=(1102,590,86,73), roi_back=(1059,547,161,139), threshold=0.8, method="Template matching", file="./tasks/BudokaiTournament/bt/bt_img1.png")
+
+
+	# Click Rule Assets
+	# Close cultivation drills boss detail 
+	C_BOSS_DETAIL_CLOSE = RuleClick(roi_front=(1182,73,47,43), roi_back=(1182,73,47,43), name="boss_detail_close")
 
 

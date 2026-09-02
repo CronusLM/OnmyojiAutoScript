@@ -10,6 +10,24 @@ from module.atom.list import RuleList
 class SwitchSoulAssets: 
 
 
+	# Ocr Rule Assets
+	# 队伍预设分组 
+	O_SS_GROUP_NAME = RuleOcr(roi=(1087,91,155,566), area=(1110,94,116,533), mode="Full", method="Default", keyword="", name="ss_group_name")
+	# 阵容匹配 
+	O_SS_TEAM_NAME = RuleOcr(roi=(573,140,277,481), area=(667,144,32,475), mode="Full", method="Default", keyword="", name="ss_team_name")
+
+
+	# Swipe Rule Assets
+	# 列表的向上滑动 
+	S_SS_GROUP_SWIPE_UP = RuleSwipe(roi_front=(1154,180,90,21), roi_back=(1153,322,86,21), mode="default", name="ss_group_swipe_up")
+	# 列表的向下滑动 
+	S_SS_GROUP_SWIPE_DOWN = RuleSwipe(roi_front=(1155,388,21,22), roi_back=(1152,177,22,24), mode="default", name="ss_group_swipe_down")
+	# 阵容向上滑动 
+	S_SS_TEAM_SWIPE_UP = RuleSwipe(roi_front=(720,439,21,21), roi_back=(717,308,21,21), mode="default", name="ss_team_swipe_up")
+	# 阵容向上滑动 
+	S_SS_TEAM_SWIPE_DOWN = RuleSwipe(roi_front=(709,308,21,21), roi_back=(709,449,21,21), mode="default", name="ss_team_swipe_down")
+
+
 	# Click Rule Assets
 	# description 
 	C_SOU_GROUP_1 = RuleClick(roi_front=(1086,85,158,47), roi_back=(1086,85,158,47), name="sou_group_1")
@@ -68,23 +86,5 @@ class SwitchSoulAssets:
 	I_CHECK_BLOCK = RuleImage(roi_front=(572,408,137,49), roi_back=(572,408,137,49), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchSoul/ss/ss_check_block.png")
 	# 通用进入式神录 
 	I_GOTO_SHIKIGAMI_COMMON = RuleImage(roi_front=(1037,567,36,36), roi_back=(617,503,487,134), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchSoul/ss/ss_goto_shikigami_common.png")
-
-
-	# Ocr Rule Assets
-	# 队伍预设分组 
-	O_SS_GROUP_NAME = RuleOcr(roi=(1087,91,155,566), area=(1110,94,116,533), mode="Full", method="Default", keyword="", name="ss_group_name")
-	# 阵容匹配 
-	O_SS_TEAM_NAME = RuleOcr(roi=(573,140,277,481), area=(667,144,32,475), mode="Full", method="Default", keyword="", name="ss_team_name")
-
-
-	# Swipe Rule Assets
-	# 列表的向上滑动 
-	S_SS_GROUP_SWIPE_UP = RuleSwipe(roi_front=(1154,180,90,21), roi_back=(1153,322,86,21), mode="default", name="ss_group_swipe_up")
-	# 列表的向下滑动 
-	S_SS_GROUP_SWIPE_DOWN = RuleSwipe(roi_front=(1155,388,21,22), roi_back=(1152,177,22,24), mode="default", name="ss_group_swipe_down")
-	# 阵容向上滑动 
-	S_SS_TEAM_SWIPE_UP = RuleSwipe(roi_front=(720,439,21,21), roi_back=(717,308,21,21), mode="default", name="ss_team_swipe_up")
-	# 阵容向上滑动 
-	S_SS_TEAM_SWIPE_DOWN = RuleSwipe(roi_front=(709,308,21,21), roi_back=(709,449,21,21), mode="default", name="ss_team_swipe_down")
 
 

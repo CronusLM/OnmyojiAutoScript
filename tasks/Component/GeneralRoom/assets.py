@@ -37,8 +37,6 @@ class GeneralRoomAssets:
 	# description 
 	I_CREATE_ENSURE_2 = RuleImage(roi_front=(552,489,42,55), roi_back=(552,489,42,55), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_create_ensure_2.png")
 	# description 
-	I_CREATE_ENSURE_3 = RuleImage(roi_front=(808,557,132,63), roi_back=(808,557,132,63), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_create_ensure_3.png")
-	# description 
 	I_GR_BACK_YELLOW = RuleImage(roi_front=(19,13,53,53), roi_back=(19,13,53,53), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_gr_back_yellow.png")
 	# 自动匹配 
 	I_GR_AUTO_MATCH = RuleImage(roi_front=(697,598,181,63), roi_back=(697,598,181,63), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_gr_auto_match.png")
@@ -52,5 +50,7 @@ class GeneralRoomAssets:
 	I_ENSURE_PUBLIC_2 = RuleImage(roi_front=(307,490,37,40), roi_back=(307,490,37,40), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_ensure_public_2.png")
 	# description 
 	I_ENSURE_PUBLIC_FALSE_2 = RuleImage(roi_front=(307,491,38,37), roi_back=(307,491,38,37), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_ensure_public_false_2.png")
+	# description 
+	I_CREATE_ENSURE_3 = RuleImage(roi_front=(808,557,132,63), roi_back=(808,557,132,63), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralRoom/gr/gr_create_ensure_3.png")
 
 

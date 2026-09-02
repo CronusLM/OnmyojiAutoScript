@@ -35,6 +35,13 @@ class SwitchAccountAssets:
 	C_SA_SELECT_SVR_CHARACTER_LIST = RuleClick(roi_front=(205,570,815,40), roi_back=(205,570,815,40), name="sa_select_svr_character_list")
 
 
+	# Swipe Rule Assets
+	# 登录界面 服务器列表的手指向左滑动 
+	S_SA_SVR_SWIPE_LEFT = RuleSwipe(roi_front=(730,460,30,21), roi_back=(470,410,26,21), mode="default", name="sa_svr_swipe_left")
+	# 登录界面 账号列表的手指向上滑动 
+	S_SA_ACCOUNT_LIST_UP = RuleSwipe(roi_front=(600,520,30,20), roi_back=(750,270,30,20), mode="default", name="sa_account_list_up")
+
+
 	# Ocr Rule Assets
 	# 登录页面服务器名称 
 	O_SA_LOGIN_FORM_SVR_NAME = RuleOcr(roi=(545,510,140,40), area=(545,510,140,40), mode="SINGLE", method="Default", keyword="", name="sa_login_form_svr_name")
@@ -50,13 +57,6 @@ class SwitchAccountAssets:
 	O_SA_LOGIN_FORM_USER_CENTER_ACCOUNT = RuleOcr(roi=(290,185,290,50), area=(290,185,290,50), mode="SINGLE", method="Default", keyword="", name="sa_login_form_user_center_account")
 	# 判断是否在 选择服务器 界面的文本特质 
 	O_SA_CHECK_SELECT_SVR = RuleOcr(roi=(252,145,97,32), area=(248,141,102,38), mode="Single", method="Default", keyword="已有角色", name="sa_check_select_svr")
-
-
-	# Swipe Rule Assets
-	# 登录界面 服务器列表的手指向左滑动 
-	S_SA_SVR_SWIPE_LEFT = RuleSwipe(roi_front=(730,460,30,21), roi_back=(470,410,26,21), mode="default", name="sa_svr_swipe_left")
-	# 登录界面 账号列表的手指向上滑动 
-	S_SA_ACCOUNT_LIST_UP = RuleSwipe(roi_front=(600,520,30,20), roi_back=(750,270,30,20), mode="default", name="sa_account_list_up")
 
 
 	# Image Rule Assets

@@ -10,6 +10,30 @@ from module.atom.list import RuleList
 class SoulsTidyAssets: 
 
 
+	# Long Click Rule Assets
+	# description 
+	L_ONE = RuleLongClick(roi_front=(88,272,100,78), roi_back=(88,272,100,78), duration=1500, name="one")
+
+
+	# Ocr Rule Assets
+	# 奉纳获得的金币 
+	O_ST_GOLD = RuleOcr(roi=(888,575,105,32), area=(888,575,105,32), mode="Digit", method="Default", keyword="", name="st_gold")
+	# 奉纳的御魂等级 
+	O_ST_FIRSET_LEVEL = RuleOcr(roi=(91,237,35,28), area=(91,237,35,28), mode="Single", method="Default", keyword="", name="st_firset_level")
+	# 入手顺序 
+	O_ST_SORT_TIME = RuleOcr(roi=(387,118,110,42), area=(387,118,110,42), mode="Single", method="Default", keyword="入手顺序", name="st_sort_time")
+	# 等级/星级 最上边的 
+	O_ST_SORT_LEVEL_1 = RuleOcr(roi=(384,115,121,45), area=(384,115,121,45), mode="Single", method="Default", keyword="等级/星级", name="st_sort_level_1")
+	# 等级/星 下边的 
+	O_ST_SORT_LEVEL_2 = RuleOcr(roi=(400,290,128,42), area=(400,290,128,42), mode="Single", method="Default", keyword="等级/星级", name="st_sort_level_2")
+	# 类型 
+	O_ST_SORT_TYPE = RuleOcr(roi=(414,118,64,43), area=(414,118,64,43), mode="Single", method="Default", keyword="类型", name="st_sort_type")
+	# 位置 
+	O_ST_SORT_LOCATION = RuleOcr(roi=(415,119,61,39), area=(415,119,61,39), mode="Single", method="Default", keyword="位置", name="st_sort_location")
+	# Ocr-description 
+	O_ST_OVERFLOW = RuleOcr(roi=(686,397,109,48), area=(686,397,109,48), mode="Single", method="Default", keyword="知道了", name="st_overflow")
+
+
 	# Click Rule Assets
 	# 御魂详细 
 	C_ST_DETAIL = RuleClick(roi_front=(1188,318,87,74), roi_back=(1190,317,87,74), name="st_detail")
@@ -62,29 +86,5 @@ class SoulsTidyAssets:
 	I_ST_LUCK = RuleImage(roi_front=(596,236,110,56), roi_back=(596,236,110,56), threshold=0.8, method="Template matching", file="./tasks/SoulsTidy/simple/simple_st_luck.png")
 	# 小吉运 
 	I_ST_SMALL_LUCK = RuleImage(roi_front=(549,236,201,35), roi_back=(549,236,201,35), threshold=0.8, method="Template matching", file="./tasks/SoulsTidy/simple/simple_st_small_luck.png")
-
-
-	# Long Click Rule Assets
-	# description 
-	L_ONE = RuleLongClick(roi_front=(88,272,100,78), roi_back=(88,272,100,78), duration=1500, name="one")
-
-
-	# Ocr Rule Assets
-	# 奉纳获得的金币 
-	O_ST_GOLD = RuleOcr(roi=(888,575,105,32), area=(888,575,105,32), mode="Digit", method="Default", keyword="", name="st_gold")
-	# 奉纳的御魂等级 
-	O_ST_FIRSET_LEVEL = RuleOcr(roi=(91,237,35,28), area=(91,237,35,28), mode="Single", method="Default", keyword="", name="st_firset_level")
-	# 入手顺序 
-	O_ST_SORT_TIME = RuleOcr(roi=(387,118,110,42), area=(387,118,110,42), mode="Single", method="Default", keyword="入手顺序", name="st_sort_time")
-	# 等级/星级 最上边的 
-	O_ST_SORT_LEVEL_1 = RuleOcr(roi=(384,115,121,45), area=(384,115,121,45), mode="Single", method="Default", keyword="等级/星级", name="st_sort_level_1")
-	# 等级/星 下边的 
-	O_ST_SORT_LEVEL_2 = RuleOcr(roi=(400,290,128,42), area=(400,290,128,42), mode="Single", method="Default", keyword="等级/星级", name="st_sort_level_2")
-	# 类型 
-	O_ST_SORT_TYPE = RuleOcr(roi=(414,118,64,43), area=(414,118,64,43), mode="Single", method="Default", keyword="类型", name="st_sort_type")
-	# 位置 
-	O_ST_SORT_LOCATION = RuleOcr(roi=(415,119,61,39), area=(415,119,61,39), mode="Single", method="Default", keyword="位置", name="st_sort_location")
-	# Ocr-description 
-	O_ST_OVERFLOW = RuleOcr(roi=(686,397,109,48), area=(686,397,109,48), mode="Single", method="Default", keyword="知道了", name="st_overflow")
 
 
