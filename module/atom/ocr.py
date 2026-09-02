@@ -2,11 +2,11 @@
 # @author runhey
 # github https://github.com/runhey
 
-import numpy as np
 import cv2
 
 from module.ocr.base_ocr import BaseCor, OcrMode, OcrMethod
 from module.ocr.sub_ocr import Full, Single, Digit, DigitCounter, Duration, Quantity
+from module.base.utils.utils import random_normal_distribution_int
 from module.logger import logger
 
 
@@ -50,8 +50,8 @@ class RuleOcr(Digit, DigitCounter, Duration, Single, Full, Quantity):
         # 上游 79950346：非 FULL 模式点击区域应为 ROI（搜索区域）而非 AREA，
         # 修复每月活动点击挑战时误触门票/体力切换（原代码误写 self.area）
         x, y, w, h = self.roi
-        x = np.random.randint(x, x + w)
-        y = np.random.randint(y, y + h)
+        x = random_normal_distribution_int(x, x + w)
+        y = random_normal_distribution_int(y, y + h)
         return x, y
 
 if __name__ == "__main__":
