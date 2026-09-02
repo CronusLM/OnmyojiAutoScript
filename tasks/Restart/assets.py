@@ -95,17 +95,6 @@ class RestartAssets:
 	C_LOGIN_SCROLL_CLOSE_AREA = RuleClick(roi_front=(1181,634,28,39), roi_back=(1162,595,77,112), name="login_scroll_close_area")
 
 
-	# Ocr Rule Assets
-	# 正在连接服务器 
-	O_LOGIN_NETWORK = RuleOcr(roi=(534,649,189,39), area=(210,492,100,100), mode="Single", method="Default", keyword="正在连接服务器", name="login_network")
-	# Ocr-description 
-	O_LOGIN_ENTER_GAME = RuleOcr(roi=(550,567,176,56), area=(558,574,154,49), mode="Single", method="Default", keyword="进入游戏", name="login_enter_game")
-	# 点击屏幕跳过 
-	O_LOGIN_SKIP_1 = RuleOcr(roi=(1046,35,130,37), area=(1046,35,130,37), mode="Single", method="Default", keyword="点击屏幕跳过", name="login_skip_1")
-	# 登录指定角色，默认第一个 
-	O_LOGIN_SPECIFIC_SERVE = RuleOcr(roi=(110,120,350,600), area=(110,120,350,600), mode="Full", method="Default", keyword="", name="login_specific_serve")
-
-
 	# Image Rule Assets
 	# 庭院卷轴打开 
 	I_LOGIN_SCROOLL_OPEN = RuleImage(roi_front=(1208,609,33,83), roi_back=(1208,609,33,83), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_login_scrooll_open.png")
@@ -149,5 +138,18 @@ class RestartAssets:
 	I_HW_AD_CLOSE = RuleImage(roi_front=(1025,121,81,77), roi_back=(1025,121,81,77), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_close.png")
 	# 识别华为广告弹窗 
 	I_HW_AD_LOGO = RuleImage(roi_front=(540,534,190,57), roi_back=(540,534,190,57), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_logo.png")
+
+
+	# Ocr Rule Assets
+	# 正在连接服务器 
+	O_LOGIN_NETWORK = RuleOcr(roi=(534,649,189,39), area=(210,492,100,100), mode="Single", method="Default", keyword="正在连接服务器", name="login_network")
+	# Ocr-description 
+	O_LOGIN_ENTER_GAME = RuleOcr(roi=(550,567,176,56), area=(558,574,154,49), mode="Single", method="Default", keyword="进入游戏", name="login_enter_game")
+	# 点击屏幕跳过 
+	O_LOGIN_SKIP_1 = RuleOcr(roi=(1046,35,130,37), area=(1046,35,130,37), mode="Single", method="Default", keyword="点击屏幕跳过", name="login_skip_1")
+	# 登录指定角色，默认第一个 
+	O_LOGIN_SPECIFIC_SERVE = RuleOcr(roi=(110,120,350,600), area=(110,120,350,600), mode="Full", method="Default", keyword="", name="login_specific_serve")
+	# Ocr-description 
+	O_LOGIN_ENTER_GAME_2 = RuleOcr(roi=(542,509,198,160), area=(565,540,154,120), mode="Single", method="Default", keyword="进入", name="login_enter_game_2")
 
 
