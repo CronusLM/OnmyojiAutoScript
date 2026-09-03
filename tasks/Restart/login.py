@@ -193,8 +193,9 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
                 if self.appear_then_click(self.I_EARLY_SERVER_CANCEL):
                     logger.info('Cancel switch from early server to normal server')
                     continue
-            # 新 UI 的"进入游戏"按钮位置/大小变化，双资产兼容；UI 改回旧版时旧资产自动再次命中
-            if self.ocr_appear_click(self.O_LOGIN_ENTER_GAME, interval=3) \
+            # 兼容多种 UI 的"进入游戏"按钮：ORIGIN(原版原坐标) → 十周年 → 新版 _2，命中任一即进入
+            if self.ocr_appear_click(self.O_LOGIN_ENTER_GAME_ORIGIN, interval=3) \
+                    or self.ocr_appear_click(self.O_LOGIN_ENTER_GAME, interval=3) \
                     or self.ocr_appear_click(self.O_LOGIN_ENTER_GAME_2, interval=3):
                 wait_timer = Timer(10).start()
                 while 1:
