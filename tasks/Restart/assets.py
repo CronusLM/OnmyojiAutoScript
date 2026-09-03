@@ -151,7 +151,5 @@ class RestartAssets:
 	O_LOGIN_SKIP_1 = RuleOcr(roi=(1046,35,130,37), area=(1046,35,130,37), mode="Single", method="Default", keyword="点击屏幕跳过", name="login_skip_1")
 	# 登录指定角色，默认第一个 
 	O_LOGIN_SPECIFIC_SERVE = RuleOcr(roi=(110,120,350,600), area=(110,120,350,600), mode="Full", method="Default", keyword="", name="login_specific_serve")
-	# Ocr-description 
-	O_LOGIN_ENTER_GAME_2 = RuleOcr(roi=(542,509,198,160), area=(565,540,154,120), mode="Single", method="Default", keyword="进入", name="login_enter_game_2")
 
 
