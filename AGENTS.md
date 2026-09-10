@@ -118,7 +118,7 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 - **贪吃鬼路径**：检测 `I_GREED_GHOST` → 等待 `I_REWARD` → 循环点击收菜
 - **奖励路径**：`I_REWARD` + `I_WIN` → 随机选择 `C_REWARD_1/2/3` 点击
 
-`battle_wait()` 签名必须含 `false_button=None` 参数（所有重写已修复 12 处）。
+凡普通 override `battle_wait(self, random_click_swipt_enable, false_button=None)` 必须接受 `false_button`（现 13 处 override 均已含）。上游策略化任务（EvoZone、ActivityShikigami 走 `battle_wait_strategy`）不支持 `false_button`，勿给它们传。
 
 ### 好友邀请突发处理
 
@@ -126,19 +126,17 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 
 ## 已知陷阱
 
-1. **Delegation 死循环**：`delegate_one()` 主循环无超时保护，遇到"已完成"委派页时无退出路径。所有 `while 1` 都应加 `Timer(N)` 兜底。
+> 每条标注 [状态]：未修 / 已修+commit / 已落地（代码即约束，勿回改）/ 已过时。随代码演进定期核对，失效即删。
 
-2. **Harvest 邮件循环**：`harvest_mail()` 仅靠邮件图标存在触发，庭院邮件图标常驻，导致反复进出邮箱。需加冷却或红点检测。
+1. [仍适用] **Delegation 死循环**：`delegate_one()` 内嵌 `ui_click` 与委派后 `while 1` 仍无超时（Delegation/script_task.py）。`I_D_BACK`（召回/返回）是现成出口，命中即退出。所有 `while 1` 都应加 `Timer(N)` 兜底。
 
-3. **RealmRaid 勋章检测**：`I_MEDAL_*` 的 `roi_back` 必须为全网格 `(140,129,1024,584)`，否则打完一个位置后 `find_one()` 返回 None 误判无结界。
+2. [已落地] **RealmRaid 勋章检测**：`I_MEDAL_*` 的 `roi_back` 必须保持全网格 `(140,129,1024,584)`，收窄会致打完一个位置后 `find_one()` 误判无结界。
 
-4. **`I_MAIN_GOTO_EXPLORATION` 云手机**：`roi_back` 已扩至 `(350,70,650,150)` 以扩大搜索范围。云手机无法匹配时需重新截图。
+3. [已落地] **`I_MAIN_GOTO_EXPLORATION` 云手机**：`roi_back` 现为 `(280,70,800,150)`（扩大搜索范围）。云手机无法匹配时需重新截图，勿回改小。
 
-5. **`I_FIRE_2` ROI**：寮突破进攻按钮 `roi_back` 已扩至 `(395,120,700,575)` 覆盖战斗区域。
+4. [已落地] **`I_FIRE_2` ROI**：寮突破进攻按钮 `roi_back` 为 `(395,120,700,575)` 覆盖战斗区域。
 
-6. **通知解析**：`dumpsys notification --noredact` 输出格式因 Android 版本而异。用 `NotificationRecord(` 分割 + `mCreationTimeMs=` 提取时间戳，避免依赖 `when=`。
-
-7. **`c_shrine` 导航降级**：神社按钮在 `page_summon` 未到达时不应执行，需加状态检查。
+5. [仍适用] **通知解析**：`dumpsys notification --noredact` 输出格式因 Android 版本而异。当前实现在 GuildActivityMonitor/script_task.py（用 `when=` 正则），若通知时间戳异常再切 `mCreationTimeMs=` 方案，避免依赖 `when=`。
 
 ## 调试经验
 
@@ -157,13 +155,47 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 - 日志按日滚动（`loop()` 中 `date.today()` 检测）
 - 时区强制 `Asia/Shanghai`（见 `server.py`）
 
+## 上游同步（merge upstream/dev）经验
+
+### 上游方向与本地方向相反处，多数保持本地
+- interval：上游倾向 0.8~2，本地铁律统一 **3**（云手机）。本地已在 base 后改过的 interval 行，三方合并会保留本地；净改动逐行以本地为准。
+- 失败按钮：上游切 `battle_wait` 策略框架后默认只认 `I_FALSE`；本地依赖 `false_button`（RyouToppa `I_FALSE_2`/loser_sign、RealmRaid 走 `battle_wait_v2`），**勿**让策略 def 自动合入这些任务。
+- RealmRaid 退四目标：本地 `index == 9`（先打第九格）vs 上游 `index == 1`，保持本地（6cf59a71）。
+
+### 陷阱：自动合并不报冲突，但产生语义错配
+- 例：RyouToppa 本地调用 `run_general_battle(false_button=self.I_FALSE_2)`，上游恰在文件另处加 `@battle_wait_strategy()` 的 `battle_wait` → git 自动合并无冲突，但策略 def 会静默忽略 `false_button`/`random_click_swipt_enable`（`battle_wait_with_strategy` 只认 `battle_wait_plan`/`options`），失败检测退回 `I_FALSE`，寮突破失败画面会卡死。
+- **同步后除解决冲突文件外，必须审查所有自动合并任务里通用方法（`battle_wait`/`battle_wait_v2`/策略 def）的最终形态**，尤其本地有 `false_button` 或特殊资产依赖的任务。
+
+### 校验流程（只读先行，避免返工）
+1. 预演冲突：`git merge-tree --write-tree --name-only dev upstream/dev`（只写对象库不动工作区），提前拿到冲突文件清单。
+2. 资产集合比对（防漏资产致 `AttributeError`）：`python dev_tools/sync_assets_check.py`（默认对比 upstream/dev，`--ref` 可指定）。
+3. 净变化审查：`git diff --cached dev -- <file> | rg -v '^[+-].*interval='` 过滤 interval 噪音，聚焦语义变化。
+4. 资产文件注释尾随空格来自上游/生成器，`git diff --check` 报警可忽略，勿手改生成文件（下次 `assets_extract` 会覆盖）。
+
+### 其它
+- 上游新增 `tests/`（pytest 回归），随 merge 带入本地；"无测试框架"仅指本地未配 CI/依赖。
+- 上游带回 `.github/` agentic workflow 编译产物（`gh-aw`），随 merge 整体跟随，勿手改。
+
+## Git 工作流
+
+- 主干 `dev` 跟踪 `origin/dev`（本 fork）；同步源为 `upstream`（runhey/OnmyojiAutoScript）
+- 上游合并全流程：
+  1. `git fetch upstream dev`
+  2. 只读预演冲突：`git merge-tree --write-tree --name-only dev upstream/dev`（git ≥2.38），提前拿到冲突文件清单
+  3. 建议合并前建备份：`git branch backup/dev-pre-merge-<短hash>`（惯例见 backup/dev-pre-merge-014219c8）
+  4. `git merge upstream/dev` 并解决冲突；**除冲突文件外必须审查自动合并文件里通用方法最终形态**（见"上游同步经验"）
+  5. 校验：`git diff --cached --check`（生成文件尾随空格可忽略）、`python dev_tools/sync_assets_check.py`、对改动 `.py` 做 `py_compile`
+  6. 提交信息沿用惯例：`Merge remote-tracking branch 'upstream/dev' into dev`
+- 常规提交 message：`<type>(<Task/Module>): <说明>`（chore/fix/feat/docs）
+- **push 前默认停在本地，由人工确认**；勿 amend 已推送提交
+
 ## 环境
 
 - 平台：**Windows**（部分功能依赖 `pywin32`）
 - OCR：ppocr-onnx，通过 `module/ocr/rpc.py` 启动独立 ZeroRPC 服务（端口 22268）
 - 设备连接：ADB + minitouch（首选）或 uiautomator2
 - 容器：`docker compose up`（`network_mode: host`）
-- **无测试框架**、无 lint/typecheck/pre-commit hooks
+- 本地**无测试框架**（无 pytest 依赖/CI）、无 lint/typecheck/pre-commit hooks；上游 dev 自建 `tests/`，`git merge upstream/dev` 会一并带入
 
 ## 工具链
 
@@ -171,5 +203,6 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 |------|------|
 | `pip install -r requirements.txt` | 安装依赖 |
 | `python dev_tools/assets_extract.py` | 从 `res/*.json` 生成 `assets.py` |
+| `python dev_tools/sync_assets_check.py` | 比对 upstream 与本地 assets.py 资产集合（缺失即报错） |
 | `python dev_tools/generate_requirements.py` | 用 `pip-compile` 生成 requirements.txt |
 | `docker compose up` | 启动 Docker 开发环境 |
