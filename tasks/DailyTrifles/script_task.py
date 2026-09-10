@@ -136,10 +136,10 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
             while 1:
                 self.screenshot()
                 if self.appear(self.I_RECALL_SM_CONFIRM, interval=3):
-                    self.ui_click_until_disappear(self.I_RECALL_SM_CONFIRM)
+                    self.ui_click_until_disappear(self.I_RECALL_SM_CONFIRM, interval=3)
                     break
                 if self.appear(self.I_SM_CONFIRM_2, interval=3):
-                    self.ui_click_until_disappear(self.I_SM_CONFIRM_2)
+                    self.ui_click_until_disappear(self.I_SM_CONFIRM_2, interval=3)
                     break
                 if self.appear(self.I_RECALL_ONE_TICKET, interval=3):
                     # 某些时候会点击到 "语言召唤"
@@ -180,7 +180,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
                 logger.warning('There is no any luck msg')
                 break
 
-        self.ui_click(self.I_UI_BACK_RED, self.I_CHECK_MAIN)
+        self.ui_click(self.I_UI_BACK_RED, self.I_CHECK_MAIN, interval=3)
 
     def run_friend_love(self):
         self.ui_get_current_page()
@@ -210,7 +210,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
                 logger.warning('There is no any love')
                 break
 
-        self.ui_click(self.I_UI_BACK_RED, self.I_CHECK_MAIN)
+        self.ui_click(self.I_UI_BACK_RED, self.I_CHECK_MAIN, interval=3)
 
     def run_store(self):
         self.ui_get_current_page()
@@ -221,7 +221,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
         if self.config.daily_trifles.trifles_config.buy_sushi_count > 0:
             self.run_buy_sushi()
 
-        self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MALL)
+        self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MALL, interval=3)
         self.ui_get_current_page()
         self.ui_goto(page_main)
 
