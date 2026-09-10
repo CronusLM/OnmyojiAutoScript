@@ -238,10 +238,16 @@ class GeneralBattleAssets:
 	C_END_GREED = RuleClick(roi_front=(138,16,512,93), roi_back=(138,16,512,93), name="end_greed")
 
 
+	# Click Rule Assets
+	# 获得奖励中间的区域 
+	C_END_ACTIVITY_REWARD = RuleClick(roi_front=(400,250,493,226), roi_back=(401,252,494,230), name="end_activity_reward")
+
+
 	# Image Rule Assets
 	# description 
-	I_END_FIX_1 = RuleImage(roi_front=(896,251,218,64), roi_back=(119,66,1136,620), threshold=0.8, method="Template matching", file="./tasks/Component/GeneralBattle/gw/gw_end_fix_1.png")
+	I_END_FIX_1 = RuleImage(roi_front=(721,119,89,58), roi_back=(119,66,1136,620), threshold=0.85, method="Template matching", file="./tasks/Component/GeneralBattle/gw/gw_end_fix_1.png")
 	# description 
-	I_END_FIX_2 = RuleImage(roi_front=(800,251,100,33), roi_back=(32,90,1137,547), threshold=0.7, method="Template matching", file="./tasks/Component/GeneralBattle/gw/gw_end_fix_2.png")
-
+	I_END_FIX_2 = RuleImage(roi_front=(800,251,100,33), roi_back=(32,90,1137,547), threshold=0.85, method="Template matching", file="./tasks/Component/GeneralBattle/gw/gw_end_fix_2.png")
+	#
+	I_END_FIX_3 = RuleImage(roi_front=(871,278,150,49), roi_back=(119,66,1136,620), threshold=0.85, method="Template matching", file="./tasks/Component/GeneralBattle/gw/gw_end_fix_3.png")
 
