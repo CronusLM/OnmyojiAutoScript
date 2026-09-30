@@ -44,11 +44,11 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
                     self.screenshot()
                     if self.appear(self.I_BET_LEFT) and self.appear(self.I_BET_RIGHT):
                         break
-                    if self.appear_then_click(self.I_BET_SUCCESS_BOX, interval=1):
+                    if self.appear_then_click(self.I_BET_SUCCESS_BOX, interval=3):
                         continue
-                    if self.appear_then_click(self.I_REWARD, interval=2):
+                    if self.appear_then_click(self.I_REWARD, interval=3):
                         continue
-                    if self.appear_then_click(self.I_NEXT_COMPETITION, interval=4):
+                    if self.appear_then_click(self.I_NEXT_COMPETITION, interval=3):
                         continue
                 continue
             # 竞猜失败
@@ -130,14 +130,14 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
             self.screenshot()
             if self.appear(self.I_BETTED):
                 break
-            if self.appear_then_click(self.I_BET_SURE, interval=2) and flag_glod_30 == 1:
+            if self.appear_then_click(self.I_BET_SURE, interval=3) and flag_glod_30 == 1:
                 continue
-            if self.appear_then_click(self.I_GOLD_30, interval=2):
+            if self.appear_then_click(self.I_GOLD_30, interval=3):
                 flag_glod_30 = 1
                 continue
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=2):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=2):
+            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3):
                 continue
 
     def detect(self) -> bool:
