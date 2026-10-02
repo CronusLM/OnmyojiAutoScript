@@ -886,21 +886,3 @@ class GameUi(BaseTask, GameUiAssets):
                     last_repeated_failure_close_result=last_repeated_failure_close_result,
                 )
                 raise GamePageUnknownError(f"Cannot goto page[{destination}]")
-
-
-    def ui_get_current_page(self, skip_first_screenshot: bool = True) -> Page | None:
-        """兼容旧接口：获取并缓存当前页面。"""
-        return self.get_current_page(skip_first_screenshot=skip_first_screenshot)
-
-    def ui_goto(self, destination: Page, confirm_wait: float = 0, skip_first_screenshot: bool = True,
-                timeout: int = 90) -> bool | None:
-        """兼容旧接口：导航到目标页面。"""
-        return self.goto_page(destination, confirm_wait=confirm_wait,
-                              skip_first_screenshot=skip_first_screenshot, timeout=timeout)
-
-    def ui_goto_page(self, dest_page: Page, confirm_wait: float = 0, skip_first_screenshot: bool = True,
-                     timeout: int = 90) -> bool | None:
-        """兼容旧接口：先识别当前页再导航。"""
-        self.ui_get_current_page()
-        return self.goto_page(dest_page, confirm_wait=confirm_wait,
-                              skip_first_screenshot=skip_first_screenshot, timeout=timeout)

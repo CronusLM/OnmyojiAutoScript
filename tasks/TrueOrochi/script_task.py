@@ -57,21 +57,18 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
             # 切换到八岐大蛇十层的预设
             ten_switch = self.config.orochi.switch_soul.ten_switch
             if ten_switch != '-1,-1':
-                self.ui_get_current_page()
-                self.ui_goto(page_shikigami_records)
+                self.goto_page(page_shikigami_records)
                 self.run_switch_soul(ten_switch)
 
             # 开启御魂加成（需在庭院界面操作）
             if self.config.orochi.orochi_config.soul_buff_enable:
-                self.ui_get_current_page()
-                self.ui_goto(page_main)
+                self.goto_page(page_main)
                 self.open_buff()
                 self.soul(is_open=True)
                 self.close_buff()
 
             # 前往御魂副本 → 选层 → 解锁
-            self.ui_get_current_page()
-            self.ui_goto(page_soul_zones)
+            self.goto_page(page_soul_zones)
             self.orochi_enter()
             self.check_layer(Layer.TEN)
             self.check_lock(False)
@@ -101,16 +98,14 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
 
             # 关闭御魂加成（需在庭院界面操作）
             if self.config.orochi.orochi_config.soul_buff_enable:
-                self.ui_get_current_page()
-                self.ui_goto(page_main)
+                self.goto_page(page_main)
                 self.open_buff()
                 self.soul(is_open=False)
                 self.close_buff()
 
             # 出了真蛇 → 切回真蛇的御魂预设
             if battle:
-                self.ui_get_current_page()
-                self.ui_goto(page_shikigami_records)
+                self.goto_page(page_shikigami_records)
                 if self.config.true_orochi.switch_soul.enable_switch_by_name:
                     self.run_switch_soul_by_name(
                         self.config.true_orochi.switch_soul.group_name,
@@ -118,8 +113,7 @@ class ScriptTask(OrochiScriptTask, TrueOrochiAssets):
                 elif self.config.true_orochi.switch_soul.enable:
                     self.run_switch_soul(
                         self.config.true_orochi.switch_soul.switch_group_team)
-                self.ui_get_current_page()
-                self.ui_goto(page_soul_zones)
+                self.goto_page(page_soul_zones)
                 self.orochi_enter()
 
         if not battle:
