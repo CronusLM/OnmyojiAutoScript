@@ -42,8 +42,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
         raise TaskEnd('DailyTrifles')
 
     def run_one_summon(self):
-        self.ui_get_current_page()
-        self.ui_goto(page_summon)
+        self.goto_page(page_summon)
         config=self.config.daily_trifles.trifles_config
         if config.summon_type == SummonType.default:
             self.summon_one(draw_mystery_pattern=config.draw_mystery_pattern)
@@ -81,10 +80,8 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
 
             for i in range(len(list)):
                 sleep(3)
-                self.ui_get_current_page()
-                self.ui_goto(page_main)
-                self.ui_get_current_page()
-                self.ui_goto(page_summon)
+                self.goto_page(page_main)
+                self.goto_page(page_summon)
                 self.appear_then_click(self.I_UI_BACK_RED, interval=3)
                 x, y = list[i].coord()
                 self.device.click(x, y)
@@ -153,8 +150,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
         pass
 
     def run_luck_msg(self):
-        self.ui_get_current_page()
-        self.ui_goto(page_friends)
+        self.goto_page(page_friends)
         while 1:
             self.screenshot()
             if self.appear(self.I_LUCK_TITLE):
@@ -183,8 +179,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
         self.ui_click(self.I_UI_BACK_RED, self.I_CHECK_MAIN, interval=3)
 
     def run_friend_love(self):
-        self.ui_get_current_page()
-        self.ui_goto(page_friends)
+        self.goto_page(page_friends)
         while 1:
             self.screenshot()
             if self.appear(self.I_L_LOVE):
@@ -213,8 +208,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
         self.ui_click(self.I_UI_BACK_RED, self.I_CHECK_MAIN, interval=3)
 
     def run_store(self):
-        self.ui_get_current_page()
-        self.ui_goto(page_mall, confirm_wait=3)
+        self.goto_page(page_mall, confirm_wait=3)
 
         if self.config.daily_trifles.trifles_config.store_sign:
             self.run_store_sign()
@@ -222,8 +216,7 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
             self.run_buy_sushi()
 
         self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MALL, interval=3, timeout=8)
-        self.ui_get_current_page()
-        self.ui_goto(page_main)
+        self.goto_page(page_main)
 
     def run_store_sign(self):
 

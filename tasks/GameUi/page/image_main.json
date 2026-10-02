@@ -1,0 +1,283 @@
+[
+  {
+    "itemName": "check_main",
+    "imageName": "page_check_main.png",
+    "roiFront": "807,108,76,45",
+    "roiBack": "49,98,1033,61",
+    "method": "Template matching",
+    "threshold": 0.95,
+    "description": "庭院标志"
+  },
+  {
+    "itemName": "main_scroll_close",
+    "imageName": "page_main_scroll_close.png",
+    "roiFront": "1181,634,28,39",
+    "roiBack": "1162,595,77,112",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "庭院卷轴关闭标识"
+  },
+  {
+    "itemName": "main_goto_exploration",
+    "imageName": "page_main_goto_exploration.png",
+    "roiFront": "660,100,40,70",
+    "roiBack": "280,70,800,150",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "庭院探索标志"
+  },
+  {
+    "itemName": "main_goto_town",
+    "imageName": "page_main_goto_town.png",
+    "roiFront": "706,249,61,57",
+    "roiBack": "200,120,951,298",
+    "method": "Template matching",
+    "threshold": 0.6,
+    "description": "庭院町中标志"
+  },
+  {
+    "itemName": "main_goto_shikigami_records",
+    "imageName": "page_main_goto_shikigami_records.png",
+    "roiFront": "1097,623,66,64",
+    "roiBack": "1080,607,100,90",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往式神录"
+  },
+  {
+    "itemName": "main_goto_onmyodo",
+    "imageName": "page_main_goto_onmyodo.png",
+    "roiFront": "972,601,88,81",
+    "roiBack": "960,590,120,100",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往阴阳术"
+  },
+  {
+    "itemName": "main_goto_friends",
+    "imageName": "page_main_goto_friends.png",
+    "roiFront": "862,601,85,81",
+    "roiBack": "845,590,120,100",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往好友"
+  },
+  {
+    "itemName": "main_goto_daily",
+    "imageName": "page_main_goto_daily.png",
+    "roiFront": "767,612,63,67",
+    "roiBack": "754,595,89,97",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "进入花合战"
+  },
+  {
+    "itemName": "main_goto_mall",
+    "imageName": "page_main_goto_mall.png",
+    "roiFront": "657,621,52,62",
+    "roiBack": "644,613,81,78",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往商店"
+  },
+  {
+    "itemName": "main_goto_guild",
+    "imageName": "page_main_goto_guild.png",
+    "roiFront": "527,622,80,62",
+    "roiBack": "508,605,120,100",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往阴阳寮"
+  },
+  {
+    "itemName": "main_goto_team",
+    "imageName": "page_main_goto_team.png",
+    "roiFront": "428,607,57,82",
+    "roiBack": "402,600,120,100",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往组队"
+  },
+  {
+    "itemName": "main_goto_collection",
+    "imageName": "page_main_goto_collection.png",
+    "roiFront": "82,601,72,81",
+    "roiBack": "70,590,120,100",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院前往图鉴"
+  },
+  {
+    "itemName": "main_goto_travel",
+    "imageName": "page_main_goto_travel.png",
+    "roiFront": "170,590,64,61",
+    "roiBack": "170,590,120,100",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "庭院前往珍旅居"
+  },
+  {
+    "itemName": "check_travel",
+    "imageName": "page_check_travel.png",
+    "roiFront": "1134,583,78,77",
+    "roiBack": "1134,583,78,77",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "珍旅居页面标志"
+  },
+  {
+    "itemName": "check_records",
+    "imageName": "page_check_records.png",
+    "roiFront": "269,71,55,50",
+    "roiBack": "269,71,55,50",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "式神录页面标志"
+  },
+  {
+    "itemName": "check_onmyodo",
+    "imageName": "page_check_onmyodo.png",
+    "roiFront": "1166,117,84,547",
+    "roiBack": "1166,117,84,547",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "阴阳术页面标志"
+  },
+  {
+    "itemName": "check_friends",
+    "imageName": "page_check_friends.png",
+    "roiFront": "27,251,29,47",
+    "roiBack": "5,216,86,106",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "好友页面标志"
+  },
+  {
+    "itemName": "check_daily",
+    "imageName": "page_check_daily.png",
+    "roiFront": "28,515,58,62",
+    "roiBack": "1,487,154,145",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "花合战页面标志"
+  },
+  {
+    "itemName": "check_mall",
+    "imageName": "page_check_mall.png",
+    "roiFront": "231,455,131,78",
+    "roiBack": "201,432,185,121",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "商店页面标志"
+  },
+  {
+    "itemName": "check_mall_recommend",
+    "imageName": "page_check_mall_recommend.png",
+    "roiFront": "930,12,42,37",
+    "roiBack": "905,0,100,100",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "商店推荐页面标志"
+  },
+  {
+    "itemName": "check_guild",
+    "imageName": "page_check_guild.png",
+    "roiFront": "1072,630,49,46",
+    "roiBack": "1072,630,49,46",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "阴阳寮页面标志"
+  },
+  {
+    "itemName": "check_team",
+    "imageName": "page_check_team.png",
+    "roiFront": "32,585,82,65",
+    "roiBack": "0,563,148,139",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "组队页面标志"
+  },
+  {
+    "itemName": "check_collection",
+    "imageName": "page_check_collection.png",
+    "roiFront": "380,620,100,100",
+    "roiBack": "371,608,880,112",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "图鉴页面标志"
+  },
+  {
+    "itemName": "back_daily",
+    "imageName": "page_back_daily.png",
+    "roiFront": "33,13,39,50",
+    "roiBack": "33,13,39,50",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "花合战退出标志"
+  },
+  {
+    "itemName": "main_goto_summon",
+    "imageName": "page_main_goto_summon.png",
+    "roiFront": "1073,174,57,65",
+    "roiBack": "571,153,586,124",
+    "method": "Template matching",
+    "threshold": 0.7,
+    "description": "庭院召唤标志"
+  },
+  {
+    "itemName": "check_summon",
+    "imageName": "page_check_summon.png",
+    "roiFront": "750,580,30,28",
+    "roiBack": "578,516,419,204",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "召唤页面标志"
+  },
+  {
+    "itemName": "check_shrin",
+    "imageName": "page_check_shrin.png",
+    "roiFront": "80,92,33,97",
+    "roiBack": "56,73,84,138",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "阴阳寮神社左上角"
+  },
+  {
+    "itemName": "guild_to_shrin",
+    "imageName": "page_guild_to_shrin.png",
+    "roiFront": "877,629,49,53",
+    "roiBack": "840,602,302,113",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "阴阳寮前往神社"
+  },
+  {
+    "itemName": "back_y",
+    "imageName": "page_back_y.png",
+    "roiFront": "15,4,57,52",
+    "roiBack": "1,2,100,91",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "黄色返回按钮(移植自mine)"
+  }
+,
+  {
+    "itemName": "back_yollow",
+    "imageName": "page_back_yollow.png",
+    "roiFront": "24,16,48,55",
+    "roiBack": "0,0,100,100",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "黄色返回按钮-大(移植自mine)"
+  }
+,
+  {
+    "itemName": "summon_goto_main",
+    "imageName": "page_summon_goto_main.png",
+    "roiFront": "27,5,49,51",
+    "roiBack": "0,0,100,100",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "召唤页返回主页(移植自mine)"
+  }
+]

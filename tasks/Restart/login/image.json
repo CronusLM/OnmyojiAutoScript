@@ -187,5 +187,14 @@
     "method": "Template matching",
     "threshold": 0.8,
     "description": "识别华为广告弹窗"
+  },
+  {
+    "itemName": "login_courtyard",
+    "imageName": "login_courtyard.png",
+    "roiFront": "40,640,100,50",
+    "roiBack": "40,640,100,50",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "庭院卷轴收起状态标志(移植自mine)"
   }
 ]

@@ -24,15 +24,13 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
     def run(self) -> bool:
         # 御魂切换方式一
         if self.config.orochi.switch_soul.enable:
-            self.ui_get_current_page()
-            self.ui_goto(page_shikigami_records)
+            self.goto_page(page_shikigami_records)
             if self.config.orochi.switch_soul.switch_group_team != '-1,-1':
                 self.run_switch_soul(self.config.orochi.switch_soul.switch_group_team)
 
         # 御魂切换方式二
         if self.config.orochi.switch_soul.enable_switch_by_name:
-            self.ui_get_current_page()
-            self.ui_goto(page_shikigami_records)
+            self.goto_page(page_shikigami_records)
             self.run_switch_soul_by_name(self.config.orochi.switch_soul.group_name,
                                          self.config.orochi.switch_soul.team_name)
         # 根据选层切换御魂
@@ -46,8 +44,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
 
         config: Orochi = self.config.orochi
         if not self.is_in_battle(True):
-            self.ui_get_current_page()
-            self.ui_goto(page_main)
+            self.goto_page(page_main)
             if config.orochi_config.soul_buff_enable:
                 self.open_buff()
                 self.soul(is_open=True)
@@ -63,14 +60,13 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
 
         # 御魂结束后检测是否出现真蛇
         if config.orochi_config.check_true_orochi_enable:
-            self.ui_get_current_page()
-            self.ui_goto(page_soul_zones)
+            self.goto_page(page_soul_zones)
             self.orochi_enter()
             self.screenshot()
             if self.appear(self.I_FIND_TS):
                 logger.info('Find true orochi after orochi battle, set TrueOrochi task to run now')
                 self.set_next_run(task='TrueOrochi', success=False, finish=False, server=False, target=datetime.now())
-        self.ui_goto(page_main)
+        self.goto_page(page_main)
         # 记得关掉
         if config.orochi_config.soul_buff_enable:
             self.open_buff()
@@ -137,8 +133,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
 
     def run_leader(self):
         logger.info('Start run leader')
-        self.ui_get_current_page()
-        self.ui_goto(page_soul_zones)
+        self.goto_page(page_soul_zones)
         self.orochi_enter()
         layer = self.config.orochi.orochi_config.layer
         self.check_layer(layer)
@@ -221,8 +216,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
         if self.exit_team():
             pass
 
-        self.ui_get_current_page()
-        self.ui_goto(page_main)
+        self.goto_page(page_main)
 
         if not success:
             return False
@@ -230,7 +224,6 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
 
     def run_member(self):
         logger.info('Start run member')
-        self.ui_get_current_page()
         # self.ui_goto(page_soul_zones)
         # self.orochi_enter()
         # self.check_lock(self.config.orochi.general_battle_config.lock_team_enable)
@@ -276,14 +269,12 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
                 pass
 
 
-        self.ui_get_current_page()
-        self.ui_goto(page_main)
+        self.goto_page(page_main)
         return True
 
     def run_alone(self):
         logger.info('Start run alone')
-        self.ui_get_current_page()
-        self.ui_goto(page_soul_zones)
+        self.goto_page(page_soul_zones)
         self.orochi_enter()
         layer = self.config.orochi.orochi_config.layer
         self.check_layer(layer)
@@ -329,16 +320,14 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
             if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
                 continue
 
-        self.ui_current = page_soul_zones
-        self.ui_goto(page_main)
+        self.goto_page(page_main)
 
     def run_wild(self):
         logger.info('Start run wild')
 
         # 已经在战斗中不必初始化，保证已经组队开始战斗的情况下可以自动执行后续任务
         if not self.is_in_battle(True):
-            self.ui_get_current_page()
-            self.ui_goto(page_soul_zones)
+            self.goto_page(page_soul_zones)
             self.orochi_enter()
             layer = self.config.orochi.orochi_config.layer
             self.check_layer(layer)
@@ -411,8 +400,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
         if self.exit_team():
             pass
 
-        self.ui_get_current_page()
-        self.ui_goto(page_main)
+        self.goto_page(page_main)
 
         if not success:
             return False
@@ -505,8 +493,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
                 group_team = orochi_switch_soul.thirteen_switch
 
         if orochi_switch_soul.auto_switch_soul and group_team and group_team != '-1,-1':
-            self.ui_get_current_page()
-            self.ui_goto(page_shikigami_records)
+            self.goto_page(page_shikigami_records)
             self.run_switch_soul(group_team)
 
 
