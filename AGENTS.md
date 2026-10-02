@@ -162,6 +162,11 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 - 失败按钮：上游切 `battle_wait` 策略框架后默认只认 `I_FALSE`；本地依赖 `false_button`（RyouToppa `I_FALSE_2`/loser_sign、RealmRaid 走 `battle_wait_v2`），**勿**让策略 def 自动合入这些任务。
 - RealmRaid 退四目标：本地 `index == 9`（先打第九格）vs 上游 `index == 1`，保持本地（6cf59a71）。
 
+### 核心框架改动只做延迟适配，不自行添加逻辑
+- 上游对核心框架（如 `GameUi`/`navigator` 等）的改版，本地**只允许**做云手机 timing 适配（`interval`/`sleep`/`timeout` 统一为 3 等），**禁止**自行添加、保留或恢复上游不存在的逻辑。
+- 若某任务依赖的接口被上游移除/改名，应让该任务**改用上游的新接口**（如 `ui_goto`/`ui_get_current_page` → `goto_page`/`get_current_page`），**不得**为旧调用补兼容 shim、转发方法或别名。
+- 反例（勿复现）：本次合并在 `tasks/GameUi/navigator.py` 末尾为 `ui_goto`/`ui_get_current_page`/`ui_goto_page` 补了兼容 shim；正确做法是把调用方（`TrueOrochi`、`WeeklyTrifles` 等）迁移到新接口。
+
 ### 陷阱：自动合并不报冲突，但产生语义错配
 - 例：RyouToppa 本地调用 `run_general_battle(false_button=self.I_FALSE_2)`，上游恰在文件另处加 `@battle_wait_strategy()` 的 `battle_wait` → git 自动合并无冲突，但策略 def 会静默忽略 `false_button`/`random_click_swipt_enable`（`battle_wait_with_strategy` 只认 `battle_wait_plan`/`options`），失败检测退回 `I_FALSE`，寮突破失败画面会卡死。
 - **同步后除解决冲突文件外，必须审查所有自动合并任务里通用方法（`battle_wait`/`battle_wait_v2`/策略 def）的最终形态**，尤其本地有 `false_button` 或特殊资产依赖的任务。
