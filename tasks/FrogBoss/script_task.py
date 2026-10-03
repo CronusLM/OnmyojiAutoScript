@@ -225,7 +225,31 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
         self.click(RuleClick(
             roi_front=area, roi_back=area, name='FB_GOLD_30_SELECT',
         ))
+        # 选中金额后会弹出奖励说明弹窗，必须先关闭再提交。
+        self.close_reward_notice()
         return True
+
+    def close_reward_notice(self):
+        # 弹窗可能滞后出现；先给它出现的窗口，未出现则视为本局无弹窗。
+        appear_timer = Timer(3).start()
+        while not appear_timer.reached():
+            self.screenshot()
+            if self.appear(self.I_BETTED) or self.appear(self.I_FROG_BOSS_REST):
+                return
+            if self.appear(self.I_GOLD_30_CHECK):
+                break
+        else:
+            return
+        # 出现后点到消失为止，期间绝不提交。
+        close_timer = Timer(10).start()
+        while not close_timer.reached():
+            self.screenshot()
+            if self.appear(self.I_BETTED) or self.appear(self.I_FROG_BOSS_REST):
+                return
+            if not self.appear(self.I_GOLD_30_CHECK):
+                return
+            self.click(self.C_REWARD_2, interval=3)
+        raise GameStuckError('FrogBoss reward notice did not close')
 
     def confirm_bet(self):
         logger.info('Formal bet')
