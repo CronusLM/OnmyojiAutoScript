@@ -39,7 +39,7 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
             self.screenshot()
             if self.appear(self.I_FROG_LOG_CHECK):
                 break
-            self.appear_then_click(self.I_FROG_LOG, interval=2)
+            self.appear_then_click(self.I_FROG_LOG, interval=3)
         else:
             raise GameStuckError('FrogBoss record page did not open')
         try:
@@ -63,7 +63,7 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
                 self.screenshot()
                 if not self.appear(self.I_FROG_LOG_CHECK) and self.appear(self.I_FROG_CHECK):
                     break
-                self.appear_then_click(self.I_FROG_LOG_CLOSE, interval=2)
+                self.appear_then_click(self.I_FROG_LOG_CLOSE, interval=3)
             else:
                 raise GameStuckError('FrogBoss record page did not close')
 
@@ -79,7 +79,7 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
         if not self.appear(self.I_FROG_CHECK):
             idle_timer.reset()
             return False
-        if idle_timer.reached() and self.appear_then_click(self.I_NEXT_COMPETITION, interval=1):
+        if idle_timer.reached() and self.appear_then_click(self.I_NEXT_COMPETITION, interval=3):
             logger.info('FrogBoss idle for 5 seconds; advance via next-competition fallback')
             idle_timer.reset()
             return True
