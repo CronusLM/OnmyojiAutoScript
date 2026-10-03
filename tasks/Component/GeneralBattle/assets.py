@@ -64,6 +64,11 @@ class GeneralBattleAssets:
 	C_GREEN_MARK_AREA = RuleClick(roi_front=(0,0,1280,720), roi_back=(0,0,1280,720), name="green_mark_area")
 	# 战斗的时候有一定的概率随机点击 
 	C_RANDOM_CLICK = RuleClick(roi_front=(104,79,1050,507), roi_back=(255,65,100,100), name="random_click")
+	# 结算安全随机点击区域(移植自mine) 
+	C_RANDOM_LEFT = RuleClick(roi_front=(17,104,55,370), roi_back=(17,104,55,370), name="random_left")
+	C_RANDOM_RIGHT = RuleClick(roi_front=(1185,115,79,388), roi_back=(1185,115,79,388), name="random_right")
+	C_RANDOM_TOP = RuleClick(roi_front=(250,58,868,68), roi_back=(250,58,868,68), name="random_top")
+	C_RANDOM_BOTTOM = RuleClick(roi_front=(462,599,492,78), roi_back=(462,599,492,78), name="random_bottom")
 
 
 	# Image Rule Assets

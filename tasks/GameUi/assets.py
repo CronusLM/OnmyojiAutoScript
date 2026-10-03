@@ -11,15 +11,15 @@ class GameUiAssets:
 
 
 	# Image Rule Assets
-	# 商店弹窗红色关闭 
-	I_AD_CLOSE_RED = RuleImage(roi_front=(993,130,33,36), roi_back=(953,91,215,121), threshold=0.8, method="Template matching", file="./tasks/GameUi/additional/additional_ad_close_red.png")
-
-
-	# Image Rule Assets
 	# description 
 	I_PAPER_DOLL_CLOSE = RuleImage(roi_front=(1253,102,25,62), roi_back=(1238,58,40,153), threshold=0.8, method="Template matching", file="./tasks/GameUi/additional/additional_paper_doll_close.png")
 	# 庭院进入活动标志 
 	I_ACT_LIST_EXPAND = RuleImage(roi_front=(1186,141,40,41), roi_back=(1162,110,92,103), threshold=0.8, method="Template matching", file="./tasks/GameUi/additional/additional_act_list_expand.png")
+
+
+	# Image Rule Assets
+	# 商店弹窗红色关闭 
+	I_AD_CLOSE_RED = RuleImage(roi_front=(993,130,33,36), roi_back=(953,91,215,121), threshold=0.8, method="Template matching", file="./tasks/GameUi/additional/additional_ad_close_red.png")
 
 
 	# Image Rule Assets
@@ -73,7 +73,7 @@ class GameUiAssets:
 	# 契灵页面标志 
 	I_CHECK_BONDLING_FAIRYLAND = RuleImage(roi_front=(614,660,56,49), roi_back=(582,630,130,90), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_check_bondling_fairyland.png")
 	# 寮突切换到个突按钮 
-	I_RYOUTOPPA_GOTO_REALMRAID = RuleImage(roi_front=(1197,255,62,105), roi_back=(1197,255,62,105), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_ryoutoppa_goto_realmraid.png")
+	I_RYOUTOPPA_GOTO_REALMRAID = RuleImage(roi_front=(1201,234,62,105), roi_back=(1201,234,62,105), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_ryoutoppa_goto_realmraid.png")
 	# 寮突页面标志 
 	I_KEKKAI_TOPPA = RuleImage(roi_front=(1065,3,203,61), roi_back=(1065,3,203,61), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_kekkai_toppa.png")
 	# 突破进入式神录按钮 
@@ -108,29 +108,29 @@ class GameUiAssets:
 
 	# Image Rule Assets
 	# 庭院标志 
-	I_CHECK_MAIN = RuleImage(roi_front=(807,108,76,45), roi_back=(49,98,1033,61), threshold=0.9, method="Template matching", file="./tasks/GameUi/page/page_check_main.png")
+	I_CHECK_MAIN = RuleImage(roi_front=(807,108,76,45), roi_back=(49,98,1033,74), threshold=0.9, method="Template matching", file="./tasks/GameUi/page/page_check_main.png")
 	# 庭院卷轴关闭标识 
 	I_MAIN_SCROLL_CLOSE = RuleImage(roi_front=(1181,634,28,39), roi_back=(1162,595,77,112), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_main_scroll_close.png")
 	# 庭院探索标志 
-	I_MAIN_GOTO_EXPLORATION = RuleImage(roi_front=(660,100,40,70), roi_back=(280,70,800,150), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_main_goto_exploration.png")
+	I_MAIN_GOTO_EXPLORATION = RuleImage(roi_front=(493,116,45,75), roi_back=(243,100,933,211), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_main_goto_exploration.png")
 	# 庭院町中标志 
 	I_MAIN_GOTO_TOWN = RuleImage(roi_front=(706,249,61,57), roi_back=(200,120,951,298), threshold=0.6, method="Template matching", file="./tasks/GameUi/page/page_main_goto_town.png")
 	# 庭院前往式神录 
-	I_MAIN_GOTO_SHIKIGAMI_RECORDS = RuleImage(roi_front=(1097,623,66,64), roi_back=(1080,607,100,90), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_shikigami_records.png")
+	I_MAIN_GOTO_SHIKIGAMI_RECORDS = RuleImage(roi_front=(1080,590,56,64), roi_back=(1080,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_shikigami_records.png")
 	# 庭院前往阴阳术 
-	I_MAIN_GOTO_ONMYODO = RuleImage(roi_front=(972,601,88,81), roi_back=(960,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_onmyodo.png")
+	I_MAIN_GOTO_ONMYODO = RuleImage(roi_front=(960,590,39,36), roi_back=(960,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_onmyodo.png")
 	# 庭院前往好友 
-	I_MAIN_GOTO_FRIENDS = RuleImage(roi_front=(862,601,85,81), roi_back=(845,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_friends.png")
+	I_MAIN_GOTO_FRIENDS = RuleImage(roi_front=(845,590,55,55), roi_back=(845,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_friends.png")
 	# 进入花合战 
-	I_MAIN_GOTO_DAILY = RuleImage(roi_front=(767,612,63,67), roi_back=(754,595,89,97), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_daily.png")
+	I_MAIN_GOTO_DAILY = RuleImage(roi_front=(790,618,49,40), roi_back=(735,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_daily.png")
 	# 庭院前往商店 
-	I_MAIN_GOTO_MALL = RuleImage(roi_front=(657,621,52,62), roi_back=(644,613,81,78), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_mall.png")
+	I_MAIN_GOTO_MALL = RuleImage(roi_front=(664,661,40,18), roi_back=(601,613,163,78), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_mall.png")
 	# 庭院前往阴阳寮 
-	I_MAIN_GOTO_GUILD = RuleImage(roi_front=(527,622,80,62), roi_back=(508,605,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_guild.png")
+	I_MAIN_GOTO_GUILD = RuleImage(roi_front=(495,590,50,22), roi_back=(495,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_guild.png")
 	# 庭院前往组队 
-	I_MAIN_GOTO_TEAM = RuleImage(roi_front=(428,607,57,82), roi_back=(402,600,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_team.png")
+	I_MAIN_GOTO_TEAM = RuleImage(roi_front=(395,590,38,48), roi_back=(395,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_team.png")
 	# 庭院前往图鉴 
-	I_MAIN_GOTO_COLLECTION = RuleImage(roi_front=(82,601,72,81), roi_back=(70,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_collection.png")
+	I_MAIN_GOTO_COLLECTION = RuleImage(roi_front=(70,590,36,41), roi_back=(70,590,120,100), threshold=0.7, method="Template matching", file="./tasks/GameUi/page/page_main_goto_collection.png")
 	# 庭院前往珍旅居 
 	I_MAIN_GOTO_TRAVEL = RuleImage(roi_front=(170,590,64,61), roi_back=(170,590,120,100), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_main_goto_travel.png")
 	# 珍旅居页面标志 
@@ -163,11 +163,11 @@ class GameUiAssets:
 	I_CHECK_SHRIN = RuleImage(roi_front=(80,92,33,97), roi_back=(56,73,84,138), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_check_shrin.png")
 	# 阴阳寮前往神社 
 	I_GUILD_TO_SHRIN = RuleImage(roi_front=(877,629,49,53), roi_back=(840,602,302,113), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_guild_to_shrin.png")
-	# 黄色返回按钮(移植自mine) 
+	# 黄色返回按钮 
 	I_BACK_Y = RuleImage(roi_front=(15,4,57,52), roi_back=(1,2,100,91), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_back_y.png")
-	# 黄色返回按钮-大(移植自mine) 
+	# 黄色返回按钮-大 
 	I_BACK_YOLLOW = RuleImage(roi_front=(24,16,48,55), roi_back=(0,0,100,100), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_back_yollow.png")
-	# 召唤页返回主页(移植自mine) 
+	# 召唤页返回主页 
 	I_SUMMON_GOTO_MAIN = RuleImage(roi_front=(27,5,49,51), roi_back=(0,0,100,100), threshold=0.8, method="Template matching", file="./tasks/GameUi/page/page_summon_goto_main.png")
 
 
