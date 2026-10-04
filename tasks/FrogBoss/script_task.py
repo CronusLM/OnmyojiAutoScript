@@ -213,7 +213,7 @@ class ScriptTask(RightActivity, FrogBossAssets, GeneralBattleAssets):
             case _:
                 raise ValueError(f'Unknown bet mode: {self.config.model.frog_boss.frog_boss_config.strategy_frog}')
         logger.info(f'You strategy is {self.config.model.frog_boss.frog_boss_config.strategy_frog} and bet on {click_image}')
-        self.ui_click_until_disappear(click_image)
+        self.ui_click_until_disappear(click_image, interval=3)
         self.confirm_bet()
 
     def select_gold_30(self):
