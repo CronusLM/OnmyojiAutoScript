@@ -107,7 +107,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_WIN) or self.appear(self.I_REWARD):
                 logger.info('Win battle')
-                self.ui_click_until_disappear(self.I_WIN)
+                self.ui_click_until_disappear(self.I_WIN, interval=3)
                 while 1:
                     self.screenshot()
                     if self.appear(self.I_CHECK_MAIN) or self.appear(self.I_CHECK_TEAM):
