@@ -77,7 +77,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
         self.gold_exit(con)
 
 
-    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
         # 重写
         self.device.stuck_record_add('BATTLE_STATUS_S')
         self.device.click_record_clear()

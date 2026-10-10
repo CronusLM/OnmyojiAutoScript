@@ -134,11 +134,11 @@ class Foot(StateMachine, GameUi, BaseActivity, SwitchSoul, ActivityShikigamiAsse
         # 运行战斗
         return self.run_general_battle(config=self.get_general_battle_conf())
 
-    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
         func = getattr(self, f'battle_wait_daily_training', self.battle_wait_daily_training)
         return func(random_click_swipt_enable)
 
-    def battle_wait_daily_training(self, random_click_swipt_enable: bool):
+    def battle_wait_daily_training(self, random_click_swipt_enable: bool) -> bool:
         self.C_REWARD_1.name, self.C_REWARD_2.name, self.C_REWARD_3.name = 'C_REWARD', 'C_REWARD', 'C_REWARD'
         self.device.stuck_record_add('BATTLE_STATUS_S')
         self.device.click_record_clear()
@@ -175,7 +175,7 @@ class Foot(StateMachine, GameUi, BaseActivity, SwitchSoul, ActivityShikigamiAsse
                 self.random_click_swipt()
         return False
 
-    def battle_wait_cultivation_drills(self, random_click_swipt_enable: bool):
+    def battle_wait_cultivation_drills(self, random_click_swipt_enable: bool) -> bool:
         self.C_REWARD_1.name, self.C_REWARD_2.name, self.C_REWARD_3.name = 'C_REWARD', 'C_REWARD', 'C_REWARD'
         self.device.stuck_record_add('BATTLE_STATUS_S')
         self.device.click_record_clear()
