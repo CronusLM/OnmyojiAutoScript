@@ -157,7 +157,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
         # 点击队伍
         target_team = get_team_asset(team)
         for i in range(3):
-            sleep(0.8)
+            sleep(3)
             self.screenshot()
             if self.appear(self.I_SOU_SWITCH_SURE):
                 while 1:
