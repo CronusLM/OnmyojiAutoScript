@@ -56,7 +56,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 break
             if self.appear(self.I_SHI_GROWN):
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
 
         if con.exchange_max:
@@ -111,7 +111,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
         self.goto_cards()
         # 太诡异了 为什么有这么长的动画, 那么长的动画先休息一会
         logger.hr('Start activation')
-        time.sleep(0.5)
+        time.sleep(3)
         while 1:
             self.screenshot()
             card_status = self.check_card_status()
@@ -136,14 +136,19 @@ class ScriptTask(KU, KekkaiActivationAssets):
             # 如果已经选中这张卡了， 那就激活这张卡
             if card_status and not card_effect:
                 logger.info('Card is selected but not using')
+                timer = Timer(60).start()
                 while 1:
+                    if timer.reached():
+                        logger.error('激活等待超时 60s，判定卡异常')
+                        self.save_image(push_flag=True, content='激活超时')
+                        raise GameStuckError('Activation timeout waiting for I_A_INVITE')
                     self.screenshot()
                     if self.appear(self.I_A_INVITE, threshold=0.8):
                         logger.info('Card is activated')
                         break
-                    if self.appear_then_click(self.I_UI_CONFIRM, interval=0.6):
+                    if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                         continue
-                    if self.appear_then_click(self.I_A_ACTIVATE_YELLOW, interval=1):
+                    if self.appear_then_click(self.I_A_ACTIVATE_YELLOW, interval=3):
                         continue
                 interval = self.ocr_time(True)
                 self.set_next_run("KekkaiActivation", target=interval + datetime.now())
@@ -165,7 +170,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 break
             if self.appear(self.I_A_AUTO_INVITE):
                 break
-            if self.appear_then_click_multi_scale(self.I_SHI_CARD, interval=1):
+            if self.appear_then_click_multi_scale(self.I_SHI_CARD, interval=3):
                 continue
         logger.info('Enter card page')
 
@@ -235,18 +240,18 @@ class ScriptTask(KU, KekkaiActivationAssets):
             self.screenshot()
 
             if self.appear(target_class):
-                time.sleep(0.3)
+                time.sleep(3)
                 self.screenshot()
                 if self.appear(target_class):
                     break
-            if self.click(self.C_A_SELECT_CARD_LIST, interval=2.5):
+            if self.click(self.C_A_SELECT_CARD_LIST, interval=3):
                 continue
         logger.info('Appear card class: {}'.format(card_class))
         while 1:
             self.screenshot()
             if not self.appear(target_class):
                 break
-            if self.appear_then_click(target_class, interval=1):
+            if self.appear_then_click(target_class, interval=3):
                 continue
         logger.info('Selected card class: {}'.format(card_class))
 
@@ -259,11 +264,19 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 continue
             if not self.appear(self.I_A_EMPTY):
                 slot_results = self.O_SLOT_CARD_NUMBER.detect_and_ocr(self.device.image)
-                slot_numbers = []
+                slot_yield = 0
+                target_keyword = '体力' if _config.card_type == CardType.FISH else '勾玉'
+
                 for r in slot_results:
-                    nums = [int(n) for n in re.findall(r'\d+', r.ocr_text)]
-                    slot_numbers.extend(nums)
-                slot_yield = max(slot_numbers) if slot_numbers else 0
+                    text = r.ocr_text
+                    if target_keyword not in text and '力' not in text and '勾' not in text:
+                        continue
+                    nums = [int(n) for n in re.findall(r'\d+', text)]
+                    if nums:
+                        slot_yield = max(slot_yield, nums[0])
+
+                if slot_yield == 0:
+                    logger.warning('未识别到卡槽收益数值，按 0 处理')
                 if slot_yield >= target_yield:
                     logger.info(f'卡槽现有卡收益 {slot_yield} ≥ 目标 {target_yield}，跳过')
                     self.config.kekkai_activation.activation_config.card_not_found_count = 0
@@ -271,7 +284,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                     return
                 logger.info(f'卡槽现有卡收益 {slot_yield} < 目标 {target_yield}，替换')
             self.click(target)
-            time.sleep(0.5)
+            time.sleep(3)
             self.config.kekkai_activation.activation_config.card_not_found_count = 0
             self.config.save()
             message = f'✅ 确认挂卡: {rule}'
@@ -337,7 +350,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 p2 = (safe_pos_x, safe_pos_y - 410)
                 logger.info('Swipe %s -> %s, %sS ' % (point2str(*p1), point2str(*p2), duration))
                 self.device.swipe_adb(p1, p2, duration=duration)
-                time.sleep(1)
+                time.sleep(3)
                 continue
 
     def _card_not_found(self):
@@ -402,8 +415,8 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 if not self.appear(self.I_REALM_SHIN):
                     continue
                 break
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.5):
-                time.sleep(1.5)
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3):
+                time.sleep(3)
                 continue
 
     def harvest_card(self):
