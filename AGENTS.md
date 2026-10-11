@@ -118,7 +118,25 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 - **贪吃鬼路径**：检测 `I_GREED_GHOST` → 等待 `I_REWARD` → 循环点击收菜
 - **奖励路径**：`I_REWARD` + `I_WIN` → 随机选择 `C_REWARD_1/2/3` 点击
 
-凡普通 override `battle_wait(self, random_click_swipt_enable, false_button=None)` 必须接受 `false_button`（现 13 处 override 均已含）。上游策略化任务（EvoZone、ActivityShikigami 走 `battle_wait_strategy`）不支持 `false_button`，勿给它们传。
+### battle_wait 双系统共存现状
+
+当前代码库存在两套战斗等待系统并行：
+
+| 系统 | 位置 | `false_button` 支持 | 适用任务 |
+|------|------|-------------------|---------|
+| **旧版（遗留）** | `GeneralBattle.battle_wait()` (general_battle.py:193) | ✅ 支持 `false_button` 参数 | GoldYoukai, DemonRetreat, Tako, BudokaiTournament, Secret, ExperienceYoukai, HeroTest, Hunt, MetaDemon, Orochi, RealmRaid (11 任务) |
+| **新版（策略）** | `battle_wait.py` + `@battle_wait_strategy` | ❌ 硬编码 `I_FALSE` | EvoZone, FallenSun, `battle.py` 组件 |
+
+**关键约定**：
+- 旧版系统的 `false_button` 参数**必须保留**，供 RyouToppa (`I_FALSE_2`) 等特殊任务使用
+- 新策略系统不支持 `false_button`，失败检测固定用 `I_FALSE`
+- 11 个旧版任务均通过 `run_general_battle()` 调用，父类会传递 `false_button`
+- 凡 override `battle_wait(self, random_click_swipt_enable, false_button=None)` **必须接受 `false_button`**（11 处 override 均已恢复）
+- 上游策略化任务（EvoZone、ActivityShikigami 走 `battle_wait_strategy`）不支持 `false_button`，勿给它们传
+- RyouToppa 通过 `run_general_battle(false_button=self.I_FALSE_2)` 显式传递自定义失败按钮
+- RealmRaid 调用 `battle_wait_v2()`（中间版本），仅签名兼容 `false_button`，内部不使用
+
+> **历史教训**：提交 `7ebc1200` 误从 11 任务移除 `false_button`，导致 `TypeError`。已在 `1791684242742` 报错后恢复。
 
 ### 好友邀请突发处理
 

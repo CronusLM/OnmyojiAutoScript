@@ -146,7 +146,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralInvite, SwitchSoul, HuntAssets):
         logger.info('Start battle')
         self.run_general_battle(self.config.hunt.netherworld_battle_config)
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         """
         重写，
         阴界之门： 胜利后回到狩猎战的主界面
@@ -171,9 +171,10 @@ class ScriptTask(GameUi, GeneralBattle, GeneralInvite, SwitchSoul, HuntAssets):
                 self.ui_click_until_disappear(self.I_WIN, interval=3)
                 return True
             # 如果出现失败 就点击，返回False
-            if self.appear(self.I_FALSE, threshold=0.8):
+            false_btn = false_button or self.I_FALSE
+            if self.appear(false_btn, threshold=0.8):
                 logger.info("Battle result is false")
-                self.ui_click_until_disappear(self.I_FALSE, interval=3)
+                self.ui_click_until_disappear(false_btn, interval=3)
                 return False
             if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3):
                 logger.info('Netherworld click prepare after maybe failed')

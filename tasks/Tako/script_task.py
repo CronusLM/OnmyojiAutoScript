@@ -97,7 +97,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul):
         self.set_next_run(task='Tako', success=True, finish=False)
         raise TaskEnd('Tako')
 
-    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
         # 重写
         self.device.stuck_record_add('BATTLE_STATUS_S')
         self.device.click_record_clear()
@@ -116,9 +116,10 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul):
                         continue
                 return True
 
-            if self.appear(self.I_FALSE):
+            false_btn = false_button or self.I_FALSE
+            if self.appear(false_btn):
                 logger.warning('False battle')
-                self.ui_click_until_disappear(self.I_FALSE)
+                self.ui_click_until_disappear(false_btn)
                 return False
 
 if __name__ == '__main__':
