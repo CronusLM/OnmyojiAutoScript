@@ -547,13 +547,13 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, AbyssShadowsAssets):
             self.screenshot()
             if self.appear_then_click(self.I_EXIT, interval=3):
                 continue
-            if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
             if self.appear_then_click(self.I_WIN, interval=3):
                 continue
             if self.appear(self.I_ABYSS_NAVIGATION):
                 break
-        logger.info(f"Click {self.I_EXIT_ENSURE.name}")
+        logger.info(f"Click {self.I_UI_CONFIRM.name}")
 
         return True
 

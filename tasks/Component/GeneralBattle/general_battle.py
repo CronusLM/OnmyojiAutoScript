@@ -106,19 +106,19 @@ class GeneralBattle(BattleWait, GeneralBuff):
                 break
         logger.info(f"Click {self.I_EXIT.name}")
 
-if exit_four:
+        if exit_four:
             # 退四：退出确认后等待失败画面（最多10秒超时），防止卡死
             timeout_check = Timer(10).start()
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+                if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                     continue
                 if self.appear(self.I_FALSE):
                     break
                 if timeout_check.reached():
                     logger.warning("Exit four: timeout waiting for failure screen after exit confirm")
                     break
-            logger.info(f"Click {self.I_EXIT_ENSURE.name}")
+            logger.info(f"Click {self.I_UI_CONFIRM.name}")
 
             # 点击失败确认（如有）
             while 1:
@@ -141,11 +141,11 @@ if exit_four:
             # 原逻辑不变（非退四场景）
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+                if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                     continue
                 if self.appear(self.I_FALSE):
                     break
-            logger.info(f"Click {self.I_EXIT_ENSURE.name}")
+            logger.info(f"Click {self.I_UI_CONFIRM.name}")
 
             self.wait_until_appear(self.I_FALSE)
             while 1:
@@ -181,7 +181,7 @@ if exit_four:
         # 点击返回确认
         while 1:
             self.screenshot()
-if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
             if self.appear_then_click(self.I_FALSE, interval=3):
                 continue
@@ -331,7 +331,7 @@ if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
                     # logger.info(f'_appear_ghost: {_appear_ghost} _appear_reward: {_appear_reward} _appear_gold: {_appear_gold}')
                     if any([_appear_ghost, _appear_reward, _appear_gold]):
                         action_click = random.choice([self.C_REWARD_1, self.C_REWARD_2, self.C_REWARD_3])
-                        self.click(action_click, interval=1.5)
+                        self.click(action_click, interval=3)
                     else:
                         logger.info('Battle done')
                         return True
