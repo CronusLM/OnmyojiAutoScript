@@ -8,7 +8,7 @@ from cached_property import cached_property
 from tasks.base_task import BaseTask
 from tasks.Component.GeneralBattle.general_battle import GeneralBattle
 from tasks.GameUi.game_ui import GameUi
-from tasks.GameUi.page import page_realm_raid, page_main, page_shikigami_records
+from tasks.GameUi.page import page_realm_raid, page_main, page_shikigami_records, page_exploration
 from tasks.RealmRaid.assets import RealmRaidAssets
 from tasks.RealmRaid.config import RealmRaid, RaidMode, AttackNumber, WhenAttackFail
 from tasks.Component.SwitchSoul.switch_soul import SwitchSoul
@@ -231,7 +231,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                 break
 
 
-        self.ui_click(self.I_BACK_RED, self.I_CHECK_EXPLORATION)
+        self.goto_page(page_exploration)
         self.goto_page(page_main)
         self.set_next_run(task='RealmRaid', success=success, finish=True)
         raise TaskEnd
