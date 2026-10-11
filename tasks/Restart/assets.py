@@ -94,8 +94,7 @@ class RestartAssets:
 	# 卷轴关闭区域点击(用户新增，用于点击I_LOGIN_SCROOLL_CLOSE的区域而不依赖图片识别) 
 	C_LOGIN_SCROLL_CLOSE_AREA = RuleClick(roi_front=(1181,634,28,39), roi_back=(1162,595,77,112), name="login_scroll_close_area")
 
-
-	# Ocr Rule Assets
+# Ocr Rule Assets
 	# 正在连接服务器 
 	O_LOGIN_NETWORK = RuleOcr(roi=(534,649,189,39), area=(210,492,100,100), mode="Single", method="Default", keyword="正在连接服务器", name="login_network")
 	# Ocr-description 

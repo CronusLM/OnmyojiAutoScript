@@ -102,11 +102,11 @@ class GeneralBattle(BattleWait, GeneralBuff):
             self.screenshot()
             if self.appear_then_click(self.I_EXIT, interval=3):
                 continue
-            if self.appear(self.I_EXIT_ENSURE):
+            if self.appear(self.I_UI_CONFIRM):
                 break
         logger.info(f"Click {self.I_EXIT.name}")
 
-        if exit_four:
+if exit_four:
             # 退四：退出确认后等待失败画面（最多10秒超时），防止卡死
             timeout_check = Timer(10).start()
             while 1:
@@ -129,6 +129,15 @@ class GeneralBattle(BattleWait, GeneralBuff):
                     break
             logger.info(f"Click {self.I_FALSE.name} (exit_four)")
         else:
+            # 点击返回确认
+            while 1:
+                self.screenshot()
+                if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
+                    continue
+                if self.appear(self.I_FALSE):
+                    break
+            logger.info(f"Click {self.I_UI_CONFIRM.name}")
+
             # 原逻辑不变（非退四场景）
             while 1:
                 self.screenshot()
@@ -166,13 +175,13 @@ class GeneralBattle(BattleWait, GeneralBuff):
             self.screenshot()
             if self.appear_then_click(self.I_EXIT, interval=3):
                 continue
-            if self.appear(self.I_EXIT_ENSURE):
+            if self.appear(self.I_UI_CONFIRM):
                 break
 
         # 点击返回确认
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
+if self.appear_then_click(self.I_EXIT_ENSURE, interval=3):
                 continue
             if self.appear_then_click(self.I_FALSE, interval=3):
                 continue
