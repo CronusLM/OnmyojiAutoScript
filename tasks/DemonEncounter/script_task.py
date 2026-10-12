@@ -386,7 +386,8 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_JADE_50):
                 break
-            if self.click(target_click, interval=1):
+            click_interval = 3
+            if self.click(target_click, interval=click_interval):
                 continue
         while 1:
             self.screenshot()
@@ -436,7 +437,8 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_LETTER_CLOSE):
                 break
-            if self.click(target_click, interval=1):
+            click_interval = 3
+            if self.click(target_click, interval=click_interval):
                 continue
         logger.info('Question answering Start')
         for i in range(1, 4):
@@ -488,7 +490,8 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                         continue
                 break
 
-            if self.click(target_click, interval=1):
+            click_interval = 3
+            if self.click(target_click, interval=click_interval):
                 continue
         if self.run_general_battle():
             logger.info('Battle End')
@@ -500,10 +503,11 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             if not self.appear(self.I_DE_LOCATION):
                 logger.info('Battle Start')
                 break
-            if self.appear_then_click(self.I_DE_REALM_FIRE, interval=0.7):
-                continue
+            realm_fire_interval = 3
+            if self.appear_then_click(self.I_DE_REALM_FIRE, interval=realm_fire_interval):
 
-            if self.click(target_click, interval=1):
+            click_interval = 3
+            if self.click(target_click, interval=click_interval):
                 continue
         if self.run_general_battle():
             logger.info('Battle End')
