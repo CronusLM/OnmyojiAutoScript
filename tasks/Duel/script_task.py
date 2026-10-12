@@ -116,10 +116,10 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
         while not self.is_in_battle_prepare():
             self.screenshot()
             # 战斗按钮
-            self.ui_click_until_disappear(self.I_D_BATTLE, interval=1.2)
-            self.ui_click_until_disappear(self.I_D_BATTLE2, interval=1.2)
+            self.ui_click_until_disappear(self.I_D_BATTLE, interval=3)
+            self.ui_click_until_disappear(self.I_D_BATTLE2, interval=3)
             # 战斗带保护的按钮
-            self.ui_click_until_disappear(self.I_D_BATTLE_PROTECT, interval=1.2)
+            self.ui_click_until_disappear(self.I_D_BATTLE_PROTECT, interval=3)
 
     def battle_prepare(self):
         """选式神准备斗技阶段"""
@@ -137,11 +137,11 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
                 continue
             not_in_prepare_cnt = 0
             # 再次检查是否是名仕(若斗技主界面识别名仕失效的话)
-            if self.appear_then_click(self.I_BAN, interval=1.2):
+            if self.appear_then_click(self.I_BAN, interval=3):
                 self.is_celeb = True
                 continue
             # 名仕不开启自动上阵, 根据最后一个式神的名字是否改变来检查自己式神是否被ban
-            if not self.appear(self.I_D_CHECK_BAN, interval=0.8) and self.is_celeb:
+            if not self.appear(self.I_D_CHECK_BAN, interval=3) and self.is_celeb:
                 ocr_name = self.O_D_BAN_NAME.ocr(self.device.image)
                 shikigami_banned = ocr_name != '' and not any(
                     char in ocr_name for char in self.conf.duel_celeb_config.ban_name)
@@ -153,8 +153,8 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
                 sleep(random.uniform(1.5, 3))  # 降低点击频率和ocr识别频率
                 continue
             # 点击自动上阵或准备
-            if self.appear_then_click(self.I_D_AUTO_ENTRY, interval=1.2) or \
-                    self.appear_then_click(self.I_D_PREPARE, interval=1.2):
+            if self.appear_then_click(self.I_D_AUTO_ENTRY, interval=3) or \
+                    self.appear_then_click(self.I_D_PREPARE, interval=3):
                 self.reset_device('PREPARE_BEFORE_BATTLE')
 
     def wait_battle(self) -> bool:
@@ -168,9 +168,9 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
         while True:
             self.screenshot()
             self.check_and_get_reward()
-            if self.appear(self.I_CHECK_DUEL, interval=0.6) and self.appear(self.I_D_HELP, interval=0.6):  # 斗技主界面
+            if self.appear(self.I_CHECK_DUEL, interval=3) and self.appear(self.I_D_HELP, interval=3):  # 斗技主界面
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1.2):  # 关闭段位上升页面
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):  # 关闭段位上升页面
                 ret_timer.reset()
                 continue
             if ret_timer.started() and ret_timer.reached():  # 兜底逻辑, 已经结算了但是还没有到斗技主界面
@@ -179,19 +179,19 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
             if self.is_battle_win():
                 ret = True
                 ret_timer.start()
-                self.click(random_click(ltrb=(True, True, False, True)), interval=1.2)
+                self.click(random_click(ltrb=(True, True, False, True)), interval=3)
                 continue
             if self.is_battle_lose():
                 ret = False
                 ret_timer.start()
-                self.click(random_click(ltrb=(True, True, False, True)), interval=1.2)
+                self.click(random_click(ltrb=(True, True, False, True)), interval=3)
                 continue
             if battle_timeout_cnt >= max_timeout_cnt:
                 logger.warning('Duel battle timeout[>15 minutes], exit')
                 self.duel_exit_battle()
                 continue
             if ret is None and not battle_operated:  # 进行战斗前的操作
-                self.ui_click(self.O_D_HAND, self.O_D_AUTO, interval=0.8)
+                self.ui_click(self.O_D_HAND, self.O_D_AUTO, interval=3)
                 self.green_mark(self.conf.duel_config.green_enable, self.conf.duel_config.green_mark)
                 battle_operated = True
                 self.reset_device('BATTLE_STATUS_S')
@@ -210,7 +210,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
             if self.appear_then_click(self.I_UI_CONFIRM):
                 continue
             # 选式神界面退出或战斗内退出
-            if self.appear_then_click(self.I_DUEL_EXIT, interval=1) or self.appear_then_click(self.I_EXIT, interval=1):
+            if self.appear_then_click(self.I_DUEL_EXIT, interval=3) or self.appear_then_click(self.I_EXIT, interval=3):
                 continue
 
     def check_honor(self) -> bool:
@@ -277,11 +277,11 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
             self.screenshot()
             if click_count >= 3:
                 break
-            if self.appear_then_click(self.I_D_TEAM, interval=1):
+            if self.appear_then_click(self.I_D_TEAM, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=0.6):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_D_TEAM_SWTICH, interval=1):
+            if self.appear_then_click(self.I_D_TEAM_SWTICH, interval=3):
                 click_count += 1
                 continue
         logger.info('Souls Switch is complete')
@@ -289,7 +289,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
 
     def check_and_get_reward(self):
         """检查并收获奖励"""
-        if self.appear(self.I_REWARD, interval=0.6) or self.appear(self.I_UI_REWARD, interval=0.6):
+        if self.appear(self.I_REWARD, interval=3) or self.appear(self.I_UI_REWARD, interval=3):
             self.click(random_click(ltrb=(True, True, False, True)))
             logger.info('get reward')
 
@@ -303,7 +303,8 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DuelAssets, SwitchOnmyoji):
             self.appear(self.I_D_CHECK_BAN)
 
     def is_battle_win(self) -> bool:
-        return self.appear(self.I_WIN) or self.appear(self.I_D_VICTORY)
+        return self.appear(self.I_WIN) or self.appear(self.I_D_VICTORY) or \
+            self.appear(self.I_D_VICTORY_SHARE)
 
     def is_battle_lose(self) -> bool:
         return self.appear(self.I_FALSE) or self.appear(self.I_D_FAIL)

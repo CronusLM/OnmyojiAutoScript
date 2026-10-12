@@ -27,7 +27,8 @@ def asset_names(content: str) -> set:
 
 
 def git_show(ref: str, path: str) -> str:
-    result = subprocess.run(['git', 'show', f'{ref}:{path}'], capture_output=True, text=True)
+    git_path = path.replace('\\', '/')
+    result = subprocess.run(['git', 'show', f'{ref}:{git_path}'], capture_output=True, encoding='utf-8', errors='replace')
     if result.returncode != 0:
         print(f'ERROR: git show {ref}:{path} failed: {result.stderr.strip()}')
         sys.exit(1)

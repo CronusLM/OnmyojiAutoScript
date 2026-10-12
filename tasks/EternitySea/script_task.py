@@ -66,7 +66,7 @@ class ScriptTask(
             self.screenshot()
             if self.appear(self.I_CHECK_TEAM):
                 break
-            if self.appear_then_click(self.I_FORM_TEAM, interval=1):
+            if self.appear_then_click(self.I_FORM_TEAM, interval=3):
                 continue
         # 创建房间
         self.create_room()
@@ -147,12 +147,12 @@ class ScriptTask(
         timer = Timer(8).start()
         while not timer.reached():
             self.screenshot()
-            if self.appear_then_click(self.I_REWARD, interval=1.5):
+            if self.appear_then_click(self.I_REWARD, interval=3):
                 continue
-            if self.appear_then_click(self.I_REWARD_GOLD, interval=1.5):
+            if self.appear_then_click(self.I_REWARD_GOLD, interval=3):
                 continue
             if not self.appear(self.I_REWARD) and not self.appear(self.I_REWARD_GOLD):
-                sleep(1)
+                sleep(3)
                 return
 
     def _back_to_soul_zones(self) -> None:
@@ -165,13 +165,13 @@ class ScriptTask(
             self.screenshot()
             if self.match_page_once(page_soul_zones):
                 return
-            if self.appear_then_click(self.I_GI_SURE, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_BACK_YELLOW, interval=3):
                 continue
-            if self.appear_then_click(self.I_BACK_YELLOW_SEA, interval=1):
+            if self.appear_then_click(self.I_BACK_YELLOW_SEA, interval=3):
                 continue
-            if self.appear_then_click(self.I_BACK_BOTTOM, interval=1):
+            if self.appear_then_click(self.I_BACK_BOTTOM, interval=3):
                 continue
 
 
@@ -247,7 +247,7 @@ class ScriptTask(
             # 点击挑战
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_ETERNITY_SEA_FIRE, interval=1):
+                if self.appear_then_click(self.I_ETERNITY_SEA_FIRE, interval=3):
                     pass
 
                 if not self.appear(self.I_ETERNITY_SEA_FIRE):
@@ -259,9 +259,9 @@ class ScriptTask(
 
     def is_room_dead(self) -> bool:
         # 如果在探索界面或者是出现在组队界面，那就是可能房间死了
-        sleep(0.5)
+        sleep(3)
         if self.appear(self.I_MATCHING) or self.appear(self.I_CHECK_EXPLORATION):
-            sleep(0.5)
+            sleep(3)
             if self.appear(self.I_MATCHING) or self.appear(self.I_CHECK_EXPLORATION):
                 return True
         return False
@@ -281,12 +281,12 @@ class ScriptTask(
         logger.info("Enter eternity_sea")
         while True:
             self.screenshot()
-            if self.appear(self.I_FORM_TEAM, interval=1):
+            if self.appear(self.I_FORM_TEAM, interval=3):
                 return True
-            if self.appear_then_click(self.I_ETERNITY_SEA, interval=1):
+            if self.appear_then_click(self.I_ETERNITY_SEA, interval=3):
                 continue
             #有可能点击到录像
-            if self.appear_then_click(self.I_BACK_BOTTOM, interval=1):
+            if self.appear_then_click(self.I_BACK_BOTTOM, interval=3):
                 continue
 
     @property
@@ -315,14 +315,14 @@ class ScriptTask(
                 self.screenshot()
                 if self.appear(self.I_NEWETERNITYSEA_LOCK):
                     return True
-                if self.appear_then_click(self.I_ETERNITYSEA_UNLOCK, interval=1):
+                if self.appear_then_click(self.I_ETERNITYSEA_UNLOCK, interval=3):
                     continue
         else:
             while 1:
                 self.screenshot()
                 if self.appear(self.I_ETERNITYSEA_UNLOCK):
                     return True
-                if self.appear_then_click(self.I_NEWETERNITYSEA_LOCK, interval=1):
+                if self.appear_then_click(self.I_NEWETERNITYSEA_LOCK, interval=3):
                     continue
 
 if __name__ == "__main__":

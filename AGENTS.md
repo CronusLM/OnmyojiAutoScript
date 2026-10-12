@@ -161,6 +161,8 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 
 5. [仍适用] **通知解析**：`dumpsys notification --noredact` 输出格式因 Android 版本而异。当前实现在 GuildActivityMonitor/script_task.py（用 `when=` 正则），若通知时间戳异常再切 `mCreationTimeMs=` 方案，避免依赖 `when=`。
 
+6. [已落地] **GeneralInvite 资产改用全局 UI 资产**：上游 #1915 删除 `I_GI_SURE`/`I_I_DEFAULT`/`I_I_NO_DEFAULT`，`general_invite.py` 及 BondlingFairyland/EternitySea 调用点改用 `GlobalGameAssets` 的 `I_UI_CONFIRM`/`I_UI_CHECK`/`I_UI_UNCHECK`（由 `BaseTask(GlobalGameAssets, CostumeBase)` 提供）。`gi/` 下 6 张对应 png 已删，勿恢复旧资产名，否则 `AttributeError`。
+
 ## 调试经验
 
 ### while 循环必须有出口

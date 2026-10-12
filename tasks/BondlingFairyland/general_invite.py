@@ -74,7 +74,7 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
                 logger.warning('Timeout, now is no room')
                 return False
 
-            if self.appear(self.I_INVITE_ENSURE) or self.appear(self.I_GI_CANCEL):
+            if self.appear(self.I_INVITE_ENSURE) or self.appear(self.I_UI_CANCEL):
                 logger.warning('Invite page is still open, close it before checking room status')
                 self.close_invite_page()
                 continue
@@ -114,12 +114,12 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
         closed = False
         while not timer.reached():
             self.screenshot()
-            if not self.appear(self.I_INVITE_ENSURE) and not self.appear(self.I_GI_CANCEL):
+            if not self.appear(self.I_INVITE_ENSURE) and not self.appear(self.I_UI_CANCEL):
                 return closed
-            if self.appear_then_click(self.I_GI_CANCEL, interval=0.8):
+            if self.appear_then_click(self.I_UI_CANCEL, interval=3):
                 closed = True
                 continue
-            if self.appear_then_click(self.I_INVITE_ENSURE, interval=0.8):
+            if self.appear_then_click(self.I_INVITE_ENSURE, interval=3):
                 closed = True
                 continue
         return closed
@@ -174,13 +174,13 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
         while 1:
             self.screenshot()
             if not self.is_in_room() and \
-                    not self.appear_then_click(self.I_GI_SURE, interval=0.8) and \
+                    not self.appear_then_click(self.I_UI_CONFIRM, interval=3) and \
                     not self.appear(self.I_BACK_YELLOW):
                 break
-            if self.appear_then_click(self.I_GI_SURE, interval=0.5):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if not self.appear(self.I_GI_SURE) and self.appear_then_click(self.I_BACK_YELLOW, interval=0.8):
-                self.wait_until_appear(self.I_GI_SURE, wait_time=0.8)
+            if not self.appear(self.I_UI_CONFIRM) and self.appear_then_click(self.I_BACK_YELLOW, interval=3):
+                self.wait_until_appear(self.I_UI_CONFIRM, wait_time=0.8)
                 continue
         return True
 
@@ -189,7 +189,7 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
             self.screenshot()
             if not self.is_in_room(False):
                 break
-            if self.appear_then_click(self.I_FIRE, interval=1, threshold=0.7):
+            if self.appear_then_click(self.I_FIRE, interval=3, threshold=0.7):
                 continue
 
     @cached_property
@@ -303,8 +303,8 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
         self.screenshot()
         self.O_FRIEND_NAME_1.keyword = name
         self.O_FRIEND_NAME_2.keyword = name
-        appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=2, exact=True)
-        appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=2, exact=True)
+        appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=3, exact=True)
+        appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=3, exact=True)
         if not appear_1 and not appear_2:
             logger.info('Current page no friend')
             return False
@@ -313,8 +313,8 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
             self.screenshot()
             if self.appear(self.I_SELECTED):
                 break
-            appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=2, exact=True)
-            appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=2, exact=True)
+            appear_1 = self.ocr_appear_click(self.O_FRIEND_NAME_1, interval=3, exact=True)
+            appear_2 = self.ocr_appear_click(self.O_FRIEND_NAME_2, interval=3, exact=True)
 
         return True
 
@@ -333,11 +333,11 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
                 break
             if self.appear(self.I_INVITE_ENSURE):
                 break
-            if self.appear_then_click(self.I_ADD_2, interval=1):
+            if self.appear_then_click(self.I_ADD_2, interval=3):
                 continue
-            if self.appear_then_click(self.I_ADD_1, interval=1):
+            if self.appear_then_click(self.I_ADD_1, interval=3):
                 continue
-            if self.appear_then_click(self.I_ADD_5_4, interval=1):
+            if self.appear_then_click(self.I_ADD_5_4, interval=3):
                 continue
 
         friend_class = []
@@ -375,15 +375,15 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
                     self.screenshot()
                     if self.appear(self.I_FLAG_2_ON):
                         break
-                    if self.appear_then_click(self.I_FLAG_2_OFF, interval=1):
+                    if self.appear_then_click(self.I_FLAG_2_OFF, interval=3):
                         continue
 
                 logger.info(f'Now find friend in “最近”')
-                sleep(1)
+                sleep(3)
                 if not is_select:
                     if self.detect_select(name):
                         is_select = True
-                sleep(1)
+                sleep(3)
                 if not is_select:
                     if self.detect_select(name):
                         is_select = True
@@ -400,23 +400,23 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
                 self.screenshot()
                 if self.appear(self.I_SELECT_FRIEND_ON):
                     break
-                if self.appear_then_click(self.I_SELECT_FRIEND_OFF, interval=1):
+                if self.appear_then_click(self.I_SELECT_FRIEND_OFF, interval=3):
                     continue
             while index == 1:
                 self.screenshot()
                 if self.appear(self.I_SELECT_KUAQU_ON):
                     break
-                if self.appear_then_click(self.I_SELECT_KUAQU_OFF, interval=1):
+                if self.appear_then_click(self.I_SELECT_KUAQU_OFF, interval=3):
                     continue
 
             # 选中好友， 在这里游戏获取在线的好友并不是很快，根据不同的设备会有不同的时间，而且没有什么元素提供我们来判断
             # 所以这里就直接等待一段时间
             logger.info(f'Now find friend in {friend_class[index]}')
-            sleep(1)
+            sleep(3)
             if not is_select:
                 if self.detect_select(name):
                     is_select = True
-            sleep(1)
+            sleep(3)
             if not is_select:
                 if self.detect_select(name):
                     is_select = True
@@ -453,7 +453,7 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
             success = self.invite_friend(config.friend_2, config.find_mode)
             if not success:
                 logger.warning('Invite friend 2 failed')
-        sleep(0.5)
+        sleep(3)
 
     def check_and_invite(self, default_invite: bool=True) -> bool:
         """
@@ -461,25 +461,25 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
         :param default_invite:
         :return:
         """
-        if not self.appear(self.I_GI_SURE, interval=1.5):
+        if not self.appear(self.I_UI_CONFIRM, interval=3):
             return False
 
         if default_invite:
             # 有可能是挑战失败的
-            if self.appear(self.I_I_DEFAULT) or self.appear(self.I_I_NO_DEFAULT):
+            if self.appear(self.I_UI_CHECK) or self.appear(self.I_UI_UNCHECK):
                 logger.info('Click default invite')
                 while 1:
                     self.screenshot()
-                    if self.appear(self.I_I_DEFAULT):
+                    if self.appear(self.I_UI_CHECK):
                         break
-                    if self.appear_then_click(self.I_I_NO_DEFAULT, interval=1):
+                    if self.appear_then_click(self.I_UI_UNCHECK, interval=3):
                         continue
         # 点击确认
         while 1:
             self.screenshot()
-            if not self.appear(self.I_GI_SURE):
+            if not self.appear(self.I_UI_CONFIRM):
                 break
-            if self.appear_then_click(self.I_GI_SURE, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
 
         return True

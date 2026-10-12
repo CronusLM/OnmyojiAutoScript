@@ -142,14 +142,6 @@ class OptionSetupDefault:
 
 
 @dataclass
-class OptionCompletionDefault:
-    # 这里是为了， 确认结束战斗后退回到 “fire” 的界面
-    check_imgs: list[RuleImage] = None
-    # 兜底：check_imgs 都检测不到时，间隔点击的排除位
-    excludes: list[str] = field(default_factory=list)
-
-
-@dataclass
 class OptionInterruptDefault:
     pass
 
@@ -169,6 +161,18 @@ class OptionSuccessDefault:
         'C_END_1_5', 'C_END_1_6',
     ])
 
+
+@dataclass
+class OptionCompletionDefault:
+    # 这里是为了， 确认结束战斗后退回到 “fire” 的界面
+    check_imgs: list[RuleImage] | None = None
+    # 兜底：check_imgs 都检测不到时，间隔点击的排除位
+    excludes: list[str] = field(default_factory=lambda:
+    [
+        'C_END_MESSAGE_RIGHT_TOP', 'C_END_BUFF_AREA_1',
+        'C_END_BUFF_AREA_2', 'C_END_SOUL_RECORD', 'C_END_SOUL_DETAILS',
+        'C_END_MASTER',
+    ])
 
 @dataclass
 class OptionFailureDefault:
@@ -367,8 +371,9 @@ class PerBattleSetup:
 @dataclass
 class PerBattleCompletion:
     click_stage_2: RuleClickExclude | None = None
-    # 兜底点击节拍器：进入 completion 起算，满 8s 才首次点击，之后每 8s 一次
+    # 兜底点击节拍器：进入 completion 起算，满 3s 才首次点击，之后每 3s 一次
     fallback_timer: Timer | None = None
+    fallback_cnt: int = 0
 
 
 @dataclass
@@ -948,8 +953,8 @@ def randomclick_gate(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(self, pub: PublicContext, pri: PrivateContext) -> HookSignal:
         options = pub.options.get('randomclick')
-        state_battle = pri.per_battle
-        state_task = pri.per_task
+        state_battle: PerBattleRandomclick = pri.per_battle
+        state_task: PerTaskRandomclick = pri.per_task
         if not isinstance(options, OptionRandomclickDefault):
             raise TypeError(f"randomclick options must be OptionRandomclickDefault, got {type(options)!r}")
         if not isinstance(state_battle, PerBattleRandomclick):
@@ -1093,7 +1098,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         print(f'{"pub":<12}{"":<12}{"per_task":<10}{_nondefault(pub.per_task)}')
         print(f'{"pub":<12}{"":<12}{"per_battle":<10}{_nondefault(pub.per_battle)}')
         print('=' * 64)
-        time.sleep(0.6)
+        time.sleep(3)
 
     # ------------------------------------------------------------------------------------------------------------------
     # build in
@@ -1109,8 +1114,8 @@ class BattleWait(BaseTask, GeneralBattleAssets):
 
     def _bw_completion_default(self, pub: PublicContext, pri: PrivateContext) -> HookSignal:
         logger.info('Battle completion process')
-        state = pri.per_battle
-        options = pri.options
+        state: PerBattleCompletion = pri.per_battle
+        options: OptionCompletionDefault = pri.options
         if not isinstance(state, PerBattleCompletion) or not isinstance(options, OptionCompletionDefault):
             raise
         if options.check_imgs is None:
@@ -1125,9 +1130,13 @@ class BattleWait(BaseTask, GeneralBattleAssets):
             pub.per_task.count += 1
             # self.current_count += 1  # 兼容旧的计数
             return HookSignal.DONE
-        # check_imgs 全没出现 → 兜底点击回退界面：进入 completion 满 8s 才首次点击，之后每 8s 一次
+        # check_imgs 全没出现 → 兜底点击回退界面：进入 completion 满 3s 才首次点击，之后每 3s 一次
         if state.fallback_timer is None:
-            state.fallback_timer = Timer(8).start()
+            state.fallback_timer = Timer(3).start()
+        if state.fallback_cnt >= 5:
+            pub.per_task.count += 1
+            logger.info('Fallback timer expired')
+            return HookSignal.DONE
         if not isinstance(state.fallback_timer, Timer):
             raise
         if not state.fallback_timer.reached():
@@ -1135,8 +1144,10 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         state.fallback_timer.reset()
         if state.click_stage_2 is None:
             state.click_stage_2 = PerBattleSuccess.reward_exclude_click(self, options.excludes, name='completion_exclude_click')
-        x, y = state.click_stage_2.coord()
-        self.device.click(x=x, y=y, control_name='completion_exclude_click')
+        if self.click(state.click_stage_2, interval=3):
+            state.fallback_cnt += 1
+        # x, y = state.click_stage_2.coord()
+        # self.device.click(x=x, y=y, control_name='completion_exclude_click')
         return HookSignal.CONTINUE
 
     def _bw_interrupt_default(self, pub: PublicContext, pri: PrivateContext) -> HookSignal:
@@ -1144,8 +1155,8 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         return HookSignal.CONTINUE
 
     def _bw_success_default(self, pub: PublicContext, pri: PrivateContext) -> HookSignal:
-        state = pri.per_battle
-        options = pri.options
+        state: PerBattleSuccess = pri.per_battle
+        options: OptionSuccessDefault = pri.options
         if not isinstance(state, PerBattleSuccess) or not isinstance(options, OptionSuccessDefault):
             raise
         if state.click_stage_1 is None:
@@ -1153,7 +1164,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         if state.click_stage_2 is None:
             state.click_stage_2 = PerBattleSuccess.reward_exclude_click(self, pri.options.excludes_2, name='reward_exclude_click_2')
 
-        if self.appear_then_click(self.I_WIN, interval=0.8):
+        if self.appear_then_click(self.I_WIN, interval=3):
             self.click(state.click_stage_1)
             return HookSignal.CONTINUE
         appear_ghost, appear_reward, appear_gold, appear_skin = (
@@ -1171,7 +1182,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
 
             # 不小心点到了具体的奖励，他会弹出这个物品的详细描述 里面必定包含有“获取途径”
             if self.appear(self.I_END_FIX_1) or self.appear(self.I_END_FIX_2):
-                self.click(self.C_REWARD_2, interval=1.5)
+                self.click(self.C_REWARD_2, interval=3)
 
             _appear_ghost, _appear_reward, _appear_gold, _appear_skin = (
                 self.appear(self.I_GREED_GHOST, threshold=0.6),
@@ -1186,7 +1197,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                     x, y = state.click_stage_2.coord_in_excluded(None)
                     self.device.click(x=x, y=y, control_name='reward_item')
                     continue
-                self.click(state.click_stage_2, interval=1.5)
+                self.click(state.click_stage_2, interval=3)
             else:
                 logger.info('Get all reward')
                 pub.per_battle.success = BattleResult.SUCCESS
@@ -1249,12 +1260,12 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                 return HookSignal.CONTINUE
             # 计时8秒时间到了， 那就一直按 准备按钮 直到消失去
             # 不要把这行代码合并到下面去
-            self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=0.8)
+            self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3)
             return HookSignal.CONTINUE
 
         # 没有切阵容那就一直按 准备按钮 直到消失去]
 
-        self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1)
+        self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=3)
         return HookSignal.CONTINUE
 
     def _bw_preset_default(self, pub: PublicContext, pri: PrivateContext) -> HookSignal:
@@ -1277,15 +1288,15 @@ class BattleWait(BaseTask, GeneralBattleAssets):
             # 首个队伍没有满足5个式神，未出现预设按钮的情况下跳出循环
             if self.appear(self.I_PRESENT_LESS_THAN_5):
                 break
-            if self.appear_then_click(self.I_PRESET, threshold=0.8, interval=1):
+            if self.appear_then_click(self.I_PRESET, threshold=0.8, interval=3):
                 continue
-            if self.appear_then_click(self.I_PRESET_WIT_NUMBER, threshold=0.8, interval=1):
+            if self.appear_then_click(self.I_PRESET_WIT_NUMBER, threshold=0.8, interval=3):
                 continue
             if self.ocr_appear(self.O_PRESET):
-                self.click(self.O_PRESET, interval=1)
+                self.click(self.O_PRESET, interval=3)
                 continue
             if self.ocr_appear(self.O_PRESET_FULL):
-                self.click(self.O_PRESET_FULL, interval=1)
+                self.click(self.O_PRESET_FULL, interval=3)
                 continue
         logger.info("Click preset button")
 
@@ -1319,13 +1330,13 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                                   (tmp.roi_back[0], tmp.roi_back[1], tmp.roi_back[0] + color_size[0],
                                    tmp.roi_back[1] + color_size[1]))
             if color_similar(color_tmp, unselected_color):
-                self.click(tmp, interval=0.2)
+                self.click(tmp, interval=3)
                 continue
             break
         logger.info("Select preset group")
 
         # 选择预设的队伍
-        time.sleep(0.5)
+        time.sleep(3)
         tmp = self.__getattribute__("C_PRESET_TEAM_" + str(pri_options.preset_team))
         if tmp is None:
             tmp = self.C_PRESET_TEAM_1
@@ -1337,7 +1348,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                                   (tmp.roi_back[0], tmp.roi_back[1], tmp.roi_back[0] + color_size[0],
                                    tmp.roi_back[1] + color_size[1]))
             if color_similar(color_tmp, unselected_color):
-                self.click(tmp, interval=0.2)
+                self.click(tmp, interval=3)
                 continue
             break
         self.click(tmp)
@@ -1352,7 +1363,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                 logger.warning("Switch preset failure")
             if not self.appear(self.I_PRESET_ENSURE):
                 break
-            if self.appear_then_click(self.I_PRESET_ENSURE, threshold=0.8, interval=1):
+            if self.appear_then_click(self.I_PRESET_ENSURE, threshold=0.8, interval=3):
                 continue
         logger.info("Click preset ensure")
         state.done = True
@@ -1451,7 +1462,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
 
             # 判断有无坐标的偏移
             self.appear_then_click(self.I_LOCAL)
-            time.sleep(0.3)
+            time.sleep(3)
             # 点击绿标
             self.device.click(x, y)
         state.done = True
@@ -1505,7 +1516,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         if state.click_stage_1 is None:
             state.click_stage_1 = PerBattleSuccess.reward_exclude_click(self, options.excludes_1, name='success_exclude_click')
         action_click = state.click_stage_1
-        if self.appear_then_click(self.I_WIN, interval=0.8):
+        if self.appear_then_click(self.I_WIN, interval=3):
             return HookSignal.CONTINUE
         appear_ghost, appear_reward, appear_gold, appear_skin = (
             self.appear(self.I_GREED_GHOST),
@@ -1528,7 +1539,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
             )
             # logger.info(f'_appear_ghost: {_appear_ghost} _appear_reward: {_appear_reward} _appear_gold: {_appear_gold} _appear_skin: {_appear_skin}')
             if any([_appear_ghost, _appear_reward, _appear_gold, _appear_skin]):
-                self.click(action_click, interval=1.5)
+                self.click(action_click, interval=3)
             else:
                 logger.info('Get all reward')
                 pub.per_battle.success = BattleResult.SUCCESS
@@ -1570,7 +1581,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
             if self.appear(self.I_END_FIX_1) or self.appear(self.I_END_FIX_2) or self.appear(self.I_END_FIX_3):
                 self.screenshot()
                 if self.appear(self.I_END_FIX_1) or self.appear(self.I_END_FIX_2) or self.appear(self.I_END_FIX_3):
-                    self.click(self.C_REWARD_2, interval=2.5)
+                    self.click(self.C_REWARD_2, interval=3)
                 continue
 
             if self.appear(self.I_UI_REWARD):
@@ -1579,7 +1590,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                     x, y = self.exclude_click_activity.coord_in_excluded(['C_END_ACTIVITY_REWARD'])
                     self.device.click(x=x, y=y, control_name='reward_item')
                     continue
-                self.click(self.exclude_click_activity, interval=2.5)
+                self.click(self.exclude_click_activity, interval=3)
             elif not self.appear(self.I_END_FIX_2):
                 self.screenshot()
                 if any([self.appear(self.I_UI_REWARD), self.appear(self.I_END_FIX_1), self.appear(self.I_END_FIX_2), self.appear(self.I_END_FIX_3)]):

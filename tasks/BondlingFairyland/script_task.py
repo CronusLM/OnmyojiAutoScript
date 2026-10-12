@@ -99,8 +99,8 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                     if self.appear(self.I_GI_IN_ROOM):
                         return True
                     # 求援后可能出现式盘数量上限确认弹窗
-                    if self.appear_then_click(self.I_UI_CONFIRM, interval=1):
-                        sleep(1)
+                    if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
+                        sleep(3)
                         continue
                     if click_count >= 6:
                         logger.error('Click fire failed')
@@ -109,9 +109,9 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                         raise BondlingNumberMax
                     if self.check_and_invite(True):
                         continue
-                    if self.appear(self.I_CREATE_TEAM, interval=1):
+                    if self.appear(self.I_CREATE_TEAM, interval=3):
                         self.ensure_private()
-                        if self.appear_then_click(self.I_CREATE_TEAM, interval=2):
+                        if self.appear_then_click(self.I_CREATE_TEAM, interval=3):
                             logger.info('Wait up to 5s for bondling room after creating team')
                             enter_timer = Timer(5).start()
                             while not enter_timer.reached():
@@ -123,16 +123,16 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                                     break
                         continue
                     # 求援
-                    if self.appear(self.I_BALL_AREA, interval=1):
+                    if self.appear(self.I_BALL_AREA, interval=3):
                         return False
-                    if self.appear(self.I_BALL_HELP, interval=1):
+                    if self.appear(self.I_BALL_HELP, interval=3):
                         cu, res, total = self.O_B_BALL_NUMBER.ocr(self.device.image)
                         logger.info(f'ball is cu {cu}, total {total}')
                         if cu <= 0 and total == 99:
                             logger.info('ball is not enough')
                             return False
-                        if self.appear_then_click(self.I_BALL_HELP, interval=2):
-                            sleep(1)
+                        if self.appear_then_click(self.I_BALL_HELP, interval=3):
+                            sleep(3)
                             click_count += 1
                             continue
 
@@ -313,7 +313,7 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
             if self.in_search_ui():
                 break
             if self.in_catch_ui():
-                self.appear_then_click(self.I_BACK_Y, interval=1)
+                self.appear_then_click(self.I_BACK_Y, interval=3)
         logger.info('BondlingFairyland task finished')
 
         self.goto_page(page_main)
@@ -330,12 +330,12 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
         """
         # 没有启用使用石头购买契灵或者当前不在购买界面则直接退出
         if not bondling_stone_enable or not self.appear(self.I_STONE_SURE):
-            self.ui_click_until_disappear(self.I_STONE_CLOSE, interval=1.2)
+            self.ui_click_until_disappear(self.I_STONE_CLOSE, interval=3)
             return False
         cu, res, total = self.O_B_STONE_NUMBER.ocr(self.device.image)
         # 如果没有石头了
         if cu == 0 and cu + res == total:
-            self.ui_click_until_disappear(self.I_STONE_CLOSE, interval=1.2)
+            self.ui_click_until_disappear(self.I_STONE_CLOSE, interval=3)
             logger.warning(f'已经没有鸣契石召唤契灵了')
             return False
         cnt = 0
@@ -348,11 +348,11 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                 logger.warning("")
                 return False
             for i in range(3):
-                if self.appear_then_click(self.I_BUY_PLUS, interval=1):
-                    sleep(0.5)
-            if self.appear_then_click(self.I_GI_SURE, interval=1):
+                if self.appear_then_click(self.I_BUY_PLUS, interval=3):
+                    sleep(3)
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_STONE_SURE, interval=2):
+            if self.appear_then_click(self.I_STONE_SURE, interval=3):
                 continue
 
 
@@ -474,9 +474,9 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
 
     def is_room_dead(self) -> bool:
         # 如果在探索界面或者是出现在组队界面，那就是可能房间死了
-        sleep(0.5)
+        sleep(3)
         if self.appear(self.I_MATCHING) or self.appear(self.I_CHECK_EXPLORATION):
-            sleep(0.5)
+            sleep(3)
             if self.appear(self.I_MATCHING) or self.appear(self.I_CHECK_EXPLORATION):
                 return True
         return False
@@ -508,7 +508,7 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
             if click_count >= 3:
                 return False
             # 点击
-            if self.click(click_target, interval=1):
+            if self.click(click_target, interval=3):
                 click_count += 1
 
     def goto_ball_area(self, index: int):
@@ -523,12 +523,12 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
         # 进入地域页面
         while True:
             self.screenshot()
-            if self.appear(self.I_CHECK_AREA, interval=0.6):
+            if self.appear(self.I_CHECK_AREA, interval=3):
                 break
-            if self.appear_then_click(self.I_BALL_AREA, interval=1.2):
+            if self.appear_then_click(self.I_BALL_AREA, interval=3):
                 continue
         # 点击对应地域并返回契灵主界面
-        self.ui_click(get_click_area(index), self.I_BALL_AREA, interval=0.8)
+        self.ui_click(get_click_area(index), self.I_BALL_AREA, interval=3)
 
     def capture_setting(self, mode: BondlingMode) -> None:
         """
@@ -540,9 +540,9 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
         if mode == BondlingMode.MODE1:
             return None
         logger.info(f'Capture setting mode: {mode}')
-        self.ui_click(self.I_CLICK_CAPTION, self.I_CAPTION_ENSURE, interval=1)  # 打开结契设置
-        self.ui_click(self.I_C_AUTO_FALSE, self.I_C_AUTO_TRUE, interval=1)  # 自动结契
-        self.ui_click(self.I_C_MINIMAL_MODE_DISABLE, self.I_C_MINIMAL_MODE_ENABLE, interval=0.8)  # 极简模式
+        self.ui_click(self.I_CLICK_CAPTION, self.I_CAPTION_ENSURE, interval=3)  # 打开结契设置
+        self.ui_click(self.I_C_AUTO_FALSE, self.I_C_AUTO_TRUE, interval=3)  # 自动结契
+        self.ui_click(self.I_C_MINIMAL_MODE_DISABLE, self.I_C_MINIMAL_MODE_ENABLE, interval=3)  # 极简模式
 
         target_true = None
         target_false = None
@@ -562,13 +562,13 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
             target_true = self.I_C_HIGH_TRUE
             target_false = self.I_C_HIGH_FALSE
         if target_true is not None:  # 切换盘子
-            self.ui_click(target_false, target_true, interval=1)
+            self.ui_click(target_false, target_true, interval=3)
         if target_continuous is not None:  # 是否连续结契
-            self.ui_click_until_disappear(target_continuous, interval=1)
+            self.ui_click_until_disappear(target_continuous, interval=3)
         if target_first is not None:  # 是否使用羁绊式神
-            self.ui_click_until_disappear(target_first, interval=1)
+            self.ui_click_until_disappear(target_first, interval=3)
         # 点击确定退出
-        self.ui_click_until_disappear(self.I_CAPTION_ENSURE, interval=1)
+        self.ui_click_until_disappear(self.I_CAPTION_ENSURE, interval=3)
         return None
 
     def enter_shikigami_records(self) -> None:
@@ -580,9 +580,9 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
             self.screenshot()
             if self.appear(self.I_CHECK_RECORDS):
                 break
-            if self.appear_then_click(self.I_BF_RECORDS, interval=1):
+            if self.appear_then_click(self.I_BF_RECORDS, interval=3):
                 continue
-            if self.appear_then_click(self.I_BALL_RECORDS, interval=1):
+            if self.appear_then_click(self.I_BALL_RECORDS, interval=3):
                 continue
 
     def lock_team(self):
@@ -596,9 +596,9 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                 break
             if self.appear(self.I_BF_LOCK):
                 break
-            if self.appear_then_click(self.I_BALL_UNLOCK, interval=1):
+            if self.appear_then_click(self.I_BALL_UNLOCK, interval=3):
                 continue
-            if self.appear_then_click(self.I_BF_UNLOCK, interval=1):
+            if self.appear_then_click(self.I_BF_UNLOCK, interval=3):
                 continue
 
     def get_bondling_class(self) -> BondlingClass or None:
@@ -633,7 +633,7 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
             self.screenshot()
             if not self.appear(self.I_BALL_FIRE, threshold=0.7):
                 break
-            if self.appear_then_click(self.I_BALL_FIRE, interval=1):
+            if self.appear_then_click(self.I_BALL_FIRE, interval=3):
                 click_count += 1
                 continue
             if click_count >= 6:
@@ -641,7 +641,7 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                 logger.error('You might need to check your bondling number. It most possibly arrived to the max 500')
                 raise BondlingNumberMax
             # 某些活动的时候出现 “选择共鸣的阴阳师”
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
 
     def wait_battle(self, wait_time: time) -> bool:
@@ -697,7 +697,7 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                 self.screenshot()
                 if not self.appear(self.I_CHECK_TEAM):
                     return True
-                if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=0.5):
+                if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=3):
                     continue
 
     def in_catch_ui(self, screenshot=False) -> bool:
@@ -730,11 +730,11 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
                 return False
             if not self.appear(self.I_BF_SEARSH):
                 return True
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3):
                 continue
-            if self.appear_then_click(self.I_BF_SEARSH, interval=2):
+            if self.appear_then_click(self.I_BF_SEARSH, interval=3):
                 count += 1
                 continue
         return False
@@ -769,13 +769,13 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
             if self.appear(GeneralBattleAssets.I_EXIT):
                 logger.info("已经在战斗场景中")
                 return False
-            if self.appear_then_click(self.I_I_NO_DEFAULT, interval=1):
+            if self.appear_then_click(self.I_UI_UNCHECK, interval=3):
                 continue
-            if self.appear_then_click(self.I_GI_SURE, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_I_ACCEPT_DEFAULT, interval=1):
+            if self.appear_then_click(self.I_I_ACCEPT_DEFAULT, interval=3):
                 continue
-            if self.appear_then_click(self.I_I_ACCEPT, interval=1):
+            if self.appear_then_click(self.I_I_ACCEPT, interval=3):
                 continue
         return True
 

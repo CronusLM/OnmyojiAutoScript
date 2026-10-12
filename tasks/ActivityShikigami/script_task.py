@@ -181,22 +181,29 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
         # self.ui_clicks([self.I_TO_BATTLE_MAIN_2],
         #                stop=self.I_CHECK_BATTLE_MAIN, interval=1)
         #
+        center_click_cnt = 0
         while 1:
             self.screenshot()
 
             if self.appear(self.I_UI_BACK_RED) and self.appear(self.I_PASS_4):
                 break
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=0.5):
+            if self.appear(self.I_CHECK_BATTLE_MAIN):
+                break
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=0.5):
+            if self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3):
                 continue
-            if self.appear_then_click(self.I_TO_BATTLE_MAIN_2, interval=1.5):
+            if self.appear_then_click(self.I_TO_BATTLE_MAIN_2, interval=3):
                 continue
             if not self.appear(self.I_PASS_3):
                 continue
-            if self.appear_then_click(self.I_PASS_1, interval=1.5):
+            if self.appear_then_click(self.I_PASS_1, interval=3):
                 continue
-            if self.appear_then_click(self.I_PASS_2, interval=1.5):
+            if self.appear_then_click(self.I_PASS_2, interval=3):
+                continue
+            center = RuleClick(roi_front=(630,360,10,10), roi_back=(630,360,10,10), name="random_all")
+            if center_click_cnt <= 5 and self.click(center, interval=3.5):
+                center_click_cnt += 1
                 continue
         logger.info('Enter occupation reward screen')  # 进入到占领奖励
         index = 0
@@ -205,8 +212,8 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             self.screenshot()
             if self.appear(self.I_CHECK_BATTLE_MAIN):
                 break
-            if self.click(clicks[index], interval=1.5):
-                sleep(1)
+            if self.click(clicks[index], interval=3):
+                sleep(3)
             index = (index + 1) % len(clicks)
         logger.info('Enter challenge screen')  # 正式进入挑战界面
 
@@ -222,8 +229,8 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             self.screenshot()
             self.put_status()
             # --------------------------------------------------------------
-            if (self.appear_then_click(self.I_UI_CONFIRM, interval=0.5)
-                    or self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=0.5)):
+            if (self.appear_then_click(self.I_UI_CONFIRM, interval=3)
+                    or self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3)):
                 continue
             if self.ui_reward_appear_click():
                 continue
@@ -247,7 +254,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             self.screenshot()
             if self.appear(self.I_TO_BATTLE_MAIN):
                 break
-            if self.appear(self.I_CHECK_BATTLE_MAIN) and self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.5):
+            if self.appear(self.I_CHECK_BATTLE_MAIN) and self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
 
     def _run_ap(self):
@@ -256,7 +263,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
         """
         logger.hr(f'Start run climb type AP')
         self.ui_clicks([self.I_TO_BATTLE_MAIN],
-                       stop=self.I_CHECK_BATTLE_MAIN, interval=1)
+                       stop=self.I_CHECK_BATTLE_MAIN, interval=3)
         self.switch_soul(self.I_BATTLE_MAIN_TO_RECORDS, self.I_CHECK_BATTLE_MAIN)
         # self.switch_climb_mode_in_game('ap')
 
@@ -287,11 +294,11 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
 
             if self.appear(self.I_TO_BATTLE_MAIN):
                 break
-            if self.appear_then_click(self.I_UI_BACK_CIRCLE, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_CIRCLE, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.5):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
 
 
@@ -302,7 +309,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
         logger.hr(f'Start run climb type BOSS')
 
         self.ui_clicks([self.I_TO_BATTLE_BOSS],
-                       stop=self.I_CHECK_BATTLE_BOSS, interval=1)
+                       stop=self.I_CHECK_BATTLE_BOSS, interval=3)
 
 
         while 1:
@@ -335,8 +342,8 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             if click_times >= max_times:
                 logger.warning(f'Climb {self.climb_type} cannot enter, maybe already end, try next')
                 return
-            if (self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1) or
-                    self.appear_then_click(self.I_UI_CONFIRM, interval=1) ):
+            if (self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3) or
+                    self.appear_then_click(self.I_UI_CONFIRM, interval=3) ):
                 continue
             if (self.appear(self.I_CHECK_BATTLE_MAIN, interval=3) or self.appear(self.I_CHECK_BATTLE_BOSS, interval=3)) \
                     and  self.ocr_appear_click(self.O_FIRE, interval=3):
@@ -346,6 +353,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
         # 运行战斗
         strategies, options = self.loadout_from_config(self.get_general_battle_conf())
         # strategies['success'] = 'activity'
+        options['completion'].check_imgs = [self.I_CHECK_BATTLE_MAIN]
         self.loadout_show((strategies, options))
         self.state_show()
         with battle_wait_strategy(**strategies), battle_wait_options(**options):
@@ -365,14 +373,14 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             return
         logger.hr('Start switch soul', 2)
         conf.validate_switch_soul()
-        self.ui_click(enter_button, stop=self.I_CHECK_RECORDS, interval=1)
+        self.ui_click(enter_button, stop=self.I_CHECK_RECORDS, interval=3)
         if enable_by_name:
             group, team = getattr(conf, f"{self.climb_type}_group_team_name").split(",")
             self.run_switch_soul_by_name(group, team)
         elif enable_switch:
             group_team = getattr(conf, f"{self.climb_type}_group_team")
             self.run_switch_soul(group_team)
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=cur_img, interval=1)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=cur_img, interval=3)
 
     def switch_climb_mode_in_game(self, mode: str = 'ap'):
         map_check = {
@@ -380,7 +388,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             'pass': self.I_CLIMB_MODE_PASS,
         }
         logger.info(f'Switch climb mode to {mode}')
-        self.ui_click(self.I_CLIMB_MODE_SWITCH, stop=map_check[mode], interval=1.9)
+        self.ui_click(self.I_CLIMB_MODE_SWITCH, stop=map_check[mode], interval=3)
 
     def lock_team(self, battle_conf: GeneralBattleConfig):
         """
@@ -389,10 +397,10 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
         enable_preset = getattr(battle_conf, f"enable_{self.climb_type}_preset", False)
         if not enable_preset:
             logger.info(f'Lock {self.climb_type} team')
-            self.ui_click(self.I_UNLOCK, stop=self.I_LOCK, interval=1.5)
+            self.ui_click(self.I_UNLOCK, stop=self.I_LOCK, interval=3)
             return
         logger.info(f'Unlock {self.climb_type} team')
-        self.ui_click(self.I_LOCK, stop=self.I_UNLOCK, interval=1.5)
+        self.ui_click(self.I_LOCK, stop=self.I_UNLOCK, interval=3)
 
     def check_tickets_enough(self) -> bool:
         """
@@ -441,7 +449,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             options = [option for option in options if option not in exclude_click]
         target = random.choice(options)
         if click_now:
-            self.click(target, interval=1.8)
+            self.click(target, interval=3)
         return target
 
 
