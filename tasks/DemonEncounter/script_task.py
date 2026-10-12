@@ -505,6 +505,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                 break
             realm_fire_interval = 3
             if self.appear_then_click(self.I_DE_REALM_FIRE, interval=realm_fire_interval):
+                continue
 
             click_interval = 3
             if self.click(target_click, interval=click_interval):
