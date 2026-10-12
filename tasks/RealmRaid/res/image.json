@@ -126,6 +126,15 @@
     "description": "打完个后出现的领取奖励"
   },
   {
+    "itemName": "fresh_ensure",
+    "imageName": "res_fresh_ensure.png",
+    "roiFront": "663,410,173,59",
+    "roiBack": "663,410,173,59",
+    "method": "Template matching",
+    "threshold": 0.8,
+    "description": "刷新确认"
+  },
+  {
     "itemName": "unlock_2",
     "imageName": "res_unlock_2.png",
     "roiFront": "1002,643,30,41",

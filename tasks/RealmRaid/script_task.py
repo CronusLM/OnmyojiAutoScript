@@ -153,7 +153,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
         while 1:
             self.screenshot()
             #看到弹窗点掉，不然会卡死
-            if self.appear(self.I_UI_CONFIRM):
+            if self.appear(self.I_FRESH_ENSURE):
                 logger.info("Pop-up detected: Refresh Confirmation. Clicking Confirm.")
                 self.appear_then_click(self.I_FRESH_ENSURE, interval=3)
                 continue
@@ -178,7 +178,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                 else:
                     logger.info('No one can attack, break')
                     # 检查是否有“刷新确认”弹窗挡路
-                    if self.appear(self.I_UI_CONFIRM):
+                    if self.appear(self.I_FRESH_ENSURE):
                         logger.info("Closing obstructing refresh dialog (Click Ensure)...")
                         # 点击“确定”来完成刷新（或者你可以改成点取消）
                         self.appear_then_click(self.I_FRESH_ENSURE, interval=3)
@@ -458,13 +458,13 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             return False
         while 1:
             self.screenshot()
-            if self.appear(self.I_UI_CONFIRM):
+            if self.appear(self.I_FRESH_ENSURE):
                 break
             if self.appear_then_click(self.I_FRESH, interval=3):
                 continue
         while 1:
             self.screenshot()
-            if not self.appear(self.I_UI_CONFIRM):
+            if not self.appear(self.I_FRESH_ENSURE):
                 return True
             if self.appear_then_click(self.I_FRESH_ENSURE, interval=3):
                 continue
@@ -482,8 +482,8 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             
             logger.info("Title not found! Checking for popups or rewards...")
             
-            # 如果看到了“刷新确认”弹窗 (self.I_UI_CONFIRM 是右边的确定)
-            if self.appear(self.I_UI_CONFIRM):
+            # 如果看到了“刷新确认”弹窗 (self.I_FRESH_ENSURE 是右边的确定)
+            if self.appear(self.I_FRESH_ENSURE):
                 logger.info("Refresh popup detected! Clicking CANCEL (Red Button).")
                 # 点击“取消”按钮的坐标 (基于1280x720分辨率)
                 self.device.click(x=530, y=460) 
@@ -505,7 +505,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             self.screenshot()
             
             # 双重保险：如果在进攻阶段又弹出了窗口，也把它关掉
-            if self.appear(self.I_UI_CONFIRM):
+            if self.appear(self.I_FRESH_ENSURE):
                 logger.info("Refresh popup blocking attack! Clicking CANCEL.")
                 self.device.click(x=530, y=460) # 点取消
                 time.sleep(1.0)
