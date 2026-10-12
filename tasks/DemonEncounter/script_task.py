@@ -497,18 +497,24 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             logger.info('Battle End')
 
     def _realm(self, target_click):
-        # 结界
+        # 结界：先点一次灯笼打开结界面板，之后只点集结火焰等待进战斗
+        timer = Timer(60).start()
+        fire_seen = False
         while 1:
             self.screenshot()
             if not self.appear(self.I_DE_LOCATION):
                 logger.info('Battle Start')
                 break
-            realm_fire_interval = 3
-            if self.appear_then_click(self.I_DE_REALM_FIRE, interval=realm_fire_interval):
+            if self.appear(self.I_DE_REALM_FIRE):
+                fire_seen = True
+                self.appear_then_click(self.I_DE_REALM_FIRE, interval=3)
                 continue
-
-            click_interval = 3
-            if self.click(target_click, interval=click_interval):
+            if fire_seen:
+                if timer.reached():
+                    logger.warning('Realm battle enter timeout')
+                    break
+                continue
+            if self.click(target_click, interval=3):
                 continue
         if self.run_general_battle():
             logger.info('Battle End')
@@ -566,7 +572,7 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
             self.screenshot()
             if self.appear(self.I_DE_WIN):
                 logger.info('Appear [demon encounter] win button')
-                self.ui_click_until_disappear(self.I_DE_WIN)
+                self.ui_click_until_disappear(self.I_DE_WIN, interval=3)
                 check_timer = Timer(3)
                 check_timer.start()
                 continue
@@ -577,13 +583,13 @@ class ScriptTask(GameUi, GeneralBattle, DemonEncounterAssets, SwitchSoul):
                 continue
             if self.appear(self.I_REWARD):
                 logger.info('Win battle')
-                self.ui_click_until_disappear(self.I_REWARD)
+                self.ui_click_until_disappear(self.I_REWARD, interval=3)
                 return True
 
             # 失败的
             if self.appear(self.I_FALSE):
                 logger.warning('False battle')
-                self.ui_click_until_disappear(self.I_FALSE)
+                self.ui_click_until_disappear(self.I_FALSE, interval=3)
                 return False
             # 时间到
             if check_timer and check_timer.reached():
