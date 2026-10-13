@@ -100,9 +100,12 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 
 ## 重要约定
 
-### Interval 统一为 3
+### Interval 处理规则（下限 3）
 
-云手机（分辨率 1280×720）下所有 `interval`、`sleep` 值统一为 **3** 秒。历史遗留值（0.2、0.5、1.5、2）需逐步迁移。改动时同步检查所有分支路径。
+云手机（分辨率 1280×720）下 `interval`、`sleep` 值按以下规则处理：
+- 低于 **3** 秒的历史遗留值（0.2、0.5、1.5、2）统一上调为 **3** 秒；
+- 高于 **3** 秒的值（如 Tako 结算 `C_REWARD_2` 的 5）保持原状，不得下调为 3。
+改动时同步检查所有分支路径。
 
 ### Wait 方法的区别
 
@@ -183,12 +186,12 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 ## 上游同步（merge upstream/dev）经验
 
 ### 上游方向与本地方向相反处，多数保持本地
-- interval：上游倾向 0.8~2，本地铁律统一 **3**（云手机）。本地已在 base 后改过的 interval 行，三方合并会保留本地；净改动逐行以本地为准。
+- interval：上游倾向 0.8~2，本地规则为**下限 3**（低于 3 上调为 3，高于 3 保持原状，云手机）。本地已在 base 后改过的 interval 行，三方合并会保留本地；净改动逐行以本地为准。
 - 失败按钮：上游切 `battle_wait` 策略框架后默认只认 `I_FALSE`；本地依赖 `false_button`（RyouToppa `I_FALSE_2`/loser_sign、RealmRaid 走 `battle_wait_v2`），**勿**让策略 def 自动合入这些任务。
 - RealmRaid 退四目标：本地 `index == 9`（先打第九格）vs 上游 `index == 1`，保持本地（6cf59a71）。
 
 ### 核心框架改动只做延迟适配，不自行添加逻辑
-- 上游对核心框架（如 `GameUi`/`navigator` 等）的改版，本地**只允许**做云手机 timing 适配（`interval`/`sleep`/`timeout` 统一为 3 等），**禁止**自行添加、保留或恢复上游不存在的逻辑。
+- 上游对核心框架（如 `GameUi`/`navigator` 等）的改版，本地**只允许**做云手机 timing 适配（`interval`/`sleep`/`timeout` 低于 3 上调为 3、高于 3 保持原状等），**禁止**自行添加、保留或恢复上游不存在的逻辑。
 - 若某任务依赖的接口被上游移除/改名，应让该任务**改用上游的新接口**（如 `ui_goto`/`ui_get_current_page` → `goto_page`/`get_current_page`），**不得**为旧调用补兼容 shim、转发方法或别名。
 - 反例（勿复现）：本次合并在 `tasks/GameUi/navigator.py` 末尾为 `ui_goto`/`ui_get_current_page`/`ui_goto_page` 补了兼容 shim；正确做法是把调用方（`TrueOrochi`、`WeeklyTrifles` 等）迁移到新接口。
 
