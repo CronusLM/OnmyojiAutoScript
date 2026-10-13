@@ -256,6 +256,10 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
                 break
             if self.appear(self.I_CHECK_BATTLE_MAIN) and self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
+            if self.appear_then_click(self.I_UI_BACK_CIRCLE, interval=3):
+                continue
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
+                continue
 
     def _run_ap(self):
         """
