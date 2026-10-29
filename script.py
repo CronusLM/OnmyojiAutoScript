@@ -682,14 +682,23 @@ class Script:
                 _ = self.device
 
             # Game state check: run Restart if game is not running
-            try:
-                if not self.device.app_is_running():
-                    logger.info('Game not running, run Restart first')
-                    self.run('Restart')
-                    del_cached_property(self, 'config')
-                    continue
-            except Exception as e:
-                logger.warning(f'Failed to check game state: {e}')
+            # 桌面模式：客户端刚被自动拉起时停在登录页（_desktop_login_done=False），
+            # 此时 app_is_running() 返回 False。若下一个任务是 gameplay，先强制走 Restart
+            # 登录流程把游戏带到庭院主界面，避免 gameplay 在登录页盲点后被迫重启。
+            # 注意：不能只靠 task_call('Restart') 排队，因为 get_next_task 按 next_run 取最早
+            # 到期的任务，Exploration 等的 next_run 是 2023 永远更优先，Restart 永远排不上去，
+            # 所以这里直接把 task 改写成 Restart 并落进下方 Run 分支执行。
+            # 全设备生效（本 fork：模拟器/云手机同样触发），不再限定 is_desktop；
+            # 改写后落进下方 Run 分支执行，获得 failure_record 计数/3 连败通知/anti_ban_guard 语义，
+            # 修复本地旧版嵌套 self.run('Restart') 失败无计数、while 1 无限重试的问题。
+            if task != 'Restart':
+                try:
+                    if not self.device.app_is_running():
+                        logger.info('Game not running, run `Restart` to login first')
+                        task = 'Restart'
+                        self.is_first_task = False
+                except Exception as e:
+                    logger.warning(f'Failed to check game state: {e}')
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')

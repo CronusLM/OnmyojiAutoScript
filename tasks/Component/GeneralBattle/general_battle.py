@@ -261,6 +261,11 @@ class GeneralBattle(BattleWait, GeneralBuff):
         logger.info("Get reward")
         while 1:
             self.screenshot()
+
+            if self.appear(self.I_OVER_GHOST):
+                self.click(self.I_OVER_GHOST)
+                continue
+
             # 如果出现领奖励
             action_click = random.choice([self.C_REWARD_1, self.C_REWARD_2, self.C_REWARD_3])
             if (self.appear_then_click(self.I_REWARD, action=action_click, interval=3) or
@@ -672,6 +677,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
                 break
             if self.appear_then_click(self.I_BUFF, interval=3):
                 continue
+        self.ui_click_until_disappear(self.I_PREPARE_HIGHLIGHT, interval=3)
 
     def boss_mark(self, enable=True) -> bool:
         if not enable or self._boss_mark_flag:
