@@ -424,6 +424,11 @@ class Script:
         """Wait until next_run; if emulator is down, preheat startup before next task."""
         if not self._emulator_down:
             return self.wait_until(next_run)
+        # 实例调度域成员：禁用空闲预热自主拉起模拟器/客户端（T16 改动点 3），
+        # 游戏与实例开关由元调度器（module/instance_schedule）域级协调；
+        # 到点后本实例若无游戏，loop 会经 `Restart` 改写分支（script.py 下方）自行拉起。
+        if self.config.script.instance_schedule.enable:
+            return self.wait_until(next_run)
 
         startup_lead = self._time_to_timedelta(self.config.script.optimization.emulator_startup_lead_time)
         now = datetime.now()
@@ -537,6 +542,45 @@ class Script:
             self.config.task_call('SoulsTidy')
             time.sleep(1)
 
+    def _instance_schedule_on_error(self) -> None:
+        """
+        实例调度域成员的错误收尾钩子（任务 T16）。
+
+        仅当 instance_schedule.enable 且 on_error 配置了关闭动作时生效：
+        关闭本实例游戏（app_stop），on_error=close_and_switch 时进一步关闭
+        模拟器/桌面客户端（emulator_stop 内部已适配三形态：模拟器 CLI /
+        桌面转发关客户端 / 云手机跳过），供元调度器感知实例停止并切换到
+        域内下一个实例。
+
+        钩子自身任何失败只记日志，不改变调用方的退出码与原有异常路径。
+        """
+        try:
+            from tasks.Script.config_instance_schedule import OnErrorAction
+            cfg = self.config.script.instance_schedule
+            if not cfg.enable or cfg.on_error == OnErrorAction.NONE:
+                return
+            logger.hr('Instance schedule on error', level=1)
+            logger.info(f'[instance_schedule] on-error action: {cfg.on_error.value}')
+            # device 可能未初始化（如启动阶段即失败），此时游戏也未由本进程打开
+            if 'device' not in self.__dict__:
+                logger.info('[instance_schedule] device not initialized, skip closing')
+                return
+            # 关游戏。注意 handle_error=False 时 app_stop 内部会抛
+            # RequestHumanTakeover（device.py app_stop 分支），吞掉后由
+            # 下方 emulator_stop 兜底（close_and_switch 时）
+            try:
+                self.device.app_stop()
+            except Exception as e:
+                logger.warning(f'[instance_schedule] app_stop failed: {e}')
+            if cfg.on_error == OnErrorAction.CLOSE_AND_SWITCH:
+                try:
+                    self.device.emulator_stop()
+                    self._emulator_down = True
+                except Exception as e:
+                    logger.warning(f'[instance_schedule] emulator_stop failed: {e}')
+        except Exception as e:
+            logger.warning(f'[instance_schedule] on-error hook failed: {e}')
+
     def run(self, command: str) -> bool:
         """
         :param command:  大写驼峰命名的任务名字
@@ -606,18 +650,21 @@ class Script:
             self.exception_handler(e=e, command=command)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
             self.config.notifier.push(title=f'{I18n.trans_zh_cn(command)}{command}', content=f"<{self.config_name}> ScriptError")
+            self._instance_schedule_on_error()
             exit(1)
         except RequestHumanTakeover as e:
             logger.critical(e)
             self.exception_handler(e=e, command=command)
             logger.critical('Request human takeover')
             self.config.notifier.push(title=f'{I18n.trans_zh_cn(command)}{command}', content=f"<{self.config_name}> RequestHumanTakeover")
+            self._instance_schedule_on_error()
             exit(1)
         except Exception as e:
             logger.exception(e)
             self.exception_handler(e=e, command=command)
             self.save_error_log()
             self.config.notifier.push(title=f'{I18n.trans_zh_cn(command)}{command}', content=f"<{self.config_name}> Exception occured")
+            self._instance_schedule_on_error()
             exit(1)
 
     def loop(self):
@@ -629,6 +676,18 @@ class Script:
             logger.set_file_logger(self.config_name, do_cleanup=True)
         start_day = date.today()
         logger.info(f'Start scheduler loop: {self.config_name}')
+        # 实例调度（T16 P1）：落盘 pid 文件，供 PidFileProbe（module/instance_schedule/
+        # scheduler.py）在 CLI 部署形态探测实例进程存活。无条件写：pid 文件只有域成员
+        # （config.script.instance_schedule.enable=True）会被读取，非域成员无消费者、
+        # 写了无行为影响；下次 loop() 启动会覆盖同路径，残留旧文件自愈。
+        # 已知局限：进程退出后操作系统可能把 pid 复用给新进程，导致 PidFileProbe
+        # 误判「存活」——概率极低，且误判方向是「少切换」（设备级探测兜底），不处理。
+        try:
+            pid_path = Path.cwd() / 'log' / f'{self.config_name}.pid'
+            pid_path.parent.mkdir(parents=True, exist_ok=True)
+            pid_path.write_text(str(os.getpid()), encoding='utf-8')
+        except Exception as e:
+            logger.warning(f'[instance_schedule] write pid file failed: {e}')
         self.config.model.running_task = ''
         self.anti_ban_guard.reset()
 
@@ -731,6 +790,8 @@ class Script:
                     title=f'{I18n.trans_zh_cn(task)}{task}',
                     content=f"<{self.config_name}> 任务连续失败三次，请上线查看"
                 )
+                # 实例调度错误钩子：独立于下方 error_repeated 闸门（T16）
+                self._instance_schedule_on_error()
                 # 关闭模拟器
                 if self.config.script.error.error_repeated:
                     self.device.emulator_stop()
@@ -745,7 +806,50 @@ class Script:
                 # self.checker.check_now()
                 continue
             else:
+                # handle_error=False 的退出路径：先执行实例调度错误钩子再退出（T16）
+                self._instance_schedule_on_error()
                 break
+
+    def _loop_wrapper(self) -> None:
+        """
+        loop 线程的收尾包装（任务 T16 R1：GUI 活僵尸修复）。
+
+        loop 线程结束（正常 break、异常或 exit）时：清理 queue token、
+        向 server/GUI 推送 Error 状态，防止 GUI 把调度线程已死的进程
+        当成仍在运行。不吞异常，不改变 loop 的退出行为与退出码。
+        """
+        try:
+            self.loop()
+        finally:
+            # 清理跨进程排队状态：remove_from_queue 幂等（非持有者且不在
+            # 队列时仅重写状态文件），持有者时会移交执行权给下一等待者
+            try:
+                if self.instance_guard:
+                    self.instance_guard.remove_from_queue()
+            except Exception as e:
+                logger.warning(f'[instance_schedule] remove_from_queue on exit failed: {e}')
+            # server 路径：module/server/script_process.py 的 state_queue
+            # 消费格式 {"state": ScriptState.WARNING}（ScriptState.WARNING == 2）
+            try:
+                if self.state_queue:
+                    from module.server.script_process import ScriptState
+                    self.state_queue.put({"state": ScriptState.WARNING})
+            except Exception as e:
+                logger.warning(f'[instance_schedule] state_queue push failed: {e}')
+            # GUI 路径：无 state_queue，状态走 gui_update_task 回调
+            # （module/gui/process/script_process.py 赋值），复用既有 {"status": ...} 格式
+            try:
+                if self.gui_update_task:
+                    self._gui_set_status('Error')
+            except Exception as e:
+                logger.warning(f'[instance_schedule] gui status push failed: {e}')
+            # 实例调度（T16 P1）：清理本实例的 pid 文件，让 PidFileProbe 正确判死
+            # （进程退出仍留着 pid 文件时，psutil.pid_exists=False 同样判死，残留无害；
+            # 删除是为了口径干净——文件不存在即「无探针」，回落设备级探测）。None 防御。
+            try:
+                (Path.cwd() / 'log' / f'{self.config_name}.pid').unlink(missing_ok=True)
+            except Exception as e:
+                logger.warning(f'[instance_schedule] remove pid file failed: {e}')
 
     def start_loop(self) -> None:
         """
@@ -753,7 +857,7 @@ class Script:
         :return:
         """
         if self.loop_thread is None:
-            self.loop_thread = Thread(target=self.loop, name='Script_loop')
+            self.loop_thread = Thread(target=self._loop_wrapper, name='Script_loop')
             self.loop_thread.start()
 
 

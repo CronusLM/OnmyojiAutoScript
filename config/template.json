@@ -23,6 +23,14 @@
       "window_title": "",
       "launch_instance": false
     },
+    "instance_schedule": {
+      "enable": false,
+      "domain": "default",
+      "instance_type": "auto",
+      "on_error": "close_and_switch",
+      "close_others_on_switch": true,
+      "switch_threshold": "00:05:00"
+    },
     "error": {
       "handle_error": true,
       "error_repeated": false,

@@ -8,11 +8,13 @@ from tasks.Script.config_desktop import Desktop
 from tasks.Script.config_error import Error
 from tasks.Script.config_optimization import Optimization
 from tasks.Script.config_antiban import AntiBan
+from tasks.Script.config_instance_schedule import InstanceSchedule
 
 
 class Script(BaseModel):
     device: Device = Field(default_factory=Device)
     desktop: Desktop = Field(default_factory=Desktop)
+    instance_schedule: InstanceSchedule = Field(default_factory=InstanceSchedule)
     error: Error = Field(default_factory=Error)
     optimization: Optimization = Field(default_factory=Optimization)
     anti_ban: AntiBan = Field(default_factory=AntiBan)
