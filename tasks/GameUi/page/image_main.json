@@ -20,8 +20,8 @@
   {
     "itemName": "main_goto_exploration",
     "imageName": "page_main_goto_exploration.png",
-    "roiFront": "660,100,40,70",
-    "roiBack": "280,70,800,150",
+    "roiFront": "493,116,45,75",
+    "roiBack": "243,100,933,211",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "庭院探索标志"
