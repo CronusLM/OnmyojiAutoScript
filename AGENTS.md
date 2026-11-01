@@ -158,7 +158,8 @@ RequestHumanTakeover 请求人工介入（连续失败 3 次）
 
 2. [已落地] **RealmRaid 勋章检测**：`I_MEDAL_*` 的 `roi_back` 必须保持全网格 `(140,129,1024,584)`，收窄会致打完一个位置后 `find_one()` 误判无结界。
 
-3. [已落地] **`I_MAIN_GOTO_EXPLORATION` 采用上游资产**：2026-11-01 用户裁决，roi_front=`(493,116,45,75)`、roi_back=`(243,100,933,211)`、模板 png 均与上游一致（threshold 0.8，json/assets.py/png 三处对齐）。云手机匹配失败时**重新截图模板**，勿回改 ROI 或换回旧云手机 png（旧值 `(660,100,40,70)`/`(280,70,800,150)` 已废弃）。
+3. [已落地] **庭院导航图标与寮突按钮采用上游资产**：2026-11-01 用户裁决（两轮），`I_MAIN_GOTO_EXPLORATION` + 8 个庭院导航邻居（shikigami_records/onmyodo/friends/daily/mall/guild/team/collection）+ `I_RYOUTOPPA_GOTO_REALMRAID` 共 10 项资产的 roi_front/roi_back 与模板 png 均与上游一致（json/assets.py/png 三处对齐，提交 `5b0986ac`、`4eec0356`）。云手机匹配失败时**重新截图模板**，勿回改 ROI 或换回旧云手机 png（旧值如 exploration `(660,100,40,70)`/`(280,70,800,150)`、ryoutoppa `(1197,255,62,105)` 均已废弃）。
+   - 例外：`I_CHECK_MAIN` 阈值保持本地 0.9（json 与 assets.py 两侧一致的 db013dde 云手机校准，非脱节；上游 json 为 0.95，勿采纳）。
 
 4. [已落地] **`I_FIRE_2` ROI**：寮突破进攻按钮 `roi_back` 为 `(395,120,700,575)` 覆盖战斗区域。
 
