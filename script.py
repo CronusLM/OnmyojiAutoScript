@@ -412,7 +412,15 @@ class Script:
         if func is None:
             logger.warning(f"Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there")
             func = self._wait_stay_there
-        return func(next_run)
+        # 上报空闲状态给配置轮换管理器（经 state_queue，由服务端 ScriptProcess 转发）
+        if self.state_queue is not None:
+            self.state_queue.put({"idle": True})
+        try:
+            result = func(next_run)
+        finally:
+            if self.state_queue is not None:
+                self.state_queue.put({"idle": False})
+        return result
 
     @staticmethod
     def _time_to_timedelta(value) -> timedelta:

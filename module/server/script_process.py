@@ -39,7 +39,7 @@ class ScriptProcess(ScriptWSManager):
             logger.warning(f'Script {self.config_name} is initialized')
         if self._process and self._process.is_alive():
             logger.warning(f'Script {self.config_name} is already running and first stop it')
-            self.stop()
+            await self.stop()
         self._process = multiprocessing.Process(target=func,
                                                 args=(self.config_name, self.state_queue, self.log_pipe_in,),
                                                 name=self.config_name,
@@ -77,6 +77,11 @@ class ScriptProcess(ScriptWSManager):
                     data = self.state_queue.get_nowait()
                     if not data:
                         await sleep(0.5)
+                        continue
+                    # 空闲事件：转发给配置轮换管理器，不广播到前端
+                    if isinstance(data, dict) and 'idle' in data:
+                        from module.server.instance_switch import switcher
+                        switcher.submit_idle(self.config_name, bool(data.get('idle')))
                         continue
                     if 'state' in data and data['state'] == ScriptState.WARNING:
                         self.state = ScriptState.WARNING
