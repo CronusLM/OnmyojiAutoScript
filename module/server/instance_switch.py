@@ -379,13 +379,22 @@ class InstanceSwitchManager:
             self._save_state()
 
     async def resume_on_startup(self) -> None:
-        """服务启动后恢复轮换：从上次活动配置继续（持久化为暂停状态则不恢复）"""
+        """服务启动后恢复轮换：从上次活动配置继续（持久化为暂停状态则不恢复）
+
+        无任何持久化记录（功能上线后首次启动 / 状态文件被删）时自动引导：
+        启动第一个参与轮换的配置作为活动配置，否则启动后零配置运行。
+        """
         if self.paused:
             logger.info('[Switcher] rotation was paused, skip resume on startup')
             return
         if not self.active:
-            logger.info('[Switcher] no last active config, skip resume on startup')
-            return
+            # 首次启动引导：没有历史活动配置，从参与轮换的配置中选第一个启动
+            participants = self._participants()
+            if not participants:
+                logger.info('[Switcher] no switcher-enabled config, skip resume on startup')
+                return
+            self.active = participants[0]
+            logger.info(f'[Switcher] no last active config, bootstrap rotation with {self.active}')
         name = self.active
         if name not in self.mm.script_process:
             logger.warning(f'[Switcher] last active config {name} not found, skip resume')
