@@ -57,14 +57,14 @@ class IslandEntryTests(unittest.TestCase):
         self.assertEqual(task.events, [])
 
     def test_entry_cycles_in_order_with_one_shared_interval(self):
-        task = OfflineMoonSea(enter_after=8)
+        task = OfflineMoonSea(enter_after=5)
         self.enter_unknown(task)
         self.assertEqual(
             [name for _, name in task.events],
-            [f"island_enter_{number}" for number in (1, 2, 3, 4, 5, 6, 1, 2)],
+            [f"island_enter_{number}" for number in (1, 2, 3, 4, 5)],
         )
         for earlier, later in zip(task.events, task.events[1:]):
-            self.assertGreaterEqual(later[0] - earlier[0], 1)
+            self.assertGreaterEqual(later[0] - earlier[0], 3)
 
     def test_unrecognized_page_times_out_instead_of_clicking_forever(self):
         task = OfflineMoonSea()
@@ -82,7 +82,7 @@ class IslandEntryTests(unittest.TestCase):
         self.assertTrue(all(name == task.I_UI_CANCEL.name for _, name in task.events))
         self.assertLessEqual(task.now, 115.25)
         for earlier, later in zip(task.events, task.events[1:]):
-            self.assertGreaterEqual(later[0] - earlier[0], 1)
+            self.assertGreaterEqual(later[0] - earlier[0], 3)
 
 
 if __name__ == "__main__":

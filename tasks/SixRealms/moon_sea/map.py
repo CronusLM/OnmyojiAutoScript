@@ -84,7 +84,7 @@ class MoonSeaMap(MoonSeaSkills):
             logger.warning('The island type was not recognized')
             logger.warning('Pick one at random, starting from the right')
             timeout = Timer(15).start()
-            click_timer = Timer(1)
+            click_timer = Timer(3)
             entrances = (
                 self.C_ISLAND_ENTER_1, self.C_ISLAND_ENTER_2, self.C_ISLAND_ENTER_3,
                 self.C_ISLAND_ENTER_4, self.C_ISLAND_ENTER_5, self.C_ISLAND_ENTER_6,
@@ -98,7 +98,7 @@ class MoonSeaMap(MoonSeaSkills):
                     raise GameStuckError('Enter unknown island timeout')
                 if not click_timer.reached():
                     continue
-                if self.appear_then_click(self.I_UI_CANCEL, interval=1):
+                if self.appear_then_click(self.I_UI_CANCEL, interval=3):
                     click_timer.reset()
                     continue
                 self.click(entrances[entrance_index])
