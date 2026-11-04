@@ -110,7 +110,7 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
 
         while 1:
             self.screenshot()
-            if self.appear_then_click(target, interval=1.5):
+            if self.appear_then_click(target, interval=3):
                 continue
             if not self.appear(target):
                 return True
@@ -131,7 +131,7 @@ class GeneralRoom(BaseTask, GeneralRoomAssets):
                 if timer.reached():
                     logger.warning('Exit team timeout')
                     return False
-                if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=2):
+                if self.appear_then_click(self.I_GR_BACK_YELLOW, interval=3):
                     continue
 
     def check_zones(self, name: str) -> bool:

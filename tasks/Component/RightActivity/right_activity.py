@@ -18,8 +18,8 @@ class RightActivity(GameUi, RightActivityAssets):
         self.ui_click_until_disappear(target, interval=3)
 
     def right_open(self):
-        self.ui_click(self.I_RA_CLOSE, self.I_RA_OPEN, interval=2)
+        self.ui_click(self.I_RA_CLOSE, self.I_RA_OPEN, interval=3)
 
     def right_close(self):
-        self.ui_click(self.I_RA_OPEN, self.I_RA_CLOSE, interval=2)
+        self.ui_click(self.I_RA_OPEN, self.I_RA_CLOSE, interval=3)
 

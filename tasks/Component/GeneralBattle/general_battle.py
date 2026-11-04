@@ -307,7 +307,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
         while 1:
             self.screenshot()
             # 出现赢的鼓，点击直到消失
-            if self.appear_then_click(self.I_WIN, interval=0.8):
+            if self.appear_then_click(self.I_WIN, interval=3):
                 continue
             # 逢魔胜利图
             if self.appear(self.I_DE_WIN):
@@ -403,7 +403,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
             if not self.appear(self.I_PREPARE_HIGHLIGHT):
                 break
         if self.appear_then_click(self.I_LOCAL):
-            time.sleep(0.3)
+            time.sleep(3)
         self.device.click(x, y)
 
     def green_mark_name(self, name: str = ''):

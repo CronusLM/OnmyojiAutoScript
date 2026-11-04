@@ -362,9 +362,9 @@ def handle_battle_reward_page(task) -> bool:
     Returns:
         bool: 执行结果
     """
-    if task.appear_then_click(GeneralBattleAssets.I_OVER_GHOST, interval=0.8):
+    if task.appear_then_click(GeneralBattleAssets.I_OVER_GHOST, interval=3):
         return True
-    return task.click(random_click(), interval=0.8)
+    return task.click(random_click(), interval=3)
 
 page_reward.add_enter_success_hooks(handle_battle_reward_page)
 

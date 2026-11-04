@@ -43,16 +43,16 @@ class Battle(BattleWait):
             if click_times >= max_times:
                 logger.warning(f'Climb {self.climb_type} cannot enter, maybe already end, try next')
                 return False
-            if (self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1) or
-                    self.appear_then_click(self.I_UI_CONFIRM, interval=1)):
+            if (self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3) or
+                    self.appear_then_click(self.I_UI_CONFIRM, interval=3)):
                 continue
-            if any([self.appear(check, interval=1) for check in checks]):
+            if any([self.appear(check, interval=3) for check in checks]):
                 for button in buttons:
-                    if isinstance(button, RuleOcr) and self.ocr_appear_click(button, interval=2):
+                    if isinstance(button, RuleOcr) and self.ocr_appear_click(button, interval=3):
                         click_times += 1
                         logger.info(f'Try click fire, remain times[{max_times - click_times}]')
                         continue
-                    if isinstance(button, RuleImage) and self.appear_then_click(button, interval=2):
+                    if isinstance(button, RuleImage) and self.appear_then_click(button, interval=3):
                         click_times += 1
                         logger.info(f'Try click fire, remain times[{max_times - click_times}]')
                         continue

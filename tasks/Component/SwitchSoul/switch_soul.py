@@ -35,7 +35,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             self.screenshot()
             if self.appear(GameUiAssets.I_CHECK_RECORDS):
                 break
-            if self.appear_then_click(button, interval=1.5):
+            if self.appear_then_click(button, interval=3):
                 continue
         logger.info('Entry shikigami records')
 
@@ -136,7 +136,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             # 向上滑动
             self.swipe(self.S_SS_GROUP_SWIPE_UP, 1.5)
             # 等待滑动动画
-            sleep(0.5)
+            sleep(3)
 
         if group < 1 or group > 7:
             raise ValueError('Switch soul_one group must be in [1-7]')
@@ -153,7 +153,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
         # 2023.8.5 修改为无反馈的点击切换
         for i in range(2):
             self.click(target_click)
-            sleep(2)
+            sleep(3)
         # 点击队伍
         target_team = get_team_asset(team)
         for i in range(3):
@@ -211,7 +211,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             if now_group_text == last_group_text:
                 break
             self.swipe(self.S_SS_GROUP_SWIPE_UP, 2)
-            sleep(2.5)
+            sleep(3)
             last_group_text = now_group_text
         logger.info('Swipe to top of group')
 
@@ -227,7 +227,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             if result and len(result) > 0:
                 break
             self.swipe(self.S_SS_GROUP_SWIPE_DOWN)
-            sleep(1.5)
+            sleep(3)
         logger.info('Swipe down to find target group')
 
         # 选中分组
@@ -248,7 +248,7 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             if now_team_text == last_team_text:
                 break
             self.swipe(self.S_SS_TEAM_SWIPE_DOWN, 1.5)
-            sleep(2)
+            sleep(3)
             last_team_text = now_team_text
         logger.info('Swipe to top of team')
 
@@ -280,9 +280,9 @@ class SwitchSoul(BaseTask, SwitchSoulAssets):
             self.screenshot()
             if cnt_click >= 4:
                 break
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=0.8):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
-            if self.ocr_appear_click_by_rule(self.O_SS_TEAM_NAME, self.I_SOU_CLICK_PRESENT, interval=1.5):
+            if self.ocr_appear_click_by_rule(self.O_SS_TEAM_NAME, self.I_SOU_CLICK_PRESENT, interval=3):
                 cnt_click += 1
                 continue
         logger.info(f'Switch soul_one group {groupName} team {teamName}')

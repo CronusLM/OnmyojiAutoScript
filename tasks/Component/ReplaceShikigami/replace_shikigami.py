@@ -117,7 +117,7 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
                 continue
 
             # 是否育成候补式神按钮
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=1) or self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3) or self.appear_then_click(self.I_UI_CONFIRM_SAMLL, interval=3):
                 continue
             # 与下方点击第7个式神操作互斥, 防止确认按钮还没有出现被下方取消掉
             if not clicked and self.click(click_match, interval=3):

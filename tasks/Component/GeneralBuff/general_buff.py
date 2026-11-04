@@ -25,7 +25,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
             self.screenshot()
             if self.appear(self.I_CLOUD):
                 break
-            if self.appear_then_click(self.I_BUFF_1, interval=2):
+            if self.appear_then_click(self.I_BUFF_1, interval=3):
                 self.wait_until_appear(self.I_CLOUD, wait_time=5)
                 continue
 
@@ -35,7 +35,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
             if self.appear(check_image):
                 break
 
-            self.swipe(self.S_BUFF_UP, interval=2)
+            self.swipe(self.S_BUFF_UP, interval=3)
 
     def close_buff(self):
         """
@@ -47,7 +47,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
             self.screenshot()
             if not self.appear(self.I_CLOUD):
                 break
-            if self.appear_then_click(self.I_BUFF_1, interval=2):
+            if self.appear_then_click(self.I_BUFF_1, interval=3):
                 self.wait_until_disappear(self.I_CLOUD)
                 continue
 
@@ -140,7 +140,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
 
             if not self.appear(self.I_OPEN_YELLOW) and not self.appear(self.I_CLOSE_RED):
                 self.device.swipe(p2=(530, 240), p1=(580, 320))
-                time.sleep(1)
+                time.sleep(3)
             else:
                 break
 
@@ -168,7 +168,7 @@ class GeneralBuff(BaseTask, GeneralBuffAssets):
 
             if not self.appear(self.I_OPEN_YELLOW) and not self.appear(self.I_CLOSE_RED):
                 self.device.swipe(p2=(530, 240), p1=(580, 320))
-                time.sleep(1)
+                time.sleep(3)
             else:
                 break
 

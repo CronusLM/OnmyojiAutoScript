@@ -75,7 +75,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
             self.swipe(self.S_SA_SVR_SWIPE_LEFT)
             time.sleep(3.5)
         if found:
-            self.click(self.O_SA_SELECT_SVR_SVR_LIST, interval=1.5)
+            self.click(self.O_SA_SELECT_SVR_SVR_LIST, interval=3)
             return True
         # 没找到 点击空白区域关闭选择服务器界面
         self.click(self.C_SA_LOGIN_FORM_CANCEL_SVR_SELECT)
@@ -95,7 +95,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
         self.screenshot()
         while (not self.appear(self.I_SA_CHECK_SELECT_SVR_2)) and self.appear(self.I_SA_CHECK_SELECT_SVR_1):
             logger.info("open svr icon")
-            self.click(self.C_SA_SELECT_SVR_CHARACTER_LIST, interval=1.5)
+            self.click(self.C_SA_SELECT_SVR_CHARACTER_LIST, interval=3)
             self.wait_until_appear(self.I_SA_CHECK_SELECT_SVR_2, False, 1)
             # self.ui_click(self.C_SA_SELECT_SVR_CHARACTER_LIST, self.I_SA_CHECK_SELECT_SVR_2, 1.5)
             self.screenshot()
@@ -137,7 +137,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
             lastCharacterNameList = characterNameList
             self.swipe(self.S_SA_ACCOUNT_LIST_UP)
             # 等待滑动动画完成
-            time.sleep(1.5)
+            time.sleep(3)
 
         self.click(self.C_SA_LOGIN_FORM_CANCEL_SVR_SELECT, 1.5)
         return False
@@ -151,7 +151,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
         while 1:
             if self.appear(self.I_SA_NETEASE_GAME_LOGO) and self.appear(self.I_SA_ACCOUNT_LOGIN_BTN):
                 return
-            if self.appear_then_click(self.I_SA_SWITCH_ACCOUNT_BTN, interval=1.5):
+            if self.appear_then_click(self.I_SA_SWITCH_ACCOUNT_BTN, interval=3):
                 continue
             if self.appear(self.I_CHECK_LOGIN_FORM):
                 self.click(self.C_SA_LOGIN_FORM_USER_CENTER, 1.5)
@@ -170,7 +170,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                     if self.ocr_appear(self.O_SA_ACCOUNT_ACCOUNT_SELECTED):
                         return True
                     self.ui_click_until_disappear(self.I_SA_ACCOUNT_DROP_DOWN_CLOSED,
-                                                  interval=1.5)
+                                                  interval=3)
                     continue
 
                 # 账号列表已打开状态
@@ -190,7 +190,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                             1],
                         ocrResBoxList[index][1][0] - ocrResBoxList[index][0][0],
                         ocrResBoxList[index][2][1] - ocrResBoxList[index][1][1]]
-                    time.sleep(1)
+                    time.sleep(3)
                     self.click(self.O_SA_ACCOUNT_ACCOUNT_LIST)
                     logger.info("account [ %s ] found", accountInfo.account)
                     return True
@@ -199,7 +199,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                 if self.appear(self.I_SA_ACCOUNT_DROP_DOWN_ADD_ACCOUNT):
                     break
                 self.swipe(self.S_SA_ACCOUNT_LIST_UP, 1.5)
-                time.sleep(0.5)
+                time.sleep(3)
         logger.info("account [ %s ] not found ", accountInfo.account)
         return False
 
@@ -272,7 +272,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                         return False
                     # selectAccount 后更新图片
                     self.screenshot()
-                self.ui_click(self.I_SA_ACCOUNT_LOGIN_BTN, stop=self.I_SA_LOGIN_FORM_APPLE, interval=1)
+                self.ui_click(self.I_SA_ACCOUNT_LOGIN_BTN, stop=self.I_SA_LOGIN_FORM_APPLE, interval=3)
                 continue
             # 在用户中心界面
             if self.appear(self.I_SA_SWITCH_ACCOUNT_BTN):
@@ -282,7 +282,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                 if (accountInfo.account is None) or accountInfo.account == "" or accountInfo.is_account_alias(ocrRes):
                     logger.info("current is the account we want:ocr result %s", ocrRes)
                     isAccountLogon = True
-                    self.ui_click_until_disappear(self.C_SA_LOGIN_FORM_USER_CENTER_CLOSE_BTN, interval=1,
+                    self.ui_click_until_disappear(self.C_SA_LOGIN_FORM_USER_CENTER_CLOSE_BTN, interval=3,
                                                   stop=self.I_SA_SWITCH_ACCOUNT_BTN)
                     continue
                 #

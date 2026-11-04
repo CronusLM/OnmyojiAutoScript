@@ -132,7 +132,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
             if not self.appear(target=click_button):
                 logger.info('Deal with invitation done')
                 break
-            if self.appear_then_click(click_button, interval=0.8):
+            if self.appear_then_click(click_button, interval=3):
                 continue
         # 有的时候长战斗 点击后会取消战斗状态
         self.device.detect_record = detect_record
@@ -715,7 +715,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
         """
         if screenshot:
             self.screenshot()
-        return self.appear_then_click(self.I_UI_REWARD, action=self.C_UI_REWARD, interval=1.5, threshold=0.6)
+        return self.appear_then_click(self.I_UI_REWARD, action=self.C_UI_REWARD, interval=3, threshold=0.6)
 
     def ui_get_reward(self, click_image: RuleImage or RuleOcr or RuleClick, click_interval: float = 1):
         """
@@ -731,7 +731,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
             self.screenshot()
 
             if self.ui_reward_appear_click():
-                sleep(0.5)
+                sleep(3)
                 while 1:
                     self.screenshot()
                     # 等待动画结束
@@ -759,7 +759,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
 
         return True
 
-    def ui_click(self, click, stop, interval=1, timeout=None):
+    def ui_click(self, click, stop, interval=3, timeout=None):
         """
         循环的一个操作，直到出现stop
         :param click:
@@ -783,7 +783,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
             elif isinstance(click, RuleOcr) and self.ocr_appear_click(click, interval=interval):
                 continue
 
-    def ui_clicks(self, clicks: list[RuleImage | RuleOcr | RuleClick], stop: RuleImage, interval=1):
+    def ui_clicks(self, clicks: list[RuleImage | RuleOcr | RuleClick], stop: RuleImage, interval=3):
         while 1:
             self.screenshot()
             if self.appear(stop):
@@ -829,7 +829,7 @@ class BaseTask(GlobalGameAssets, CostumeBase):
                 self.click(click)
                 continue
 
-    def ui_click_multi_scale(self, click, stop, interval=1, scale_range=None, timeout=None):
+    def ui_click_multi_scale(self, click, stop, interval=3, scale_range=None, timeout=None):
         """
         循环的一个操作，直到出现stop（支持多尺度图片识别）
         :param click:

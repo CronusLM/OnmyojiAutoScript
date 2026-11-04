@@ -47,14 +47,14 @@ class ScriptTask(ScriptTaskBase):
                 logger.warning("Click failure, check your click position")
                 return False
             if not self.appear(self.I_TOPPA_RECORD, threshold=0.85):
-                time.sleep(1)
+                time.sleep(3)
                 self.screenshot()
                 if self.appear(self.I_TOPPA_RECORD, threshold=0.85):
                     continue
                 logger.info("Start attach area [%s]" % str(index + 1))
                 return self.run_general_battle_back(config=self.battle_config)
 
-            if self.appear_then_click(RealmRaidAssets.I_FIRE, interval=2, threshold=0.8):
+            if self.appear_then_click(RealmRaidAssets.I_FIRE, interval=3, threshold=0.8):
                 click_failure_count += 1
                 continue
             if self.click(rcl, interval=5):

@@ -21,10 +21,10 @@ class SwitchOnmyoji(BaseTask, SwitchOnmyojiAssets):
         logger.hr('Switch onmyoji', 2)
         hero = [Onmyoji.YORIMITSU, Onmyoji.MICHINAGA]
         if onmyoji in hero:
-            self.ui_click(self.I_ONMYOJI_CHECK, self.I_HERO_CHECK, interval=0.8)
+            self.ui_click(self.I_ONMYOJI_CHECK, self.I_HERO_CHECK, interval=3)
             self.switch_role(onmyoji, self._get_hero_battle_dict(), self.I_HERO_CHECK)
         else:
-            self.ui_click(self.I_HERO_CHECK, self.I_ONMYOJI_CHECK, interval=0.8)
+            self.ui_click(self.I_HERO_CHECK, self.I_ONMYOJI_CHECK, interval=3)
             self.switch_role(onmyoji, self._get_onmyoji_battle_dict(), self.I_ONMYOJI_CHECK)
         logger.info(f'Switch onmyoji: {onmyoji.name}[{onmyoji.value}]')
 
@@ -46,7 +46,7 @@ class SwitchOnmyoji(BaseTask, SwitchOnmyojiAssets):
             self.screenshot()
             if any(self.appear(battle_icon) for battle_icon in battle_dict.values()):
                 break
-            self.appear_then_click(self.I_ONMYOJI_SWITCH, interval=0.8)
+            self.appear_then_click(self.I_ONMYOJI_SWITCH, interval=3)
         battle_img = battle_dict.get(role, None)
         if not battle_img:
             raise ValueError('Incorrect role type')
@@ -57,12 +57,12 @@ class SwitchOnmyoji(BaseTask, SwitchOnmyojiAssets):
                                   'the role list stayed unconfirmed after '
                                   f'{self.SWITCH_BATTLE_TIMEOUT}s')
             self.screenshot()
-            if self.appear(check_img, interval=0.8):
+            if self.appear(check_img, interval=3):
                 break
-            if self.appear(battle_img, interval=0.8):
-                self.ui_click(self.I_UI_BACK_BLUE, check_img, interval=1.2)
+            if self.appear(battle_img, interval=3):
+                self.ui_click(self.I_UI_BACK_BLUE, check_img, interval=3)
                 break
-            self.click(battle_img, interval=1.2)
+            self.click(battle_img, interval=3)
 
     def _get_onmyoji_battle_dict(self):
         """获取阴阳师出战图标映射"""
