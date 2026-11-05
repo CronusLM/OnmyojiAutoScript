@@ -139,7 +139,7 @@ class MoonSeaMap(MoonSeaSkills):
             logger.info('Entering island randomly')
             return
         timeout = Timer(15).start()
-        click_timer = Timer(2.5)
+        click_timer = Timer(3)
         while 1:
             self.screenshot()
             on_map = self.in_main()
