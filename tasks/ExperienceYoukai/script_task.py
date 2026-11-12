@@ -75,7 +75,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
         # 退出 (要么是在组队界面要么是在庭院)
         self.experience_exit(con)
 
-    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
         # 重写
         self.device.stuck_record_add('BATTLE_STATUS_S')
         self.device.click_record_clear()
@@ -99,7 +99,7 @@ class ScriptTask(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, SwitchSoul, 
                 self.ui_click_until_disappear(self.I_EXP_WIN, interval=3)
                 return True
 
-            false_btn = false_button or self.I_FALSE
+            false_btn = self.I_FALSE
             if self.appear(false_btn):
                 logger.warning('False battle')
                 self.ui_click_until_disappear(false_btn, interval=3)

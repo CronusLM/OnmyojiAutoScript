@@ -222,7 +222,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
 
 
 
-    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
         """
         重写 三轮战斗 战斗过程中点击准备 返回到寮信息界面
         :param random_click_swipt_enable:
@@ -245,7 +245,7 @@ class ScriptTask(GameUi, GeneralBattle, SwitchSoul, DemonRetreatAssets, AbyssSha
                 self.device.stuck_record_clear()
                 self.device.stuck_record_add('BATTLE_STATUS_S')
             # 如果出现失败 就点击，返回False
-            false_btn = false_button or self.I_FALSE
+            false_btn = self.I_FALSE
             if self.appear(false_btn, threshold=0.8):
                 logger.info("Battle result is false")
                 self.ui_click_until_disappear(false_btn)

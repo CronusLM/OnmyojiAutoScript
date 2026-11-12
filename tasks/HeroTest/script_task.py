@@ -87,7 +87,7 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
         self.success = False  # 进入失败且不知道发生了什么情况
         return False
 
-    def battle_wait(self, random_click_swipt_enable: bool, false_button=None) -> bool:
+    def battle_wait(self, random_click_swipt_enable: bool) -> bool:
         self.device.stuck_record_add("BATTLE_STATUS_S")
         self.device.click_record_clear()
         logger.info("Start battle process")
@@ -111,7 +111,7 @@ class ScriptTask(GameUi, GeneralBattle, HeroTestAssets, SwitchSoul):
                 win = True
                 self.click(pages.random_click(ltrb=(False, True, True, False)))
                 continue
-            false_btn = false_button or self.I_FALSE
+            false_btn = self.I_FALSE
             if self.appear(false_btn, interval=3):
                 win = False
                 self.click(pages.random_click(ltrb=(False, True, True, False)))
