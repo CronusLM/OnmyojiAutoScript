@@ -10,6 +10,7 @@ from winerror import NOERROR
 
 from tasks.GameUi.game_ui import GameUi
 from tasks.GameUi.page import page_main, page_summon, page_guild, page_mall, page_friends
+from tasks.DailyTrifles.page import page_store_gift_room
 from tasks.DailyTrifles.config import DailyTriflesConfig
 from tasks.DailyTrifles.assets import DailyTriflesAssets
 from tasks.Component.Summon.summon import Summon
@@ -220,13 +221,16 @@ class ScriptTask(GameUi, Summon, DailyTriflesAssets):
 
     def run_store_sign(self):
 
+        self.goto_page(page_store_gift_room)
+
+        cnt = 0
         while 1:
             self.screenshot()
-            if self.appear(self.I_GIFT_RECOMMEND):
+            if self.appear(self.I_GIFT_SIGN) or cnt >=4:
                 break
-            if self.appear_then_click(self.I_ROOM_GIFT, interval=3):
+            if self.appear_then_click(self.I_GIFT_RECOMMEND, interval=3):
+                cnt += 1
                 continue
-        self.appear_then_click(self.I_GIFT_RECOMMEND, interval=3)
         logger.info('Enter store sign')
         sleep(3)  # 等个动画
         self.screenshot()
@@ -305,4 +309,4 @@ if __name__ == '__main__':
     d = Device(c)
     t = ScriptTask(c, d)
 
-    t.run_friend_love()
+    t.run()
