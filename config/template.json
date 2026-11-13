@@ -43,7 +43,8 @@
     },
     "switcher": {
       "enable": false,
-      "idle_cooldown_minutes": 10
+      "idle_cooldown_minutes": 10,
+      "instance": ""
     }
   },
   "restart": {
