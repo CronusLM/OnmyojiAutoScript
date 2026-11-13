@@ -72,6 +72,14 @@
     },
     "login_character_config": {
       "character": ""
+    },
+    "startup_account": {
+      "enable": false,
+      "character": "",
+      "svr": "",
+      "account": "",
+      "account_alias": "",
+      "apple_or_android": true
     }
   },
   "global_game": {

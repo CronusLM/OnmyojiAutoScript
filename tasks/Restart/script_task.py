@@ -16,6 +16,10 @@ from module.exception import (TaskEnd,
                               GameStuckError,
                               GameTooManyClickError)
 
+# 启动时自动切换账号：复用 SwitchAccount 组件的切号能力
+from tasks.Component.SwitchAccount.switch_account_config import AccountInfo
+from tasks.Component.SwitchAccount.switch_account import SwitchAccount
+
 # 桌面客户端「启动+登录」的就地重试轮数：Restart 就是负责启动客户端的任务，
 # 起不来必须自己扛住，抛给调度器会形成无限重启循环
 DESKTOP_RESTART_ATTEMPTS = 3
@@ -43,7 +47,34 @@ class ScriptTask(LoginHandler):
             return
         self.device.app_start()
         self.app_handle_login()
+        # 启动后切换到配置的指定账号
+        self._switch_startup_account()
         # self.ensure_no_unfinished_campaign()
+
+    def _switch_startup_account(self) -> None:
+        """
+        启动登录后，若开启了「启动自动切换账号」，则切到配置的目标账号。
+        每个 script config 固定对应一个小号：登录进当前账号后，再切到目标账号。
+        """
+        cfg = self.config.restart.startup_account
+        if not cfg.enable:
+            return
+        if not cfg.character or not cfg.account:
+            logger.warning('startup_account enabled but character/account empty, skip switch')
+            return
+        to = AccountInfo(
+            character=cfg.character,
+            svr=cfg.svr,
+            account=cfg.account,
+            account_alias=cfg.account_alias,
+            apple_or_android=cfg.apple_or_android,
+        )
+        logger.info('Startup switch account to %s-%s', to.character, to.svr)
+        if SwitchAccount(self.config, self.device, to).switchAccount():
+            logger.info('Startup switch account success: %s-%s', to.character, to.svr)
+        else:
+            logger.error('Startup switch account failed: %s-%s', to.character, to.svr)
+            raise RequestHumanTakeover('Startup switch account failed')
 
     def app_restart(self):
         logger.hr('App restart')
@@ -59,6 +90,7 @@ class ScriptTask(LoginHandler):
             self.device.app_stop()
             self.device.app_start()
             self.app_handle_login()
+            self._switch_startup_account()
 
         # self.config.task_delay(server_update=True)
         self.set_next_run(task='Restart', success=True, finish=True, server=True)
@@ -87,6 +119,7 @@ class ScriptTask(LoginHandler):
             try:
                 self.device.app_start()
                 self.app_handle_login()
+                self._switch_startup_account()
                 return
             except (GameNotRunningError, GameStuckError, GameTooManyClickError) as e:
                 logger.warning(f'桌面客户端启动后仍未就绪（第 {attempt}/{DESKTOP_RESTART_ATTEMPTS} 轮）: {e}')
