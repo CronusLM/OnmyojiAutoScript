@@ -13,6 +13,7 @@ from module.logger import logger
 from module.config.config import Config
 from module.server.script_process import ScriptProcess, ScriptState
 from module.server.config_manager import ConfigManager
+from module.server.instance_switch import switcher
 
 
 class MainManager(ConfigManager):
@@ -73,6 +74,8 @@ class MainManager(ConfigManager):
     async def push_data_handle(self):
         tasks: dict[str, Task] = {}
         from asyncio import sleep
+        # 配置轮换管理器轮询循环，与状态/日志协程共用本线程事件循环
+        asyncio.ensure_future(switcher.coroutine_loop())
         while 1:
             await sleep(3)
             if MainManager.signal_kill_server:  # 结束所有的进程

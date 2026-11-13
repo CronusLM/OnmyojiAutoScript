@@ -48,6 +48,7 @@ class EmulatorInfoType(str, Enum):
     MuMuPlayerX = 'MuMuPlayerX'
     MuMuPlayer12 = 'MuMuPlayer12'
     MEmuPlayer = 'MEmuPlayer'
+    CloudPhone = 'CloudPhone'
 
 class Device(BaseModel):
     # adb 序列号；桌面客户端模式（见 desktop 组）下本字段退场

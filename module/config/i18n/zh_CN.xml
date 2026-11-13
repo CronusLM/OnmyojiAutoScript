@@ -335,6 +335,8 @@ window_background >>> DroidCast_raw >  ADB_nc >> DroidCast > uiautomator2 ~= ADB
 	<message><source>combat_screenshot_interval_help</source><translation>执行两次截图之间的最小间隔，限制在 0.1 ~ 1.0，能降低战斗时的 CPU 占用</translation></message>
 	<message><source>task_hoarding_duration_help</source><translation>能在收菜期间降低操作游戏的频率,任务触发后，等待 X 分钟，再一次性执行囤积的任务</translation></message>
 	<message><source>when_task_queue_empty_help</source><translation>无任务时关闭游戏，能在收菜期间降低 CPU 占用，'goto_home'不可选，这项是为了兼容老代码</translation></message>
+	<message><source>switcher_enable_help</source><translation>参与配置轮换：开启后本配置会与其他开启轮换的配置互相切换运行（当前配置遇到错误停止或空闲时切换到下一个参与轮换的配置），同一时刻只运行一个配置</translation></message>
+	<message><source>switcher_idle_cooldown_help</source><translation>空闲切换冷却（分钟）：空闲触发的两次切换之间的最小间隔，防止多个配置来回切换；错误触发的切换不受此限制</translation></message>
 </context>
 <context>
     <name>Args</name>

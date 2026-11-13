@@ -74,6 +74,9 @@ async def on_startup():
     logger.info('OAS web service startup done')
     if app.state.script_instances:
         await mm.restart_processes(app.state.script_instances)
+    # 配置轮换：从上次活动配置恢复轮换（持久化为暂停状态则不恢复）
+    from module.server.instance_switch import switcher
+    await switcher.resume_on_startup()
 
 
 async def on_shutdown():

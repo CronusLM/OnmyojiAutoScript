@@ -423,6 +423,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
 
     def emulator_start(self):
+        if self._is_cloud_phone:
+            logger.info('Cloud phone mode, skip emulator start')
+            return True
         logger.hr('Emulator start', level=1)
         for i in range(3):
             # Stop
@@ -446,6 +449,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return False
 
     def emulator_stop(self):
+        if self._is_cloud_phone:
+            logger.info('Cloud phone mode, skip emulator stop')
+            return True
         # 桌面客户端无模拟器生命周期，空闲关闭改走关闭客户端。
         # desktop_stop_client 内部已做「窗口消失 且 进程退出」验证并多轮重杀，直接用其结论
         if getattr(self, 'is_desktop', False):

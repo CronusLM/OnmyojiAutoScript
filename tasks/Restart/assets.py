@@ -124,6 +124,9 @@ class RestartAssets:
 	I_EARLY_SERVER = RuleImage(roi_front=(596,269,115,33), roi_back=(596,269,115,33), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_early_server.png")
 	# 取消体验服切换弹窗 
 	I_EARLY_SERVER_CANCEL = RuleImage(roi_front=(435,404,172,56), roi_back=(435,404,172,56), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_early_server_cancel.png")
+	I_HW_AD_CHECH = RuleImage(roi_front=(933,564,51,54), roi_back=(933,564,51,54), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_chech.png")
+	I_HW_AD_CLOSE = RuleImage(roi_front=(1025,121,81,77), roi_back=(1025,121,81,77), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_close.png")
+	I_HW_AD_LOGO = RuleImage(roi_front=(540,534,190,57), roi_back=(540,534,190,57), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_hw_ad_logo.png")
 	# 庭院卷轴收起状态标志(移植自mine) 
 	I_LOGIN_COURTYARD = RuleImage(roi_front=(40,640,100,50), roi_back=(40,640,100,50), threshold=0.8, method="Template matching", file="./tasks/Restart/login/login_courtyard.png")
 

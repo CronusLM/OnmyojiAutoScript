@@ -31,18 +31,28 @@ class PlatformBase(EmulatorManagerBase):
     - emulator_stop()
     """
 
+    @property
+    def _is_cloud_phone(self):
+        return hasattr(self, 'config') and str(self.config.script.device.emulatorinfo_type) == 'CloudPhone'
+
     def emulator_start(self):
         """
         Start a emulator, until startup completed.
         - Retry is required.
         - Using bored sleep to wait startup is forbidden.
         """
+        if self._is_cloud_phone:
+            logger.info('Cloud phone mode, skip emulator start')
+            return True
         logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
 
     def emulator_stop(self):
         """
         Stop a emulator.
         """
+        if self._is_cloud_phone:
+            logger.info('Cloud phone mode, skip emulator stop')
+            return True
         logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
 
     @cached_property

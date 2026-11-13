@@ -11,6 +11,7 @@ from module.config.utils import convert_to_underscore
 from module.logger import logger
 from module.server.main_manager import mm
 from module.server.script_process import ScriptProcess, ScriptState
+from module.server.instance_switch import switcher
 
 from tasks.Component.config_base import TimeDelta
 
@@ -56,10 +57,11 @@ async def config_rename(old_name: str = '', new_name: str = ''):
         return False
     if old_name in mm.script_process:
         if mm.script_process[old_name].state != ScriptState.INACTIVE:
-            mm.script_process[old_name].stop()
+            await mm.script_process[old_name].stop()
         del mm.script_process[old_name]
     if not mm.rename(old_name, new_name):
         raise HTTPException(status_code=400, detail='Rename failed')
+    switcher.notify_config_removed(old_name)
     return True
 
 
@@ -74,10 +76,11 @@ async def config_delete(name: str = ''):
         raise HTTPException(status_code=400, detail='Delete failed')
     if name in mm.script_process:
         if mm.script_process[name].state != ScriptState.INACTIVE:
-            mm.script_process[name].stop()
+            await mm.script_process[name].stop()
         del mm.script_process[name]
     if not mm.delete(name):
         raise HTTPException(status_code=400, detail='Delete failed')
+    switcher.notify_config_removed(name)
     return True
 
 
@@ -101,12 +104,49 @@ async def task_group_copy(task_name: str, group_name: str, dest_config_name: str
     return mm.config_cache(dest_config_name).model.copy_task_group(task_name, group_name, source_task)
 
 
+# ---------------------------------   配置轮换管理   ----------------------------------
+# 注意：/switch/* 路由必须注册在 /{script_name}/... 通配路由之前，否则会被通配捕获
+@script_app.post('/switch/start')
+async def switch_start(script_name: str):
+    """手动启动指定配置，该配置立即成为活动配置（旧活动配置先停止）"""
+    if script_name not in mm.script_process:
+        try:
+            mm.script_process[script_name] = ScriptProcess(script_name)
+        except FileNotFoundError:
+            raise HTTPException(status_code=404, detail=f'{script_name}.json not found')
+    success = await switcher.api_start(script_name)
+    return {'success': success, 'status': switcher.status()}
+
+@script_app.post('/switch/stop')
+async def switch_stop(script_name: str = ''):
+    """手动停止指定配置（缺省为当前活动配置），轮换暂停"""
+    success = await switcher.api_stop(script_name)
+    return {'success': success, 'status': switcher.status()}
+
+@script_app.post('/switch/restart')
+async def switch_restart(script_name: str = ''):
+    """手动重启指定配置（缺省为当前活动配置），重启后仍为活动配置"""
+    success = await switcher.api_restart(script_name)
+    return {'success': success, 'status': switcher.status()}
+
+@script_app.post('/switch/switch')
+async def switch_switch(to: str):
+    """手动切换到目标配置（不受空闲冷却限制）"""
+    success = await switcher.api_switch_to(to)
+    return {'success': success, 'status': switcher.status()}
+
+@script_app.get('/switch/status')
+async def switch_status():
+    """当前轮换状态：活动配置、暂停标志、参与配置、切换历史等"""
+    return switcher.status()
+
+
 # ---------------------------------   脚本实例管理   ----------------------------------
 @script_app.get('/{script_name}/start')
 async def script_start(script_name: str):
     if script_name not in mm.script_process:
         mm.script_process[script_name] = ScriptProcess(script_name)
-    mm.script_process[script_name].start()
+    await switcher.api_start(script_name)
     return
 
 @script_app.get('/{script_name}/stop')
@@ -114,7 +154,7 @@ async def script_stop(script_name: str):
     if script_name not in mm.script_process:
         logger.warning(f'[{script_name}] script process does not exist')
         return
-    mm.script_process[script_name].stop()
+    await switcher.api_stop(script_name)
     return
 
 @script_app.get('/{script_name}/{task}/args')

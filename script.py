@@ -412,7 +412,15 @@ class Script:
         if func is None:
             logger.warning(f"Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there")
             func = self._wait_stay_there
-        return func(next_run)
+        # 上报空闲状态给配置轮换管理器（经 state_queue，由服务端 ScriptProcess 转发）
+        if self.state_queue is not None:
+            self.state_queue.put({"idle": True})
+        try:
+            result = func(next_run)
+        finally:
+            if self.state_queue is not None:
+                self.state_queue.put({"idle": False})
+        return result
 
     @staticmethod
     def _time_to_timedelta(value) -> timedelta:
@@ -640,7 +648,8 @@ class Script:
         self.anti_ban_guard.reset()
 
         # Update GUI 防呆, 读取设置并立刻显示后台模拟器到前台
-        if not self.config.script.device.run_background_only and IS_WINDOWS:
+        if not self.config.script.device.run_background_only and IS_WINDOWS \
+                and str(self.config.script.device.emulatorinfo_type) != 'CloudPhone':
             from module.device.platform2.platform_windows import minimize_by_name, show_window_by_name
             target_window_name = self.config.script.device.handle  # 在这里输入你的具体窗口名称
             if self.config.script.device.emulator_window_minimize:
@@ -687,17 +696,19 @@ class Script:
             else:
                 _ = self.device
 
-            # 桌面模式：客户端刚被自动拉起时停在登录页（_desktop_login_done=False），
-            # 此时 app_is_running() 返回 False。若下一个任务是 gameplay，先强制走 Restart
-            # 登录流程把游戏带到庭院主界面，避免 gameplay 在登录页盲点后被迫重启。
+            # 全设备生效（云手机/模拟器同样触发）：游戏未运行时先强制走 Restart 登录，
+            # 避免 gameplay 在登录页盲点后被迫重启。
             # 注意：不能只靠 task_call('Restart') 排队，因为 get_next_task 按 next_run 取最早
             # 到期的任务，Exploration 等的 next_run 是 2023 永远更优先，Restart 永远排不上去，
             # 所以这里直接把 task 改写成 Restart 并落进下方 Run 分支执行。
-            if task != 'Restart' and getattr(self.device, 'is_desktop', False) \
-                    and not self.device.app_is_running():
-                logger.info('Desktop client not logged in, run `Restart` to login first')
-                task = 'Restart'
-                self.is_first_task = False
+            if task != 'Restart':
+                try:
+                    if not self.device.app_is_running():
+                        logger.info('Game not running, run `Restart` to login first')
+                        task = 'Restart'
+                        self.is_first_task = False
+                except Exception as e:
+                    logger.warning(f'Failed to check game state: {e}')
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
