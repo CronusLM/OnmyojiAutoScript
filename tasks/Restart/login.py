@@ -427,6 +427,8 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
         if not self.ui_click_multi_scale(self.I_NOTE, self.I_PAGE, timeout=3, scale_range=(0.8, 1.2)):
             logger.warning('courtyard affairs timeout!')
             return False
+        # 确保在"每日"标签页（只需点击一次）
+        self.appear_then_click(self.I_DAILY, interval=1)
         count_success = 0
         while 1:
             self.screenshot()
@@ -447,8 +449,6 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
             if self.appear_then_click(self.I_CONFIRM, interval=1):
                 continue
 
-            if self.appear_then_click(self.I_DAILY, interval=1):
-                continue
             # 领取成功： 太傻逼了收取结界奖励游戏里面居然没有加上限制
             if self.appear_then_click(self.I_SUCCESS_CLAIMED, interval=1):
                 continue
