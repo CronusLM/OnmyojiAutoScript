@@ -29,8 +29,8 @@
   {
     "itemName": "sa_switch_account_btn",
     "imageName": "sa_switch_account_btn.png",
-    "roiFront": "930,170,160,75",
-    "roiBack": "930,170,160,75",
+    "roiFront": "965,155,160,75",
+    "roiBack": "965,155,160,75",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "游戏内点击用户中心后弹出的 切换用户按钮"
@@ -47,8 +47,8 @@
   {
     "itemName": "sa_netease_game_logo",
     "imageName": "sa_netease_game_logo.png",
-    "roiFront": "500,170,300,90",
-    "roiBack": "500,170,300,90",
+    "roiFront": "517,168,246,65",
+    "roiBack": "491,157,300,90",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "登录界面-选取账号界面-顶部网易游戏LOGO"
@@ -56,8 +56,8 @@
   {
     "itemName": "sa_account_drop_down_closed",
     "imageName": "sa_account_drop_down_closed.png",
-    "roiFront": "850,320,30,25",
-    "roiBack": "850,320,30,25",
+    "roiFront": "874,317,30,25",
+    "roiBack": "875,318,30,25",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "登录界面-选取账号界面-账号下拉菜单-关闭标志."
@@ -74,8 +74,8 @@
   {
     "itemName": "sa_account_login_btn",
     "imageName": "sa_account_login_btn.png",
-    "roiFront": "400,400,480,90",
-    "roiBack": "400,400,480,90",
+    "roiFront": "415,420,465,70",
+    "roiBack": "415,420,465,70",
     "method": "Template matching",
     "threshold": 0.8,
     "description": "登录界面-选取账号界面-账号下拉菜单-已经打开标志."

@@ -41,7 +41,9 @@ class SwitchAccount(LoginAccount, ExitGame, GameUi, SwitchAccountAssets):
             self.goto_page(page_main)
             curPage = self.get_current_page()
         if curPage == page_main:
-            self.exitGame()
+            if not self.exitGame():
+                logger.error("exit game failed, abort switch account")
+                return False
 
         # 处于登录界面
         if not self.login(self.to_account_info):

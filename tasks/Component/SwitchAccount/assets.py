@@ -67,17 +67,17 @@ class SwitchAccountAssets:
 	# 游戏内-点击头像弹出的设置界面-顶部设置字样 
 	I_SA_USER_CENTER_PROFILE = RuleImage(roi_front=(590,60,90,55), roi_back=(590,60,90,55), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_user_center_profile.png")
 	# 游戏内点击用户中心后弹出的 切换用户按钮 
-	I_SA_SWITCH_ACCOUNT_BTN = RuleImage(roi_front=(930,170,160,75), roi_back=(930,170,160,75), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_switch_account_btn.png")
+	I_SA_SWITCH_ACCOUNT_BTN = RuleImage(roi_front=(965,155,160,75), roi_back=(965,155,160,75), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_switch_account_btn.png")
 	# 登录界面 已登录状态下 点击用户中心后弹出的对话框中 复制账号按钮 
 	I_SA_USER_CENTER_COPY_BTN = RuleImage(roi_front=(460,280,640,50), roi_back=(460,280,640,50), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_user_center_copy_btn.png")
 	# 登录界面-选取账号界面-顶部网易游戏LOGO 
-	I_SA_NETEASE_GAME_LOGO = RuleImage(roi_front=(500,170,300,90), roi_back=(500,170,300,90), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_netease_game_logo.png")
+	I_SA_NETEASE_GAME_LOGO = RuleImage(roi_front=(517,168,246,65), roi_back=(491,157,300,90), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_netease_game_logo.png")
 	# 登录界面-选取账号界面-账号下拉菜单-关闭标志. 
-	I_SA_ACCOUNT_DROP_DOWN_CLOSED = RuleImage(roi_front=(850,320,30,25), roi_back=(850,320,30,25), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_account_drop_down_closed.png")
+	I_SA_ACCOUNT_DROP_DOWN_CLOSED = RuleImage(roi_front=(874,317,30,25), roi_back=(875,318,30,25), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_account_drop_down_closed.png")
 	# 登录界面-选取账号界面-账号下拉菜单-添加新账号. 
 	I_SA_ACCOUNT_DROP_DOWN_ADD_ACCOUNT = RuleImage(roi_front=(400,540,220,60), roi_back=(400,540,220,60), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_account_drop_down_add_account.png")
 	# 登录界面-选取账号界面-账号下拉菜单-已经打开标志. 
-	I_SA_ACCOUNT_LOGIN_BTN = RuleImage(roi_front=(400,400,480,90), roi_back=(400,400,480,90), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_account_login_btn.png")
+	I_SA_ACCOUNT_LOGIN_BTN = RuleImage(roi_front=(415,420,465,70), roi_back=(415,420,465,70), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/sa_account_login_btn.png")
 	# 登录界面-选择手机类型为苹果. 
 	I_SA_LOGIN_FORM_APPLE = RuleImage(roi_front=(508,354,100,100), roi_back=(508,355,100,100), threshold=0.8, method="Template matching", file="./tasks/Component/SwitchAccount/res/res_sa_login_form_apple.png")
 	# 登录界面-选择手机类型为android 
