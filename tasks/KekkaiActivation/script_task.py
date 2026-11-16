@@ -391,7 +391,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 if not self.appear(self.I_REALM_SHIN):
                     continue
                 break
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.5):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3.0):
                 continue
 
     def harvest_card(self):

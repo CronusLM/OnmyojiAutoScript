@@ -393,7 +393,7 @@ class ScriptTask(WQExplore, SecretScriptTask, WantedQuestsAssets):
                 break
             if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.0):
                 continue
         self.goto_page(page_exploration)
         self.wait_until_stable(self.I_CHECK_EXPLORATION)

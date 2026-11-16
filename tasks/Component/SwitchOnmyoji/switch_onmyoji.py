@@ -60,7 +60,7 @@ class SwitchOnmyoji(BaseTask, SwitchOnmyojiAssets):
             if self.appear(check_img, interval=0.8):
                 break
             if self.appear(battle_img, interval=0.8):
-                self.ui_click(self.I_UI_BACK_BLUE, check_img, interval=1.2)
+                self.ui_click(self.I_UI_BACK_BLUE, check_img, interval=1.7)
                 break
             self.click(battle_img, interval=1.2)
 

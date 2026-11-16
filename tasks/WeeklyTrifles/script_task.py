@@ -187,7 +187,7 @@ class ScriptTask(GameUi, WeeklyTriflesAssets):
                     break
                 if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
                     continue
-                if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1):
+                if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
                     continue
                 if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
                     continue
@@ -249,7 +249,7 @@ class ScriptTask(GameUi, WeeklyTriflesAssets):
                 if self.appear(self.I_WT_SE_SHARE):
                     continue
                 logger.warning('This week has not been obtained')
-                self.ui_click(self.I_UI_BACK_BLUE, self.I_UI_BACK_YELLOW)
+                self.ui_click(self.I_UI_BACK_BLUE, self.I_UI_BACK_YELLOW, interval=1.5)
                 self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MAIN)
                 return
         logger.info('Enter secret')
@@ -263,7 +263,7 @@ class ScriptTask(GameUi, WeeklyTriflesAssets):
         if not obtained:
             self.click_share(self.I_WT_SE_WECHAT)
         # 返回
-        self.ui_click(self.I_UI_BACK_BLUE, self.I_UI_BACK_YELLOW)
+        self.ui_click(self.I_UI_BACK_BLUE, self.I_UI_BACK_YELLOW, interval=1.5)
         self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MAIN)
 
     def _broken_amulet(self, dest_num: int):

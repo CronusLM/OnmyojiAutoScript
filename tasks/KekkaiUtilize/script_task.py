@@ -135,7 +135,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 if not self.appear(self.I_REALM_SHIN):
                     continue
                 break
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.5):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3.0):
                 continue
 
     def check_guild_ap_or_assets(self, ap_enable: bool = True, assets_enable: bool = True) -> bool:
@@ -725,7 +725,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
 
             if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
                 continue
             if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
                 continue
@@ -740,7 +740,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 break
             if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
                 continue
 
 

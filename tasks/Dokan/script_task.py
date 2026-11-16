@@ -517,7 +517,7 @@ class ScriptTask(ExtendGreenMark, GameUi, SwitchSoul, DokanSceneDetector):
                 self.click(self.I_RYOU_DOKAN_DOKAN_QUIT, interval=3)
                 continue
             if self.appear(self.I_UI_BACK_BLUE):
-                self.click(self.I_UI_BACK_BLUE, interval=3)
+                self.click(self.I_UI_BACK_BLUE, interval=3.5)
                 continue
             if self.appear(self.I_BACK_Y):
                 self.click(self.I_BACK_Y, interval=3)

@@ -413,7 +413,7 @@ class BaseExploration(GameUi, GeneralBattle, GeneralRoom, GeneralInvite, Replace
             if boss_timer.reached():
                 logger.warning('Exit timeout, force clicking back button')
                 boss_timer.reset()
-                self.click(self.I_UI_BACK_BLUE)
+                self.click(self.I_UI_BACK_BLUE, interval=0.5)
                 continue
 
             if self.appear_then_click(self.I_E_EXIT_CONFIRM, interval=0.8):
