@@ -135,7 +135,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 if not self.appear(self.I_REALM_SHIN):
                     continue
                 break
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3.0):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3):
                 continue
 
     def check_guild_ap_or_assets(self, ap_enable: bool = True, assets_enable: bool = True) -> bool:
@@ -219,7 +219,7 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 self.screenshot()
                 if self.appear(self.I_REALM_SHIN):
                     break
-                if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+                if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                     continue
 
         # 先是体力盒子
@@ -723,11 +723,11 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             if self.appear_then_click(self.I_PLANT_TREE_CLOSE):
                 continue
 
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3):
                 continue
 
     def back_realm(self):
@@ -738,9 +738,9 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
                 break
             if self.appear_multi_scale(self.I_SHI_DEFENSE):
                 break
-            if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_RED, interval=3):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_BLUE, interval=3):
                 continue
 
 
