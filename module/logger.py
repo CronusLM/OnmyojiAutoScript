@@ -16,43 +16,8 @@ from rich.rule import Rule
 from typing import Callable, List
 
 
-def get_log_dir() -> str:
-    """获取日志目录，优先使用用户可写的目录"""
-    # 优先使用 LOCALAPPDATA/OAS-vphone/log
-    local_appdata = os.environ.get('LOCALAPPDATA')
-    if local_appdata:
-        log_dir = Path(local_appdata) / 'OAS-vphone' / 'log'
-        try:
-            log_dir.mkdir(parents=True, exist_ok=True)
-            # 测试写权限
-            test_file = log_dir / '.write_test'
-            test_file.write_text('test')
-            test_file.unlink()
-            return str(log_dir)
-        except (OSError, PermissionError):
-            pass
-    
-    # 备选：APPDATA/OAS-vphone/log
-    appdata = os.environ.get('APPDATA')
-    if appdata:
-        log_dir = Path(appdata) / 'OAS-vphone' / 'log'
-        try:
-            log_dir.mkdir(parents=True, exist_ok=True)
-            test_file = log_dir / '.write_test'
-            test_file.write_text('test')
-            test_file.unlink()
-            return str(log_dir)
-        except (OSError, PermissionError):
-            pass
-    
-    # 最后回退到当前目录下的 ./log
-    return "./log"
-
-
-def cleanup_logs(log_dir: str = None, keep_days: int = 14):
+def cleanup_logs(log_dir: str = "./log", keep_days: int = 14):
     """删除 log_dir 下所有早于 keep_days 的文件夹和文件"""
-    if log_dir is None:
-        log_dir = get_log_dir()
     log_path = Path(log_dir)
     if not log_path.exists():
         return  # 目录都没有，直接退出
@@ -73,8 +38,8 @@ def cleanup_logs(log_dir: str = None, keep_days: int = 14):
             # 检查是否为 error 目录
             if name != 'error':
                 continue
-            for error_dir_name in os.listdir(log_path):
-                error_dir_path = os.path.join(log_path, error_dir_name)
+            for error_dir_name in os.listdir(full_path):
+                error_dir_path = os.path.join(full_path, error_dir_name)
                 if not os.path.isdir(error_dir_path):
                     continue
                 # 处理 log/error 根目录下超过keep_days的文件夹
@@ -167,12 +132,11 @@ pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 def set_file_logger(name=pyw_name, *, do_cleanup=False):
     if '_' in name:
         name = name.split('_', 1)[0]
-    log_dir = get_log_dir()
-    log_file = f'{log_dir}/{date.today()}_{name}.txt'
+    log_file = f'./log/{date.today()}_{name}.txt'
     try:
         file = open(log_file, mode='a', encoding='utf-8')
     except FileNotFoundError:
-        os.makedirs(log_dir, exist_ok=True)
+        os.mkdir('./log')
         file = open(log_file, mode='a', encoding='utf-8')
 
     file_console = Console(
