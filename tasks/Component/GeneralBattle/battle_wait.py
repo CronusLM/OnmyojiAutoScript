@@ -1156,7 +1156,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         state.fallback_timer.reset()
         if state.click_stage_2 is None:
             state.click_stage_2 = PerBattleSuccess.reward_exclude_click(self, options.excludes, name='completion_exclude_click')
-        if self.click(state.click_stage_2, interval=1.5):
+        if self.click(state.click_stage_2, interval=2.0):
             state.fallback_cnt += 1
         # x, y = state.click_stage_2.coord()
         # self.device.click(x=x, y=y, control_name='completion_exclude_click')
@@ -1180,7 +1180,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         if state.click_stage_2 is None:
             state.click_stage_2 = PerBattleSuccess.reward_exclude_click(self, pri.options.excludes_2, name='reward_exclude_click_2')
 
-        if self.appear_then_click(self.I_WIN, interval=0.8):
+        if self.appear_then_click(self.I_WIN, interval=1.3):
             self.click(state.click_stage_1)
             return HookSignal.CONTINUE
         appear_ghost, appear_reward, appear_gold, appear_skin = (
@@ -1202,7 +1202,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
 
             # 不小心点到了具体的奖励，他会弹出这个物品的详细描述 里面必定包含有“获取途径”
             if self.appear(self.I_END_FIX_1) or self.appear(self.I_END_FIX_2):
-                self.click(self.C_REWARD_2, interval=1.5)
+                self.click(self.C_REWARD_2, interval=2.0)
 
             _appear_ghost, _appear_reward, _appear_gold, _appear_skin = (
                 self.appear(self.I_GREED_GHOST, threshold=0.6),
@@ -1217,7 +1217,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                     x, y = state.click_stage_2.coord_in_excluded(None)
                     self.device.click(x=x, y=y, control_name='reward_item')
                     continue
-                self.click(state.click_stage_2, interval=1.5)
+                self.click(state.click_stage_2, interval=2.0)
             else:
                 logger.info('Get all reward')
                 pub.per_battle.success = BattleResult.SUCCESS
@@ -1281,12 +1281,12 @@ class BattleWait(BaseTask, GeneralBattleAssets):
                 return HookSignal.CONTINUE
             # 计时8秒时间到了， 那就一直按 准备按钮 直到消失去
             # 不要把这行代码合并到下面去
-            self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=0.8)
+            self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.3)
             return HookSignal.CONTINUE
 
         # 没有切阵容那就一直按 准备按钮 直到消失去]
 
-        self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1)
+        self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.5)
         return HookSignal.CONTINUE
 
     def _bw_preset_default(self, pub: PublicContext, pri: PrivateContext) -> HookSignal:
@@ -1537,7 +1537,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
         if state.click_stage_1 is None:
             state.click_stage_1 = PerBattleSuccess.reward_exclude_click(self, options.excludes_1, name='success_exclude_click')
         action_click = state.click_stage_1
-        if self.appear_then_click(self.I_WIN, interval=0.8):
+        if self.appear_then_click(self.I_WIN, interval=1.3):
             return HookSignal.CONTINUE
         appear_ghost, appear_reward, appear_gold, appear_skin = (
             self.appear(self.I_GREED_GHOST),
@@ -1560,7 +1560,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
             )
             # logger.info(f'_appear_ghost: {_appear_ghost} _appear_reward: {_appear_reward} _appear_gold: {_appear_gold} _appear_skin: {_appear_skin}')
             if any([_appear_ghost, _appear_reward, _appear_gold, _appear_skin]):
-                self.click(action_click, interval=1.5)
+                self.click(action_click, interval=2.0)
             else:
                 logger.info('Get all reward')
                 pub.per_battle.success = BattleResult.SUCCESS
@@ -1602,7 +1602,7 @@ class BattleWait(BaseTask, GeneralBattleAssets):
             if self.appear(self.I_END_FIX_1) or self.appear(self.I_END_FIX_2) or self.appear(self.I_END_FIX_3):
                 self.screenshot()
                 if self.appear(self.I_END_FIX_1) or self.appear(self.I_END_FIX_2) or self.appear(self.I_END_FIX_3):
-                    self.click(self.C_REWARD_2, interval=2.5)
+                    self.click(self.C_REWARD_2, interval=3.0)
                 continue
 
             if self.appear(self.I_UI_REWARD):

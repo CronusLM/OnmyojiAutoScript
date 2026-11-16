@@ -226,12 +226,12 @@ class Device(DesktopDevice, Platform, Screenshot, Control, AppControl):
         for key in self.click_record:
             count[key] = count.get(key, 0) + 1
         count = sorted(count.items(), key=lambda item: item[1], reverse=True)
-        if count[0][1] >= 10:
+        if count[0][1] >= 20:
             logger.warning(f'Too many click for a button: {count[0][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
             self.click_record_clear()
             raise GameTooManyClickError(f'Too many click for a button: {count[0][0]}')
-        if len(count) >= 2 and count[0][1] >= 6 and count[1][1] >= 6:
+        if len(count) >= 2 and count[0][1] >= 12 and count[1][1] >= 12:
             logger.warning(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
             logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
             self.click_record_clear()

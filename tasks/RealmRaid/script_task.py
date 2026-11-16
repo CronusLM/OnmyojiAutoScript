@@ -77,7 +77,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
         self.wait_until_appear(self.I_FIRE)
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_FIRE, interval=2):
+            if self.appear_then_click(self.I_FIRE, interval=2.5):
                 continue
             if not self.appear(self.I_FIRE, threshold=0.8):
                 break
@@ -517,7 +517,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             # https://github.com/runhey/OnmyojiAutoScript/issues/1692
             if self.appear_then_click(self.I_SOUL_RAID, interval=2):
                 continue
-            if self.appear_then_click(self.I_FIRE, interval=1):
+            if self.appear_then_click(self.I_FIRE, interval=1.5):
                 continue
             if self.click(click, interval=1.8):
                 continue

@@ -71,7 +71,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
                         self.check_and_open_buff(buff)
                         confed = True
                     # 点击准备(锁定阵容自动点准备,不锁定阵容前面也已经配置完毕需要点准备)
-                    if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=0.8):
+                    if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.3):
                         continue
                 continue
             # 未知界面, 既不是准备界面也不是战斗界面
@@ -91,7 +91,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
             self.wait_until_appear(self.I_PREPARE_HIGHLIGHT, wait_time=5)
             while 1:
                 self.screenshot()
-                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=1.5):
+                if self.appear_then_click(self.I_PREPARE_HIGHLIGHT, interval=2.0):
                     continue
                 if not (self.appear(self.I_PRESET) or self.appear(self.I_PRESET_WIT_NUMBER)):
                     break
@@ -100,7 +100,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
         # 点击返回
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT, interval=1.5):
+            if self.appear_then_click(self.I_EXIT, interval=2.0):
                 continue
             if self.appear(self.I_UI_CONFIRM):
                 break
@@ -142,7 +142,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
         logger.info(f"Click {self.I_EXIT.name}")
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_EXIT, interval=1.5):
+            if self.appear_then_click(self.I_EXIT, interval=2.0):
                 continue
             if self.appear(self.I_UI_CONFIRM):
                 break
@@ -179,7 +179,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
             if self.appear(self.I_WIN, threshold=0.8) or self.appear(self.I_DE_WIN):
                 logger.info("Battle result is win")
                 if self.appear(self.I_DE_WIN):
-                    self.ui_click_until_disappear(self.I_DE_WIN)
+                    self.ui_click_until_disappear(self.I_DE_WIN, interval=1.5)
                 win = True
                 break
 
@@ -209,7 +209,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
             if win:
                 # 点击赢了
                 action_click = random.choice([self.C_WIN_1, self.C_WIN_2, self.C_WIN_3])
-                if self.appear_then_click(self.I_WIN, action=action_click, interval=0.5):
+                if self.appear_then_click(self.I_WIN, action=action_click, interval=1.0):
                     continue
                 if not self.appear(self.I_WIN):
                     break
@@ -274,11 +274,11 @@ class GeneralBattle(BattleWait, GeneralBuff):
         while 1:
             self.screenshot()
             # 出现赢的鼓，点击直到消失
-            if self.appear_then_click(self.I_WIN, interval=0.8):
+            if self.appear_then_click(self.I_WIN, interval=1.3):
                 continue
             # 逢魔胜利图
             if self.appear(self.I_DE_WIN):
-                self.ui_click_until_disappear(self.I_DE_WIN)
+                self.ui_click_until_disappear(self.I_DE_WIN, interval=1.5)
                 continue
             if self.appear(self.I_FALSE, threshold=0.8):
                 logger.warning('False battle')
@@ -303,7 +303,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
                     # logger.info(f'_appear_ghost: {_appear_ghost} _appear_reward: {_appear_reward} _appear_gold: {_appear_gold}')
                     if any([_appear_ghost, _appear_reward, _appear_gold]):
                         action_click = random.choice([self.C_REWARD_1, self.C_REWARD_2, self.C_REWARD_3])
-                        self.click(action_click, interval=1.5)
+                        self.click(action_click, interval=2.0)
                     else:
                         logger.info('Battle done')
                         return True
@@ -640,7 +640,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
                 break
             if self.appear_then_click(self.I_BUFF, interval=1):
                 continue
-        self.ui_click_until_disappear(self.I_PREPARE_HIGHLIGHT, interval=0.8)
+        self.ui_click_until_disappear(self.I_PREPARE_HIGHLIGHT, interval=1.3)
 
     def boss_mark(self, enable=True) -> bool:
         if not enable or self._boss_mark_flag:

@@ -126,7 +126,7 @@ class ScriptTask(Battle, GeneralBattle, GameUi, SwitchSoul, AreaBossAssets):
         logger.info("Script fire ")
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_FIRE, interval=1):
+            if self.appear_then_click(self.I_FIRE, interval=1.5):
                 continue
             if not self.appear(self.I_AB_CLOSE_RED):  # 如果这个红色的关闭不见了才可以进行继续
                 break
@@ -188,7 +188,7 @@ class ScriptTask(Battle, GeneralBattle, GameUi, SwitchSoul, AreaBossAssets):
     def start_fight(self) -> bool:
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_FIRE, interval=1):
+            if self.appear_then_click(self.I_FIRE, interval=1.5):
                 continue
             if not self.appear(self.I_AB_CLOSE_RED):  # 如果这个红色的关闭不见了才可以进行继续
                 break
