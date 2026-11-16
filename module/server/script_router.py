@@ -264,9 +264,9 @@ async def websocket_endpoint(websocket: WebSocket, script_name: str):
                 config.get_next()
                 await script_process.broadcast_state({"schedule": config.get_schedule_data()})
             elif data == 'start':
-                await script_process.start()
+                await switcher.api_start(script_name)
             elif data == 'stop':
-                await script_process.stop()
+                await switcher.api_stop(script_name)
 
     except WebSocketDisconnect:
         logger.warning(f'[{script_name}] websocket disconnect')
