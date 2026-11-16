@@ -18,8 +18,8 @@ class ImplScriptTask(ScriptTask, ABC):
         self.ui_click(self.I_TO_BATTLE_MAIN, stop=self.I_CHECK_BATTLE_MAIN, interval=1)
         # 从默认战斗页面到式神录 再返回
         self.ui_click(self.I_BATTLE_MAIN_TO_RECORDS, stop=self.I_CHECK_RECORDS, interval=1)
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_CHECK_BATTLE_MAIN, interval=1)
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_MAIN, interval=1)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_CHECK_BATTLE_MAIN, interval=1.5)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_MAIN, interval=1.5)
         return True
 
 

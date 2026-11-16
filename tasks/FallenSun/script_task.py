@@ -286,7 +286,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
                 break
             if self.appear_then_click(self.I_UI_BACK_BLUE, interval=2.5):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.5):
                 continue
 
 

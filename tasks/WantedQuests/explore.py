@@ -48,7 +48,7 @@ class WQExplore(BaseExploration, HighLight):
                 if _cnt_exploration >= num:
                     logger.info('Execution exploration end')
                     # --退出到探索大世界--
-                    self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_CHECK_EXPLORATION, interval=4)
+                    self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_CHECK_EXPLORATION, interval=4.5)
                     if explore_only_boss:
                         raise ExploreWantedBoss
                     break

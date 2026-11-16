@@ -110,7 +110,7 @@ class Guild(Buy, GameUi, RichManAssets):
                 break
             if self.appear_then_click(self.I_GUILD_CLOSE_RED, interval=1):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
                 continue
 
     def _guild_mystery_amulet(self):

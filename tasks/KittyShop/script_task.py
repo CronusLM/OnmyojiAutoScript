@@ -39,7 +39,7 @@ class ScriptTask(GameUi, ActivityShikigamiAssets, KittyShopAssets):
         for _ in range(max(attempts, 0)):
             self._run()
 
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_CHECK_MAIN, interval=2.4)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_CHECK_MAIN, interval=2.9)
         self.set_next_run(task="KittyShop", success=True)
         raise TaskEnd
 
@@ -50,7 +50,7 @@ class ScriptTask(GameUi, ActivityShikigamiAssets, KittyShopAssets):
                 self._select_kitty()
                 break
             except SelectFailed:
-                self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_START_FARMING, interval=2.2)
+                self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_START_FARMING, interval=2.7)
                 logger.error('Select kitty failed')
 
         self.ui_click(self.I_START_ENSURE, stop=self.I_MAIN_FLAG)

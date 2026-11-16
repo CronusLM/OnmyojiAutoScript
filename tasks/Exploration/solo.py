@@ -261,7 +261,7 @@ class SoloExploration(BaseExploration):
                             continue
                         if self.appear_then_click(self.I_UI_BACK_RED, interval=0.7):
                             continue
-                        if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+                        if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
                             continue
                     break
             ##

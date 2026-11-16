@@ -164,7 +164,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
                         break
                     if self.appear_then_click(self.I_UI_BACK_CIRCLE, interval=1.5):
                         continue
-                    if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.5):
+                    if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3.0):
                         continue
                     if self.appear_then_click(self.I_UI_BACK_RED, interval=1.5):
                         continue
@@ -263,7 +263,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             self.screenshot()
             if self.appear(self.I_TO_BATTLE_MAIN):
                 break
-            if self.appear(self.I_CHECK_BATTLE_MAIN) and self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.5):
+            if self.appear(self.I_CHECK_BATTLE_MAIN) and self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3.0):
                 continue
             if self.appear_then_click(self.I_UI_BACK_CIRCLE, interval=2.5):
                 continue
@@ -309,7 +309,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
                 break
             if self.appear_then_click(self.I_UI_BACK_CIRCLE, interval=1.5):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.5):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=3.0):
                 continue
             if self.appear_then_click(self.I_UI_BACK_RED, interval=1.5):
                 continue
@@ -338,7 +338,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
             if self.start_battle():
                 continue
 
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_BOSS, interval=4.5)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_BOSS, interval=5.0)
 
     def _run_ap100(self):
         """
@@ -393,7 +393,7 @@ class ScriptTask(StateMachine, GameUi, Battle, BaseActivity, SwitchSoul, Activit
         elif enable_switch:
             group_team = getattr(conf, f"{self.climb_type}_group_team")
             self.run_switch_soul(group_team)
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=cur_img, interval=1)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=cur_img, interval=1.5)
 
     def switch_climb_mode_in_game(self, mode: str = 'ap'):
         map_check = {

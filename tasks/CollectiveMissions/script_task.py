@@ -86,7 +86,7 @@ class ScriptTask(GameUi, CollectiveMissionsAssets):
                 break
             if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
                 continue
 
         self.set_next_run(task='CollectiveMissions', success=True, finish=True)

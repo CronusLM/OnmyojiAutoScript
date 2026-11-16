@@ -362,7 +362,7 @@ class ScriptTask(WQExplore, SecretScriptTask, WantedQuestsAssets):
             self.screenshot()
             if self.appear(self.I_CHECK_EXPLORATION):
                 break
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=2.0):
                 continue
 
     def secret(self, goto, num=1):

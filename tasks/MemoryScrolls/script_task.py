@@ -69,7 +69,7 @@ class ScriptTask(GameUi, MemoryScrollsAssets):
         # 进入指定分卷
         self.goto_scroll(con)
         # 返回召唤界面
-        self.ui_click_until_disappear(GlobalGameAssets.I_UI_BACK_YELLOW, interval=1)
+        self.ui_click_until_disappear(GlobalGameAssets.I_UI_BACK_YELLOW, interval=1.5)
         logger.info('Return to Summon page')
     
     def goto_scroll(self, con):

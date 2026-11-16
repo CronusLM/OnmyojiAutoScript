@@ -106,7 +106,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, SougenbiAssets):
             self.screenshot()
             if self.appear(self.I_CHECK_EXPLORATION):
                 break
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
                 continue
         logger.info('Back to exploration')
 

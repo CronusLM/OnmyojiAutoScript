@@ -169,7 +169,7 @@ class ScriptTask(GameUi, WeeklyTriflesAssets):
                 break
             if self.appear_then_click(self.I_UI_BACK_RED, interval=1):
                 continue
-            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+            if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
                 continue
 
     def _share_area_boss(self):
@@ -189,7 +189,7 @@ class ScriptTask(GameUi, WeeklyTriflesAssets):
                     continue
                 if self.appear_then_click(self.I_UI_BACK_BLUE, interval=1.5):
                     continue
-                if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1):
+                if self.appear_then_click(self.I_UI_BACK_YELLOW, interval=1.5):
                     continue
             logger.info('Back to boss')
 

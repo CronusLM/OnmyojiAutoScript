@@ -229,7 +229,7 @@ class Foot(StateMachine, GameUi, BaseActivity, SwitchSoul, ActivityShikigamiAsse
         elif enable_switch:
             group_team = getattr(conf, f"group_team_{self.climb_type}")
             self.run_switch_soul(group_team)
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=cur_img, interval=1)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=cur_img, interval=1.5)
 
 class ScriptTask(Foot):
 
@@ -244,7 +244,7 @@ class ScriptTask(Foot):
                     method_func = getattr(self, f'_run_{climb_type}')
                     method_func()
             except LimitCountOut as e:
-                self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_MAIN, interval=1)
+                self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_MAIN, interval=1.5)
             except LimitTimeOut as e:
                 break
             finally:
@@ -294,7 +294,7 @@ class ScriptTask(Foot):
             if self.start_battle():
                 continue
 
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_MAIN, interval=1)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_MAIN, interval=1.5)
 
     def _run_cultivation_drills(self):
         """
@@ -359,7 +359,7 @@ class ScriptTask(Foot):
             if self.start_battle():
                 continue
 
-        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_BOSS, interval=1)
+        self.ui_click(self.I_UI_BACK_YELLOW, stop=self.I_TO_BATTLE_BOSS, interval=1.5)
 
 
 

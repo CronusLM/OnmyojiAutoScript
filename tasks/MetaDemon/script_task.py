@@ -185,7 +185,7 @@ class ScriptTask(RightActivity, Battle, GeneralBattle, SwitchSoul, Star56):
                 continue
 
         # 退出
-        self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MAIN, interval=1.4)
+        self.ui_click(self.I_UI_BACK_YELLOW, self.I_CHECK_MAIN, interval=1.9)
         logger.info('Exit MetaDemon')
         self.set_next_run(task="MetaDemon", success=True)
         raise TaskEnd
