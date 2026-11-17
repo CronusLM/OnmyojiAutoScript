@@ -113,8 +113,8 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not self.appear(stop_image):
                 break
 
-            if self.appear_then_click(self.I_U_CONFIRM_SMALL, interval=2):
-                clicked = False  # 点击了确认, 恢复选式神的操作
+            if not clicked and self.appear_then_click(self.I_U_CONFIRM_SMALL, interval=2):
+                clicked = True
                 continue
 
             # 是否育成候补式神按钮
@@ -124,9 +124,8 @@ class ReplaceShikigami(BaseTask, ReplaceShikigamiAssets):
             if not clicked and self.click(click_match, interval=1.5):
                 clicked = True
                 continue
-            if not clicked and self.click(_click_match[6], interval=4.5):
-                # 有的时候第七个格子被占用到寄养上去了
-                # 导致一直无法选上
+            if not clicked and shikigami_order in (6, 7) and self.click(_click_match[6], interval=4.5):
+                # 目标为第6/7格时，若第7格被占用到寄养上去了，退而点第6格
                 clicked = True
                 continue
             if self.appear_then_click(self.I_U_CIRCLE_ALTERNATE, interval=2.5):
