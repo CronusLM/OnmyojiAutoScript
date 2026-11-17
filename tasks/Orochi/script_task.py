@@ -420,7 +420,7 @@ class ScriptTask(GeneralBattle, GeneralInvite, GeneralBuff, GeneralRoom, GameUi,
         while 1:
             self.screenshot()
             action_click = random.choice([self.C_WIN_1, self.C_WIN_2, self.C_WIN_3])
-            if self.appear_then_click(self.I_WIN, action=action_click ,interval=0.8):
+            if self.appear_then_click(self.I_WIN, action=action_click ,interval=1.5):
                 # 赢的那个鼓
                 continue
             if self.appear(self.I_GREED_GHOST):

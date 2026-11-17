@@ -251,21 +251,40 @@ class ScriptTask(KU, KekkaiActivationAssets):
         # 找最优卡
         while 1:
             self.screenshot()
-            target = self.check_card_num()
+            target, target_yield = self.check_card_num()
             if target is None:
                 # 未发现卡，处理逻辑
                 self._card_not_found()
-            if self.appear(self.I_A_EMPTY):
-                while 1:
-                    self.screenshot()
-                    if not self.appear(self.I_A_EMPTY):
-                        self.config.kekkai_activation.activation_config.card_not_found_count = 0
-                        self.config.save()
-                        message = f'✅ 确认挂卡: {rule}'
-                        self.save_image(content=message, push_flag=False, wait_time=0)
-                        return
-                    if self.click(target, interval=1):
+                continue
+            if not self.appear(self.I_A_EMPTY):
+                # 卡槽已有卡：比较卡槽现有收益与目标收益，决定是否替换
+                slot_results = self.O_SLOT_CARD_NUMBER.detect_and_ocr(self.device.image)
+                slot_yield = 0
+                target_keyword = '体力' if rule == CardType.FISH else '勾玉'
+
+                for r in slot_results:
+                    text = r.ocr_text
+                    if target_keyword not in text and '力' not in text and '勾' not in text:
                         continue
+                    nums = [int(n) for n in re.findall(r'\d+', text)]
+                    if nums:
+                        slot_yield = max(slot_yield, nums[0])
+
+                if slot_yield == 0:
+                    logger.warning('未识别到卡槽收益数值，按 0 处理')
+                if slot_yield >= target_yield:
+                    logger.info(f'卡槽现有卡收益 {slot_yield} ≥ 目标 {target_yield}，跳过')
+                    self.config.kekkai_activation.activation_config.card_not_found_count = 0
+                    self.config.save()
+                    return
+                logger.info(f'卡槽现有卡收益 {slot_yield} < 目标 {target_yield}，替换')
+            self.click(target)
+            time.sleep(3)
+            self.config.kekkai_activation.activation_config.card_not_found_count = 0
+            self.config.save()
+            message = f'✅ 确认挂卡: {rule}'
+            self.save_image(content=message, push_flag=False, wait_time=0)
+            return
 
     def check_card_num(self):
         rule = self.config.kekkai_activation.activation_config.card_type
@@ -300,8 +319,8 @@ class ScriptTask(KU, KekkaiActivationAssets):
 
             if numeric_results:
                 # 按数字大到小排序
-                sorted_results = [result for _, result in sorted(numeric_results, key=lambda x: x[0], reverse=True)]
-                max_result = sorted_results[0]  # 获取数字最大的结果对象
+                sorted_pairs = sorted(numeric_results, key=lambda x: x[0], reverse=True)
+                max_number, max_result = sorted_pairs[0]  # 获取最大收益及对应结果对象
 
                 box = max_result.box  # 获取边界框坐标
                 x_min = self.O_CHECK_CARD_NUMBER.roi[0] + box[0][0]
@@ -313,7 +332,7 @@ class ScriptTask(KU, KekkaiActivationAssets):
                 target = RuleClick(roi_front=roi, roi_back=roi, name="tmpclick")
                 logger.info(f"选择挂卡: [{max_result.ocr_text}] {roi}")
 
-                return target
+                return target, max_number
             else:
                 if ocr_count > 3:
                     logger.error('多次未找到符合条件的结果, 退出')
