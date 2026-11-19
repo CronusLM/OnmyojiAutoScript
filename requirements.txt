@@ -1045,9 +1045,7 @@ pillow==10.4.0 \
     # via
     #   ppocr-onnx
     #   uiautomator2
-ppocr-onnx @ git+https://github.com/CronusLM/ppocr-onnx@767f385aad4881501db600edbd83e4ff4c05d8c7 \
-    --hash=sha256:7148c6a035e01a8e0a37389ac68dd59c1271e799c52348051319dfd0a076359d \
-    --hash=sha256:a5c5d89e94b847b31bcacbc07a54cb5cb11eda719b32f5e66a32cd2a7dfd75f0
+ppocr-onnx @ git+https://github.com/CronusLM/ppocr-onnx@de287a78c5330b1f39fbbe652b182034e2ad609c
     # via onmyoji-auto-script (pyproject.toml)
 proces==0.1.7 \
     --hash=sha256:308325bbc96877263f06e57e5e9c760c4b42cc722887ad60be6b18fc37d68762 \
