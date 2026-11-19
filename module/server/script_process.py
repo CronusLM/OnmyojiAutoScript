@@ -5,6 +5,8 @@
 import sys, os
 import signal
 import multiprocessing
+# 使用 spawn 避免 fork 死锁：父进程后台线程持有的 logging 锁会被子进程继承导致死锁
+multiprocessing.set_start_method('spawn', force=True)
 from asyncio import QueueEmpty, CancelledError, sleep
 from enum import Enum
 
@@ -128,6 +130,11 @@ class ScriptProcess(ScriptWSManager):
 def func(config: str, state_queue: multiprocessing.Queue, log_pipe_in) -> None:
     def signal_handler(signum, frame):
         logger.info(f'Script {config} received signal {signum}, exiting gracefully')
+        # 先发送 WARNING 状态，再关闭资源
+        try:
+            state_queue.put({"state": ScriptState.WARNING})
+        except Exception:
+            pass
         log_pipe_in.close()
         state_queue.close()
         sys.exit(0)
@@ -155,11 +162,8 @@ def func(config: str, state_queue: multiprocessing.Queue, log_pipe_in) -> None:
         script = Script(config_name=config)
         script.state_queue = state_queue
         script.loop()
-    except SystemExit as e:
-        logger.info(f'Script {config} process exit')
-        logger.error(f'Error: {e}')
-        state_queue.put({"state": ScriptState.WARNING})
-        time.sleep(0.1)
+    except SystemExit:
+        # SystemExit 已在 signal_handler 中处理，直接退出
         exit(-1)
     except Exception as e:
         logger.exception(f'Run script {config} error')

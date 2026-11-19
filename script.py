@@ -412,14 +412,20 @@ class Script:
         if func is None:
             logger.warning(f"Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there")
             func = self._wait_stay_there
-        # 上报空闲状态给配置轮换管理器（经 state_queue，由服务端 ScriptProcess 转发）
-        if self.state_queue is not None:
-            self.state_queue.put({"idle": True})
         try:
             result = func(next_run)
-        finally:
+        except Exception:
+            # 异常中断：标记非空闲
             if self.state_queue is not None:
                 self.state_queue.put({"idle": False})
+            raise
+        # 成功完成空闲准备（如回到庭院、关游戏等）：上报空闲就绪
+        # 避免 switcher 在 goto_main 等导航未完成时就切走
+        if result and self.state_queue is not None:
+            self.state_queue.put({"idle": True})
+        elif not result and self.state_queue is not None:
+            # 被中断（如配置变更、获取队列 token 失败）：标记非空闲
+            self.state_queue.put({"idle": False})
         return result
 
     @staticmethod
