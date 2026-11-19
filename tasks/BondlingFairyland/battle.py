@@ -73,6 +73,9 @@ class BondlingBattle(GeneralBattle, BondlingFairylandAssets):
             if cap_cnt >= max_cap:
                 cap_again = False
             self.screenshot()
+            # 优先处理确认弹窗（式盘上限、活动确认等）
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=1):
+                continue
             # 如果捕获成功
             if self.appear_then_click(self.I_CAP_SUCCESS, action=self.C_CAP_SUCCESS,  interval=1):
                 win = True

@@ -187,6 +187,9 @@ class GeneralInvite(BaseTask, BondlingFairylandAssets, GeneralInviteAssets):
     def click_fire(self):
         while 1:
             self.screenshot()
+            # 优先处理确认弹窗（式盘上限、活动确认等）
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=1):
+                continue
             if not self.is_in_room(False):
                 break
             if self.appear_then_click(self.I_FIRE, interval=1, threshold=0.7):
