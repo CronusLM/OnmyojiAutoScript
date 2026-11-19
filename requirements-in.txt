@@ -1,6 +1,6 @@
 # Image processing
-numpy==1.24.3
-opencv-python==4.7.0.72
+numpy==1.26.4
+opencv-python-headless==4.9.0.80
 
 # Device connection
 adbutils==0.11.0
@@ -8,7 +8,7 @@ uiautomator2==2.16.17
 uiautomator2cache==0.3.0.1
 wrapt==1.15.0
 psutil==6.1.1
-pywin32==306
+# pywin32==306  # Windows only, not needed for Termux/Linux
 
 # OCR
 ppocr-onnx==0.0.3.9
@@ -24,7 +24,7 @@ pydantic==2.10.0
 
 # Utils
 rich==13.3.5
-pyyaml==6.0
+pyyaml==6.0.1
 tqdm==4.65.0
 anytree==2.8.0
 cryptography>=42.0.7

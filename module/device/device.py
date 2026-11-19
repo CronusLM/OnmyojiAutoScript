@@ -16,7 +16,9 @@ if IS_WINDOWS:
     from module.device.desktop_device import DesktopDevice
 else:
     class DesktopDevice:
-        pass
+        def app_lost_login(self) -> bool:
+            """Simulator mode always returns False (only desktop client mode checks login loss)."""
+            return False
 from module.device.platform2 import Platform
 from module.device.screenshot import Screenshot
 from module.exception import (GameNotRunningError,

@@ -31,7 +31,6 @@ class Screenshot(Adb, DroidCast, Scrcpy, Window, NemuIpc):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        super(Window, self).__init__(*args, **kwargs)
 
     @cached_property
     def screenshot_methods(self):
