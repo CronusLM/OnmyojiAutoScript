@@ -156,7 +156,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             #看到弹窗点掉，不然会卡死
             if self.appear(self.I_UI_CONFIRM):
                 logger.info("Pop-up detected: Refresh Confirmation. Clicking Confirm.")
-                self.appear_then_click(self.I_UI_CONFIRM, interval=1.5)
+                self.appear_then_click(self.I_UI_CONFIRM, interval=3)
                 continue
             # 检查票数
             if not self.check_ticket(con.raid_config.number_base):
@@ -178,11 +178,11 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
                         break
                 else:
                     logger.info('No one can attack, break')
-                    # 检查是否有“刷新确认”弹窗挡路
+                    # 检查是否有"刷新确认"弹窗挡路
                     if self.appear(self.I_UI_CONFIRM):
                         logger.info("Closing obstructing refresh dialog (Click Ensure)...")
-                        # 点击“确定”来完成刷新（或者你可以改成点取消）
-                        self.appear_then_click(self.I_UI_CONFIRM, interval=2)
+                        # 点击"确定"来完成刷新（或者你可以改成点取消）
+                        self.appear_then_click(self.I_UI_CONFIRM, interval=3)
                     success = False
                     break
             # 判断是不是左上角第一个
@@ -467,7 +467,7 @@ class ScriptTask(GeneralBattle, GameUi, SwitchSoul, RealmRaidAssets):
             self.screenshot()
             if not self.appear(self.I_UI_CONFIRM):
                 return True
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=1):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
 
     def fire(self, order: int):

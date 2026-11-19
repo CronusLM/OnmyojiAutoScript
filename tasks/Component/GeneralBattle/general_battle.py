@@ -109,7 +109,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
         # 点击返回确认
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=1.5):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
             if self.appear(self.I_FALSE):
                 break
@@ -150,7 +150,7 @@ class GeneralBattle(BattleWait, GeneralBuff):
         # 点击返回确认
         while 1:
             self.screenshot()
-            if self.appear_then_click(self.I_UI_CONFIRM, interval=1.5):
+            if self.appear_then_click(self.I_UI_CONFIRM, interval=3):
                 continue
             if self.appear_then_click(self.I_FALSE, interval=1.5):
                 continue
