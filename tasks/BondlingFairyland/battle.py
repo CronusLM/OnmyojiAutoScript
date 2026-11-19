@@ -107,9 +107,12 @@ class BondlingBattle(GeneralBattle, BondlingFairylandAssets):
             logger.info("Catch failure")
         while 1:
             self.screenshot()
+            # 已回到契灵主界面(有进攻/挑战按钮), 战斗已真正结束, 直接退出领奖
+            if self.appear(self.I_BALL_FIRE):
+                break
             # 如果出现领奖励
             action_click = random.choice([self.C_REWARD_1, self.C_REWARD_2, self.C_REWARD_3])
-            if self.appear_then_click(self.I_REWARD, action=action_click, interval=1.5):
+            if self.appear_then_click(self.I_REWARD, action=action_click, interval=2.5):
                 continue
             if self.appear_then_click(self.I_WIN, threshold=0.6):
                 continue
