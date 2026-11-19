@@ -10,6 +10,7 @@ import msgpack
 import numpy as np
 import io
 import json
+import requests
 
 from typing import Union, Any, Dict
 from cached_property import cached_property
@@ -170,6 +171,16 @@ class ProcessManager(QObject):
                                                    update_queue=self.update_queue)
             self.processes[config].start()
             logger.info(f'Restart script {config}')
+
+            # 同时调用 Server 的重启 API，确保 Server 端的进程也被重启
+            try:
+                resp = requests.post(f'http://127.0.0.1:22267/switch/restart', json={'script_name': config}, timeout=3)
+                if resp.status_code == 200:
+                    logger.info(f'Server restart API called for {config}')
+                else:
+                    logger.warning(f'Server restart API returned {resp.status_code} for {config}')
+            except Exception as e:
+                logger.warning(f'Failed to call Server restart API for {config}: {e}')
         else:
             logger.info(f'Script {config} is not running')
 
@@ -467,6 +478,16 @@ class ProcessManager(QObject):
 
         self.clients[config].start_loop()
 
+        # 同时调用 Server 的启动 API，确保 Server 端的进程也被启动
+        try:
+            resp = requests.post(f'http://127.0.0.1:22267/{config}/start', timeout=3)
+            if resp.status_code == 200:
+                logger.info(f'Server start API called for {config}')
+            else:
+                logger.warning(f'Server start API returned {resp.status_code} for {config}')
+        except Exception as e:
+            logger.warning(f'Failed to call Server start API for {config}: {e}')
+
     @Slot(str)
     def stop_script(self, config: str) -> None:
         """
@@ -479,4 +500,14 @@ class ProcessManager(QObject):
             self.processes[config].stop()
         else:
             logger.info(f'Script {config} is not running')
+
+        # 同时调用 Server 的停止 API，确保 Server 端的进程也被停止
+        try:
+            resp = requests.get(f'http://127.0.0.1:22267/{config}/stop', timeout=3)
+            if resp.status_code == 200:
+                logger.info(f'Server stop API called for {config}')
+            else:
+                logger.warning(f'Server stop API returned {resp.status_code} for {config}')
+        except Exception as e:
+            logger.warning(f'Failed to call Server stop API for {config}: {e}')
 
