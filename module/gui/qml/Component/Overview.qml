@@ -330,6 +330,7 @@ Item {
         process_manager.sig_update_task.connect(update_task)
         process_manager.sig_update_pending.connect(update_pending)
         process_manager.sig_update_waiting.connect(update_waiting)
+        process_manager.sig_update_status.connect(update_status)
         startInit.start()
     }
     function update_task(config, data){
@@ -377,6 +378,27 @@ Item {
         const d = JSON.parse(data)
         for(var item of d){
             waitingListModel.append(item)
+        }
+    }
+    function update_status(config, data){
+        if(typeof data !== "string"){
+            console.error("Pass an incorrect type")
+            return
+        }
+        if(config !== configName){
+            return
+        }
+        var status = JSON.parse(data)
+        if(status === "Run"){
+            setStatus(MainEvent.RunStatus.Run)
+        } else if(status === "Free"){
+            setStatus(MainEvent.RunStatus.Free)
+        } else if(status === "Error"){
+            setStatus(MainEvent.RunStatus.Error)
+        } else if(status === "Empty"){
+            setStatus(MainEvent.RunStatus.Empty)
+        } else if(status === "Init"){
+            setStatus(MainEvent.RunStatus.Init)
         }
     }
     function setStatus(s){

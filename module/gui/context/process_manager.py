@@ -57,6 +57,7 @@ class ProcessManager(QObject):
     sig_update_task = Signal(str, str)  # 更新当前运行的任务任务信号
     sig_update_pending = Signal(str, str)  # 更新等待运行的任务信号
     sig_update_waiting = Signal(str, str)  # 更新等待运行的任务信号
+    sig_update_status = Signal(str, str)  # 更新运行状态信号
 
     def __init__(self) -> None:
         """
@@ -438,10 +439,12 @@ class ProcessManager(QObject):
 
                 logger.info(f'Update thread get')
                 for key, value in update.items():
-                    if "task" and "pending" and "waiting" in value:
+                    if "task" in value and "pending" in value and "waiting" in value:
                         self.sig_update_task.emit(key, json.dumps(value["task"]))
                         self.sig_update_pending.emit(key, json.dumps(value["pending"]))
                         self.sig_update_waiting.emit(key, json.dumps(value["waiting"]))
+                    elif "status" in value:
+                        self.sig_update_status.emit(key, json.dumps(value["status"]))
 
             except Empty:
                 continue

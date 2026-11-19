@@ -316,6 +316,8 @@ class Script:
             #         exit(0)
 
             time.sleep(5)
+            # 等待期间定期更新 GUI 任务状态
+            self._gui_update_tasks()
 
             if self.config.should_reload():
                 return False
@@ -339,6 +341,7 @@ class Script:
                 continue
             # 任务时间到了返回任务名称
             if task.next_run <= now:
+                self._gui_update_tasks()  # 任务即将开始，更新 GUI 状态
                 return task.command
             # 根据策略执行等待逻辑
             if not self._handle_wait_during_idle(task.next_run):
@@ -652,6 +655,9 @@ class Script:
         logger.info(f'Start scheduler loop: {self.config_name}')
         self.config.model.running_task = ''
         self.anti_ban_guard.reset()
+        
+        # 启动时设置状态为空闲
+        self._gui_set_status("Free")
 
         # Update GUI 防呆, 读取设置并立刻显示后台模拟器到前台
         if not self.config.script.device.run_background_only and IS_WINDOWS \
@@ -665,6 +671,9 @@ class Script:
                 show_window_by_name(target_window_name)
                 
         while 1:
+            # 更新 GUI 任务状态
+            self._gui_update_tasks()
+            
             if date.today() > start_day:
                 with _log_switch_lock:
                     logger.set_file_logger(self.config_name, do_cleanup=True)
@@ -718,6 +727,7 @@ class Script:
 
             # Run
             logger.info(f'Scheduler: Start task `{task}`')
+            self._gui_set_status("Run")  # 设置状态为运行中
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             logger.hr(task, level=0)
@@ -728,6 +738,10 @@ class Script:
             logger.info(f'Scheduler: End task `{task}`')
             self.is_first_task = False
             self.anti_ban_guard.record_active((datetime.now() - _task_start).total_seconds())
+            self._gui_set_status("Free")  # 任务结束，设置状态为空闲
+            
+            # 任务结束后更新 GUI 任务状态
+            self._gui_update_tasks()
 
             # Check failures
             # failed = deep_get(self.failure_record, keys=task, default=0)
