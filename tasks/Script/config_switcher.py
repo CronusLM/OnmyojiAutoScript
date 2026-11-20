@@ -2,6 +2,7 @@
 # @author kronus
 # 配置轮换（配置实例轮换管理器）设置
 # github https://github.com/CronusLM/OnmyojiAutoScript
+import time
 from pydantic import BaseModel, Field
 
 
@@ -11,3 +12,5 @@ class Switcher(BaseModel):
     enable: bool = Field(default=False, description='switcher_enable_help')
     # 空闲切换冷却时间（分钟）：空闲触发的两次切换之间的最小间隔，防止来回切换；错误触发的切换不受限制
     idle_cooldown_minutes: int = Field(default=10, description='switcher_idle_cooldown_help')
+    # 上一次切换至此配置的时间戳（Unix 时间戳），用于冷却计算
+    last_switch_time: float = Field(default=0.0, description='switcher_last_switch_time_help')

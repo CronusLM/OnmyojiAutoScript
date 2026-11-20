@@ -53,6 +53,8 @@ class InstanceSwitchManager:
         self._switch_lock = threading.Lock()  # 防止并发切换重入（非阻塞获取）
         # 配置读取缓存（Config(name) 每次构造都重读 JSON + Pydantic 校验，轮询频率下太重）
         self._participants_cache: tuple[float, list[str]] = (0.0, [])  # (到期时间戳, 参与配置列表)
+        # 正在切换中的源配置集合：避免把自己发起的 stop() 触发的 WARNING 误判为异常错误
+        self._switching_from: set[str] = set()
         self._load_state()
 
     @property
@@ -163,8 +165,12 @@ class InstanceSwitchManager:
         # 活动配置未参与轮换（手动启动的非轮换配置），引擎不接管其错误/空闲
         if self.active not in self._participants():
             return
+        # 忽略由 switcher 自身发起的 stop() 导致的 WARNING 状态（正常关闭流程的一部分）
         if sp.state == ScriptState.WARNING:
-            await self._trigger_switch(self.active, 'error')
+            if self.active in self._switching_from:
+                logger.debug(f'[Switcher] ignore WARNING from {self.active} (initiated by switcher)')
+            else:
+                await self._trigger_switch(self.active, 'error')
             return
         # 子进程已退出
         if sp._process is not None and not sp._process.is_alive():
@@ -264,7 +270,12 @@ class InstanceSwitchManager:
             self.idle_flags.discard(from_config)
             sp = self.mm.script_process.get(from_config)
             if sp is not None and sp.state != ScriptState.INACTIVE:
-                await sp.stop()
+                # 标记为正在由 switcher 发起停止，避免 _check_active 误判 WARNING 为异常
+                self._switching_from.add(from_config)
+                try:
+                    await sp.stop()
+                finally:
+                    self._switching_from.discard(from_config)
         self.idle_flags.discard(to_config)
         sp_to = self.mm.script_process.get(to_config)
         if sp_to is None:
@@ -277,6 +288,14 @@ class InstanceSwitchManager:
         await sp_to.start()
         self.active = to_config
         self.last_switch_time = time.time()
+        # 更新目标配置的 switcher.last_switch_time
+        try:
+            from module.config.config import Config
+            cfg = Config(to_config)
+            cfg.model.script.switcher.last_switch_time = time.time()
+            cfg.save()
+        except Exception as e:
+            logger.warning(f'[Switcher] failed to update {to_config} switcher.last_switch_time: {e}')
         self._add_history(from_config, to_config, reason)
         self._save_state()
         return True
@@ -407,6 +426,18 @@ class InstanceSwitchManager:
             await sp.start()
         else:
             logger.info(f'[Switcher] last active config {name} already running')
+        # 从所有参与轮换的配置中读取最新的 last_switch_time
+        latest_time = 0.0
+        for p_name in self._participants():
+            try:
+                from module.config.config import Config
+                cfg = Config(p_name)
+                t = cfg.model.script.switcher.last_switch_time
+                if t > latest_time:
+                    latest_time = t
+            except Exception:
+                pass
+        self.last_switch_time = latest_time or time.time()
         self._add_history(None, name, 'startup_resume')
         self._save_state()
 
