@@ -78,8 +78,8 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                     # selectAccount 后更新图片
                     self.screenshot()
                 # 点击登录按钮，进入游戏登录界面（有进入游戏按钮）
-                # 等待游戏登录界面出现（进入游戏按钮可见），这表示账号选择界面已关闭
-                if not self.ui_click(self.C_SA_LOGIN_FORM_LOGIN_BTN, stop=self.I_CHECK_LOGIN_FORM, interval=1,
+                # 等待网易 LOGO 消失，表示账号选择界面已关闭，已跳转到登录界面
+                if not self.ui_click(self.C_SA_LOGIN_FORM_LOGIN_BTN, stop=self.I_SA_NETEASE_GAME_LOGO, interval=1,
                                      timeout=15):
                     logger.warning("login btn click timeout, continue")
                 isAccountLogon = True

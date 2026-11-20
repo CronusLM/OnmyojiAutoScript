@@ -424,7 +424,7 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
         return True
     
     def harvest_courtyard_affairs(self) -> bool:
-        if not self.ui_click_multi_scale(self.I_NOTE, self.I_PAGE, timeout=3, scale_range=(0.8, 1.2)):
+        if not self.ui_click_multi_scale(self.I_NOTE, self.I_PAGE, timeout=10, scale_range=(0.8, 1.2)):
             logger.warning('courtyard affairs timeout!')
             return False
         # 确保在"每日"标签页（只需点击一次）

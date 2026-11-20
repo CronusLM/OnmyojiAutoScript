@@ -3,7 +3,7 @@ from tasks.base_task import BaseTask
 from module.logger import logger
 
 # 本地 pad + 光速虚拟机（ADB 直连，低延迟），无需云手机的 3s 间隔保护
-EXIT_GAME_INTERVAL = 1.5
+EXIT_GAME_INTERVAL = 2.5
 # 每一步页面转换的等待上限（秒）。必须显著小于 device 的 60s stuck 窗口
 # （stuck 计时从上一次真实点击起算，含进入本步之前的耗时），否则 stuck
 # 检测会抢先抛 GameStuckError，走不到本模块的优雅失败路径。
