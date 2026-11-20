@@ -588,17 +588,20 @@ class ScriptTask(GameUi, GeneralInvite, GeneralRoom, BondlingBattle, SwitchSoul,
     def lock_team(self):
         """
         锁定队伍(在探查或者是结契的界面)
+        确保队伍默认处于锁定状态
         :return:
         """
         while 1:
             self.screenshot()
-            if self.appear(self.I_BALL_LOCK):
+            # 已锁定：出现"解锁"按钮
+            if self.appear(self.I_BALL_UNLOCK):
                 break
-            if self.appear(self.I_BF_LOCK):
+            if self.appear(self.I_BF_UNLOCK):
                 break
-            if self.appear_then_click(self.I_BALL_UNLOCK, interval=1):
+            # 未锁定：出现"锁定"按钮，点击锁定
+            if self.appear_then_click(self.I_BALL_LOCK, interval=1):
                 continue
-            if self.appear_then_click(self.I_BF_UNLOCK, interval=1):
+            if self.appear_then_click(self.I_BF_LOCK, interval=1):
                 continue
 
     def get_bondling_class(self) -> BondlingClass or None:
