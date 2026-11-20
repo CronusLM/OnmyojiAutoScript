@@ -337,7 +337,12 @@ class InstanceSwitchManager:
             logger.warning(f'[Switcher] stop failed, config {name} does not exist')
             return False
         if sp.state != ScriptState.INACTIVE:
-            await sp.stop()
+            # 标记为正在由 switcher 发起停止，避免 _check_active 误判 WARNING 为异常
+            self._switching_from.add(name)
+            try:
+                await sp.stop()
+            finally:
+                self._switching_from.discard(name)
         self.idle_flags.discard(name)
         if self.active == name:
             self.active = None
@@ -357,7 +362,12 @@ class InstanceSwitchManager:
             return False
         sp = self.mm.script_process[name]
         if sp.state != ScriptState.INACTIVE:
-            await sp.stop()
+            # 标记为正在由 switcher 发起停止，避免 _check_active 误判 WARNING 为异常
+            self._switching_from.add(name)
+            try:
+                await sp.stop()
+            finally:
+                self._switching_from.discard(name)
         self.idle_flags.discard(name)
         await sp.start()
         self.active = name

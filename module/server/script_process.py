@@ -42,6 +42,9 @@ class ScriptProcess(ScriptWSManager):
         if self._process and self._process.is_alive():
             logger.warning(f'Script {self.config_name} is already running and first stop it')
             await self.stop()
+        # 重新创建 IPC 通道，避免上次进程残留的 WARNING 等陈旧消息
+        self.log_pipe_out, self.log_pipe_in = multiprocessing.Pipe(False)
+        self.state_queue = multiprocessing.Queue()
         self._process = multiprocessing.Process(target=func,
                                                 args=(self.config_name, self.state_queue, self.log_pipe_in,),
                                                 name=self.config_name,
