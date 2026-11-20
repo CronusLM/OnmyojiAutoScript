@@ -83,9 +83,25 @@ class ScriptTask(GameUi, ReplaceShikigami, KekkaiUtilizeAssets):
             self.screenshot()
 
             if not self.appear(self.I_UTILIZE_ADD):
-                remaining_time = self.O_UTILIZE_RES_TIME.ocr(self.device.image)
+                # OCR 重试：最多 3 次，每次重新截图
+                remaining_time = timedelta(0)
+                max_retry = 3
+                for attempt in range(max_retry):
+                    self.screenshot()
+                    remaining_time = self.O_UTILIZE_RES_TIME.ocr(self.device.image)
+                    if isinstance(remaining_time, timedelta) and remaining_time != timedelta(0):
+                        break
+                    logger.warning(f'OCR 识别剩余时间失败 (尝试 {attempt + 1}/{max_retry})')
+                    time.sleep(0.5)
+
                 if not isinstance(remaining_time, timedelta):
                     logger.warning('Ocr remaining time error')
+                    return
+                # 零值保护：OCR 失败会返回 timedelta(0)，视为识别失败而非剩余时间为 0
+                if remaining_time == timedelta(0):
+                    logger.error(f'OCR 识别剩余时间为 0，疑似识别失败（已重试 {max_retry} 次）')
+                    # 按最小间隔调度，避免立即重跑
+                    remaining_time = con.min_run_interval or timedelta(minutes=5)
                 logger.info(f'Utilize remaining time: {remaining_time}')
                 # 已经蹭上卡了，设置下次蹭卡时间  # 减少30秒
                 # remaining_time = remaining_time - timedelta(seconds=30)
