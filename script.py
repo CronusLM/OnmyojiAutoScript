@@ -422,13 +422,13 @@ class Script:
             if self.state_queue is not None:
                 self.state_queue.put({"idle": False})
             raise
-        # 成功完成空闲准备（如回到庭院、关游戏等）：上报空闲就绪
-        # 避免 switcher 在 goto_main 等导航未完成时就切走
-        if result and self.state_queue is not None:
-            self.state_queue.put({"idle": True})
-        elif not result and self.state_queue is not None:
-            # 被中断（如配置变更、获取队列 token 失败）：标记非空闲
-            self.state_queue.put({"idle": False})
+        # close_game 策略已在 _wait_close_game 内部上报 idle（关游戏完成时）
+        # goto_main 等其他策略保持原行为：函数返回后上报（避免导航未完成时切走）
+        if method != "close_game":
+            if result and self.state_queue is not None:
+                self.state_queue.put({"idle": True})
+            elif not result and self.state_queue is not None:
+                self.state_queue.put({"idle": False})
         return result
 
     @staticmethod
@@ -490,6 +490,9 @@ class Script:
             logger.info("Close game during wait")
             self.device.app_stop()
             self.device.release_during_wait()
+            # 空闲准备完成（关游戏），立即上报 idle
+            if self.state_queue is not None:
+                self.state_queue.put({"idle": True})
             if not self.wait_until(next_run):
                 return False
             self.run("Restart")
@@ -499,6 +502,9 @@ class Script:
             logger.info("Close game during wait")
             self.device.app_stop()
             self.device.release_during_wait()
+            # 空闲准备完成（关游戏），立即上报 idle
+            if self.state_queue is not None:
+                self.state_queue.put({"idle": True})
             if not self.wait_until(next_run):
                 return False
             self.run("Restart")
