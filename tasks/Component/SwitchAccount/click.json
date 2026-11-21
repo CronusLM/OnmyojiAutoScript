@@ -64,5 +64,29 @@
     "roiFront": "205,570,815,40",
     "roiBack": "205,570,815,40",
     "description": "选择服务器界面 底部角色名 列表---与ocr.json中同名对象区域一致"
+  },
+  {
+    "itemName": "sa_select_svr_tab_1",
+    "roiFront": "423,133,305,120",
+    "roiBack": "423,133,305,120",
+    "description": "选择服务器界面 第1个服务器选项卡"
+  },
+  {
+    "itemName": "sa_select_svr_tab_2",
+    "roiFront": "755,129,305,120",
+    "roiBack": "755,129,305,120",
+    "description": "选择服务器界面 第2个服务器选项卡"
+  },
+  {
+    "itemName": "sa_select_svr_tab_3",
+    "roiFront": "423,254,305,120",
+    "roiBack": "423,254,305,120",
+    "description": "选择服务器界面 第3个服务器选项卡"
+  },
+  {
+    "itemName": "sa_select_svr_tab_4",
+    "roiFront": "755,254,305,120",
+    "roiBack": "755,254,305,120",
+    "description": "选择服务器界面 第4个服务器选项卡"
   }
 ]

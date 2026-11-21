@@ -34,6 +34,14 @@ class SwitchAccountAssets:
 	# 选择服务器界面 底部角色名 列表---与ocr.json中同名对象区域一致 
 	C_SA_SELECT_SVR_CHARACTER_LIST = RuleClick(roi_front=(205,570,815,40), roi_back=(205,570,815,40), name="sa_select_svr_character_list")
 
+	# 选择服务器界面 第1个服务器选项卡
+	C_SA_SELECT_SVR_TAB_1 = RuleClick(roi_front=(423,133,305,120), roi_back=(423,133,305,120), name="sa_select_svr_tab_1")
+	# 选择服务器界面 第2个服务器选项卡
+	C_SA_SELECT_SVR_TAB_2 = RuleClick(roi_front=(755,129,305,120), roi_back=(755,129,305,120), name="sa_select_svr_tab_2")
+	# 选择服务器界面 第3个服务器选项卡
+	C_SA_SELECT_SVR_TAB_3 = RuleClick(roi_front=(423,254,305,120), roi_back=(423,254,305,120), name="sa_select_svr_tab_3")
+	# 选择服务器界面 第4个服务器选项卡
+	C_SA_SELECT_SVR_TAB_4 = RuleClick(roi_front=(755,254,305,120), roi_back=(755,254,305,120), name="sa_select_svr_tab_4")
 
 	# Ocr Rule Assets
 	# 登录页面服务器名称 
@@ -51,6 +59,14 @@ class SwitchAccountAssets:
 	# 判断是否在 选择服务器 界面的文本特质 
 	O_SA_CHECK_SELECT_SVR = RuleOcr(roi=(231,145,102,32), area=(231,141,103,38), mode="Single", method="Default", keyword="已有角色", name="sa_check_select_svr")
 
+	# 选择服务器界面 第1个服务器名称显示区
+	O_SA_SELECT_SVR_NAME_1 = RuleOcr(roi=(515,142,190,35), area=(515,142,190,35), mode="SINGLE", method="Default", keyword="", name="sa_select_svr_name_1")
+	# 选择服务器界面 第2个服务器名称显示区
+	O_SA_SELECT_SVR_NAME_2 = RuleOcr(roi=(849,142,190,35), area=(849,142,190,35), mode="SINGLE", method="Default", keyword="", name="sa_select_svr_name_2")
+	# 选择服务器界面 第3个服务器名称显示区
+	O_SA_SELECT_SVR_NAME_3 = RuleOcr(roi=(515,265,190,35), area=(515,265,190,35), mode="SINGLE", method="Default", keyword="", name="sa_select_svr_name_3")
+	# 选择服务器界面 第4个服务器名称显示区
+	O_SA_SELECT_SVR_NAME_4 = RuleOcr(roi=(849,265,190,35), area=(849,265,190,35), mode="SINGLE", method="Default", keyword="", name="sa_select_svr_name_4")
 
 	# Swipe Rule Assets
 	# 登录界面 服务器列表的手指向左滑动 

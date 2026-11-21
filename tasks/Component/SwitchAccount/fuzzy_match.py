@@ -199,6 +199,9 @@ def _structural_pair_match(a_raw: str, b_raw: str) -> float:
         if len(tail_b) >= (len(head_a) + len(tail_a)) and len(tail_b) >= 7:
             if tail_b.startswith(head_a) and tail_b.endswith(tail_a):
                 return 1.0
+        # 字段切歪时 OCR 可能只剩尾部数字（如 "7062"），只认纯尾部数字，不认任何前缀
+        if len(head_a) == 2 and len(tail_a) == 4 and tail_b == tail_a:
+            return 0.5
         return 0.0
 
     if star_a == 0 and star_b > 0:
@@ -213,11 +216,12 @@ def _structural_pair_match(a_raw: str, b_raw: str) -> float:
 
 
 def email_local_match(target: str, ocr_text: str,
-                      set_threshold: float = 0.60, edit_threshold: float = 0.70) -> float:
+                      set_threshold: float = None, edit_threshold: float = None) -> float:
     """
     L2 邮箱本地名比较：取 '@' 前的本地名做双阈值比较，返回得分（0=不匹配）。
     一方有 '@' 另一方没有时，用带 '@' 一方的本地名与另一方整体比较。
     """
+    set_threshold, edit_threshold = _resolve_thresholds("account", set_threshold, edit_threshold)
     t = normalize_text(target, kind="account")
     o = normalize_text(ocr_text, kind="account")
     if not t or not o:
@@ -234,15 +238,18 @@ def email_local_match(target: str, ocr_text: str,
 
 
 def match_account(target: str, ocr_text: str,
-                  set_threshold: float = 0.60, edit_threshold: float = 0.70,
+                  set_threshold: float = None, edit_threshold: float = None,
                   aliases=()) -> tuple:
     """
     账号匹配主入口（L1 → L2 → L3 顺序兜底）。
     @param target: 配置的目标账号，如 '188****7062' 或 'abc0123@163.com'
     @param ocr_text: OCR 识别出的账号文本
+    @param set_threshold: 字符集合相似度阈值，None 用 'account' 默认值（0.60）
+    @param edit_threshold: 编辑相似度阈值，None 用 'account' 默认值（0.70）
     @param aliases: account_alias 中 '#' 分隔的别名列表（已知误识别形态）
     @return: (是否命中, 相似度得分)
     """
+    set_threshold, edit_threshold = _resolve_thresholds("account", set_threshold, edit_threshold)
     t = normalize_text(target, kind="account")
     o = normalize_text(ocr_text, kind="account")
     if not t or not o:
@@ -287,11 +294,24 @@ def match_account(target: str, ocr_text: str,
     return (False, max(cs, es))
 
 
-# svr/character 的默认双阈值
+# svr/character/account 的默认双阈值
 _NAME_THRESHOLDS = {
     "svr": (0.60, 0.70),
     "character": (0.70, 0.75),
+    "account": (0.60, 0.70),
 }
+
+
+def _resolve_thresholds(kind: str, set_threshold, edit_threshold) -> tuple:
+    """
+    把 None 阈值补成 kind 对应的默认值。
+    None 是"未指定"语义，不能被当成数值参与比较（否则 float >= None 抛 TypeError）。
+    """
+    d_set, d_edit = _NAME_THRESHOLDS.get(kind, (0.60, 0.70))
+    return (
+        d_set if set_threshold is None else set_threshold,
+        d_edit if edit_threshold is None else edit_threshold,
+    )
 
 
 def match_name(target: str, ocr_text: str, kind: str = "svr",
@@ -303,9 +323,7 @@ def match_name(target: str, ocr_text: str, kind: str = "svr",
     长度 <2 的文本只认全等（防单字符噪声误命中）。
     """
     if set_threshold is None or edit_threshold is None:
-        d_set, d_edit = _NAME_THRESHOLDS.get(kind, (0.60, 0.70))
-        set_threshold = set_threshold if set_threshold is not None else d_set
-        edit_threshold = edit_threshold if edit_threshold is not None else d_edit
+        set_threshold, edit_threshold = _resolve_thresholds(kind, set_threshold, edit_threshold)
 
     t = normalize_text(target, kind=kind)
     o = normalize_text(ocr_text, kind=kind)
@@ -316,6 +334,13 @@ def match_name(target: str, ocr_text: str, kind: str = "svr",
         return (hit, 1.0 if hit else 0.0)
     cs = char_set_similarity(t, o)
     es = edit_similarity(t, o)
+    if kind == "svr":
+        # Server names are order-sensitive: two different servers can share
+        # the same characters (cs == 1.0) yet differ in order (es == 0.0).
+        # OR-ing the set score would then pick the wrong one.
+        if es >= edit_threshold:
+            return (True, es)
+        return (False, max(cs, es))
     if cs >= set_threshold or es >= edit_threshold:
         return (True, max(cs, es))
     return (False, max(cs, es))
@@ -332,6 +357,7 @@ def find_best_match(target: str, candidates, kind: str = "svr",
     长度归一化后 <2 的候选视为噪声跳过。
     """
     best_index, best_score = -1, 0.0
+    set_threshold, edit_threshold = _resolve_thresholds(kind, set_threshold, edit_threshold)
     for index, cand in enumerate(candidates):
         cand_norm = normalize_text(cand, kind="account" if kind == "account" else kind)
         if len(cand_norm) < 2:
@@ -345,9 +371,11 @@ def find_best_match(target: str, candidates, kind: str = "svr",
             best_index = index
     if best_index < 0:
         return (-1, best_score)
-    # 最高分候选仍需过阈值才算命中
-    if best_score < min(set_threshold or _NAME_THRESHOLDS.get(kind, (0.60, 0.70))[0],
-                        edit_threshold or _NAME_THRESHOLDS.get(kind, (0.60, 0.70))[1]):
+    # 最高分候选仍需过 edit 门槛才算命中。
+    # 这里不能取 min()：min 让"字符集合 OR 编辑"退化成"任一指标过线"，
+    # 比 match_account 里的 OR 判定更宽松，会把无关账号（如 88****7062 对 192****6332，
+    # 得分 0.64 > min(0.60, 0.70)）误判成命中。
+    if best_score < edit_threshold:
         return (-1, best_score)
     return (best_index, best_score)
 

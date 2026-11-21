@@ -61,5 +61,41 @@
     "method": "Default",
     "keyword": "已有角色",
     "description": "判断是否在 选择服务器 界面的文本特质"
+  },
+  {
+    "itemName": "sa_select_svr_name_1",
+    "roiFront": "515,142,190,35",
+    "roiBack": "515,142,190,35",
+    "mode": "SINGLE",
+    "method": "Default",
+    "keyword": "",
+    "description": "选择服务器界面 第1个服务器名称显示区"
+  },
+  {
+    "itemName": "sa_select_svr_name_2",
+    "roiFront": "849,142,190,35",
+    "roiBack": "849,142,190,35",
+    "mode": "SINGLE",
+    "method": "Default",
+    "keyword": "",
+    "description": "选择服务器界面 第2个服务器名称显示区"
+  },
+  {
+    "itemName": "sa_select_svr_name_3",
+    "roiFront": "515,265,190,35",
+    "roiBack": "515,265,190,35",
+    "mode": "SINGLE",
+    "method": "Default",
+    "keyword": "",
+    "description": "选择服务器界面 第3个服务器名称显示区"
+  },
+  {
+    "itemName": "sa_select_svr_name_4",
+    "roiFront": "849,265,190,35",
+    "roiBack": "849,265,190,35",
+    "mode": "SINGLE",
+    "method": "Default",
+    "keyword": "",
+    "description": "选择服务器界面 第4个服务器名称显示区"
   }
 ]

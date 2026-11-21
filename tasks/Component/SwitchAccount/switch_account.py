@@ -9,12 +9,26 @@ from tasks.Component.SwitchAccount.switch_account_config import AccountInfo
 from tasks.GameUi.game_ui import GameUi
 from tasks.GameUi.page import page_main, page_login
 from tasks.base_task import BaseTask
+from tasks.Restart.assets import RestartAssets
 from tasks.Restart.login import LoginHandler
 
 from module.logger import logger
 
 
 class SwitchAccount(LoginAccount, ExitGame, GameUi, SwitchAccountAssets):
+
+    def _at_login_page(self) -> bool:
+        """当前是否停在登录页（「进入游戏」按钮页或账号选择页）。
+
+        此时可直接就地切号（用户中心 → 切换用户 → 账号选择页），
+        不必 goto_page(page_main) 先进庭院再退出。
+        """
+        # 已在庭院（庭院标志出现）：这次必须走 exitGame
+        if self.appear(self.I_CHECK_MAIN):
+            return False
+        return bool(self.appear(self.I_CHECK_LOGIN_FORM)
+                    or self.appear(self.I_SA_NETEASE_GAME_LOGO)
+                    or self.ocr_appear(RestartAssets.O_LOGIN_ENTER_GAME_ORIGIN))
 
     def __init__(self, config: Config, device: Device, to: AccountInfo, frm: AccountInfo = None):
         """
@@ -36,6 +50,12 @@ class SwitchAccount(LoginAccount, ExitGame, GameUi, SwitchAccountAssets):
         logger.info("start switchAccount %s-%s", self.to_account_info.character, self.to_account_info.svr)
         # 判断所处界面
         curPage = self.get_current_page()
+
+        # 已在登录页（例如冷启动停在「进入游戏」按钮页）时就地切号。
+        # 绝不能 goto_page(page_main)：那会点「进入游戏」先进庭院，白跑一整趟。
+        if curPage != page_login and curPage != page_main and self._at_login_page():
+            logger.info("switchAccount: already at login page, switch in place")
+            curPage = page_login
 
         if curPage != page_login and curPage != page_main:
             self.goto_page(page_main)

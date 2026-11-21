@@ -1,4 +1,5 @@
 from copy import deepcopy
+import re
 import time
 
 import cv2
@@ -30,8 +31,9 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
     # 必须裸读文本 + 模糊比对，不能用 ocr_appear(keyword)（SINGLE 精确匹配恒 False）。
     # 返回深拷贝 RuleOcr 实例，避免污染共享类属性。
     def _masked_account_match(self, ocr_text, target):
-        matched, _ = match_account(target, ocr_text)
-        return matched
+        # target 是 AccountInfo 对象，account_alias 里保存了 '#' 分隔的已知误识别形态
+        aliases = [a for a in (target.account_alias or "").split("#") if a]
+        return match_account(target.account, ocr_text, aliases=aliases)
 
     def login(self, accountInfo: AccountInfo) -> bool:
         """
@@ -77,11 +79,24 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                         return False
                     # selectAccount 后更新图片
                     self.screenshot()
-                # 点击登录按钮，进入游戏登录界面（有进入游戏按钮）
-                # 等待网易 LOGO 消失，表示账号选择界面已关闭，已跳转到登录界面
-                if not self.ui_click(self.C_SA_LOGIN_FORM_LOGIN_BTN, stop=self.I_SA_NETEASE_GAME_LOGO, interval=1,
-                                     timeout=15):
-                    logger.warning("login btn click timeout, continue")
+                # 点击登录按钮（新版登录页没有"选择平台"弹窗，点即登录），
+                # 点击后以"已不在账号选择页"作为成功判据，而不是再次判断 LOGO 是否在。
+                login_clicked = False
+                for attempt in range(3):
+                    self.screenshot()
+                    if not self.appear(self.I_SA_NETEASE_GAME_LOGO):
+                        login_clicked = True
+                        break
+                    if self.click(self.I_SA_ACCOUNT_LOGIN_BTN, interval=2):
+                        if not self.wait_until_appear(self.I_SA_NETEASE_GAME_LOGO, wait_time=10):
+                            login_clicked = True
+                            break
+                    logger.warning("login btn click attempt %d/3 failed, retry...", attempt + 1)
+
+                if not login_clicked:
+                    logger.error("login btn click failed after 3 attempts")
+                    return False
+
                 isAccountLogon = True
                 continue
             # 在游戏登录界面（非账号选择界面，无网易Logo，有进入游戏按钮）
@@ -91,43 +106,41 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                     # 新版本：首次点击用户中心直接跳转到账号选择界面；后续在登录界面点击切换账号按钮
                     # 规则 B：单击 + wait_until_appear + 重试，避免盲目 ui_click 死循环
                     if self.appear(self.I_SA_SWITCH_ACCOUNT_BTN):
+                        # 弹窗已展开：点"切换用户"，等账号选择页
                         if not self._click_then_wait(self.I_SA_SWITCH_ACCOUNT_BTN, self.I_SA_NETEASE_GAME_LOGO,
-                                                     interval=1, wait_time=8):
+                                                     interval=1, wait_time=10):
                             logger.warning("switch_account_btn -> logo failed")
                     else:
-                        if not self._click_then_wait(self.C_SA_LOGIN_FORM_USER_CENTER, self.I_SA_NETEASE_GAME_LOGO,
-                                                     interval=1, wait_time=8):
-                            logger.warning("user_center -> logo failed")
+                        # 两步走：点用户中心 -> 等"切换用户"按钮出现 -> 再点它等账号选择页。
+                        # 若直接等 LOGO，会反复点用户中心，把刚弹出的窗口又点关。
+                        if self._click_then_wait(self.C_SA_LOGIN_FORM_USER_CENTER,
+                                                 self.I_SA_SWITCH_ACCOUNT_BTN, interval=2, wait_time=6):
+                            if not self._click_then_wait(self.I_SA_SWITCH_ACCOUNT_BTN, self.I_SA_NETEASE_GAME_LOGO,
+                                                         interval=1, wait_time=10):
+                                logger.warning("switch_account_btn -> logo failed")
+                        else:
+                            logger.warning("user_center -> switch_account_btn failed")
                     continue
 
-                # 已登录账号，检查当前显示的角色/服务器是否匹配
-                # 尝试通过 OCR 识别当前角色名（可能需要展开服务器列表）
+                # 已登录账号：以服务器为准切换(同一账号在一个服务器只有一个角色)
                 if not isCharacterSelected:
-                    # 先尝试点击切换服务器按钮进入服务器选择界面
-                    if self.switch_character(accountInfo.character):
-                        isCharacterSelected = True
-                        continue
-                    # 如果 switch_character 返回 False，可能是当前服务器列表没有该角色
-                    # 尝试通过 switch_svr 切换服务器
-                    if accountInfo.svr and accountInfo.svr != "":
-                        logger.info("try to find character with svrName %s", accountInfo.svr)
-                        isCharacterSelected = self.switch_svr(accountInfo.svr)
-                        if isCharacterSelected:
-                            continue
-                    break
+                    if not accountInfo.svr:
+                        logger.error("svr is empty, cannot switch server")
+                        break
+                    logger.info("try to select svr %s", accountInfo.svr)
+                    if not self.select_server(accountInfo.svr):
+                        break
+                    isCharacterSelected = True
+                    # 弹层选中后已自动退回登录界面，下一轮点登录
+                    continue
 
-                # 角色已选中，点击进入游戏
-                self.ui_click_until_disappear(self.C_SA_LOGIN_FORM_ENTER_GAME_BTN, stop=self.I_CHECK_LOGIN_FORM,
-                                              interval=1, timeout=20)
+                # 服务器已选好
+                if not self._enter_game():
+                    logger.error("enter game failed, abort switch")
+                    return False
                 logger.info("Clicked enter game button")
                 break
-            continue
 
-        # 切换角色失败 /未找到该角色
-        # 尝试使用 选择服务器方式
-        if isAccountLogon and not isCharacterSelected and accountInfo.svr is not None and accountInfo.svr != "":
-            logger.info("try to find character with svrName %s", accountInfo.svr)
-            isCharacterSelected = self.switch_svr(accountInfo.svr)
         if isAccountLogon and isCharacterSelected:
             # 成功登录账号 找到角色
             logger.info("character %s-%s account:%s %s login Success", accountInfo.character, accountInfo.svr,
@@ -140,7 +153,7 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                      'Android' if accountInfo.apple_or_android else 'Apple')
         return False
 
-    # 规则 B：单击 + wait_until_appear + 重试（≤2 次）
+    # 规则 B：单击 + wait_until_appear + 重试（最多 3 次）
     def _click_then_wait(self, click, target, interval=1, wait_time=8):
         for attempt in range(3):
             self.screenshot()
@@ -161,8 +174,9 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
             if not text:
                 logger.info("current account OCR empty")
                 return False
-            logger.info("current account OCR text: %s", text)
-            return self._masked_account_match(text, accountInfo.account)
+            matched, score = self._masked_account_match(text, accountInfo)
+            logger.info("current account OCR text: %s (match=%.2f)", text, score)
+            return matched
         except Exception as e:
             logger.warning("current_account_is exception: %s", e)
             return False
@@ -294,36 +308,96 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
         self.click(self.C_SA_LOGIN_FORM_CANCEL_SVR_SELECT)
         return False
 
+    # Substring hits are not enough: "上次登录1分钟前" / "上次登录11-15" are relative
+    # time labels, "添加新账号" is the add-account entry. None of them is an account.
+    # Only rows that look like a masked phone ("188****7062") or an email/alias count.
+    _ACCOUNT_ROW_PATTERN = re.compile(r"\*|@")
+
+    # I_SA_ACCOUNT_DROP_DOWN_CLOSED matches the white dropdown icon in BOTH
+    # states (expanded / collapsed). Passing it as the `stop` of
+    # ui_click_until_disappear never terminates, so the loop clicks it again
+    # every `interval` seconds and closes the list it just opened.
+    # Click once, wait for the animation, then decide by OCR text instead.
+    # 1.8s was measured against a half-expanded list: the panel was still sliding
+    # so the first OCR only ever saw the already-selected row. The expand
+    # animation needs ~2.5s before every row is laid out at its final position.
+    _DROPDOWN_OPEN_WAIT = 2.8
+
+    def _list_items(self, ocr_list):
+        """OCR the account list on the current screenshot."""
+        return ocr_list.detect_and_ocr(self.device.image)
+
+    def _list_rows(self, ocr_texts):
+        """Rows that actually look like an account (masked phone or email)."""
+        return [t.strip() for t in ocr_texts if t and self._ACCOUNT_ROW_PATTERN.search(t)]
+
+    def _list_opened(self, ocr_texts) -> bool:
+        """True when the dropdown is FULLY open, i.e. shows >= 2 account rows.
+
+        A single masked row is not proof of an open list: while the panel is
+        still animating in (or when it is collapsed) the selected account in
+        the closed control is the only thing OCR sees. Treating that as open
+        made selectAccount skip the wait and scroll on a half-rendered list,
+        where two consecutive reads are identical -> "scrolled to bottom".
+        """
+        return len(self._list_rows(ocr_texts)) >= 2
+
+    def _open_dropdown(self, ocr_list):
+        """Click the dropdown once, wait for the animation, return OCR results."""
+        self.click(self.I_SA_ACCOUNT_DROP_DOWN_CLOSED)
+        time.sleep(self._DROPDOWN_OPEN_WAIT)
+        self.screenshot()
+        return self._list_items(ocr_list)
+
+    # The list renders asynchronously: the first OCR after opening often sees
+    # only the previously selected row. Click on that snapshot and you select
+    # the wrong account and lose the dropdown. Re-read until two consecutive
+    # OCR passes agree (stable) before trusting the rows.
+    _LIST_STABLE_RETRY = 3
+    _LIST_STABLE_WAIT = 0.6
+
+    def _stable_list_items(self, ocr_list):
+        """Re-OCR the account list until two consecutive reads are identical."""
+        ocrRes = self._list_items(ocr_list)
+        texts = [item.ocr_text for item in ocrRes]
+        for _ in range(self._LIST_STABLE_RETRY):
+            time.sleep(self._LIST_STABLE_WAIT)
+            self.screenshot()
+            newRes = self._list_items(ocr_list)
+            new_texts = [item.ocr_text for item in newRes]
+            if new_texts == texts:
+                return newRes
+            ocrRes, texts = newRes, new_texts
+        return ocrRes
+
+
     def selectAccount(self, accountInfo: AccountInfo):
         logger.info("start selectAccount")
-        # 不再污染共享 keyword；改用深拷贝实例 + 模糊匹配
         ocr_list = deepcopy(self.O_SA_ACCOUNT_ACCOUNT_LIST)
-        # 正常情况一次就行,但防不住OCR搞幺蛾子 保险起见 多来几次吧 反正挂机不差这点
         for i in range(3):
             guard = Timer(30)
             guard.start()
+
+            # Do not click the dropdown when the list is already open (it would close it).
+            ocrRes = self._stable_list_items(ocr_list)
+            ocr_texts = [item.ocr_text for item in ocrRes]
+            if not self._list_opened(ocr_texts):
+                ocrRes = self._open_dropdown(ocr_list)
+                ocrRes = self._stable_list_items(ocr_list)
+                ocr_texts = [item.ocr_text for item in ocrRes]
+                if not self._list_opened(ocr_texts):
+                    logger.warning("account list still not open after click, retry")
+                    continue
+
+            reached_bottom = False
             while 1:
-                self.screenshot()
                 if guard.reached():
                     logger.warning("selectAccount guard Timer(30) reached")
                     break
-                if self.appear(self.I_SA_ACCOUNT_DROP_DOWN_CLOSED):
-                    # 已选中的账号与目标模糊比对（掩码兼容）
-                    if self._current_account_is(accountInfo):
-                        return True
-                    self.ui_click_until_disappear(self.I_SA_ACCOUNT_DROP_DOWN_CLOSED,
-                                                  interval=1.5, timeout=20)
-                    continue
 
-                # 账号列表已打开状态
-                ocrRes = ocr_list.detect_and_ocr(self.device.image)
-                ocr_texts = [ocrResItem.ocr_text for ocrResItem in ocrRes]
-
-                # 在列表中模糊查找目标账号（含掩码/email 误识别）
-                idx = find_best_match(accountInfo.account, ocr_texts, kind='account')
+                idx, score = find_best_match(accountInfo.account, ocr_texts, kind="account")
                 if idx >= 0:
                     box = ocrRes[idx].box
-                    # box 为 ROI 相对坐标，加 roi 偏移后构造独立 RuleClick，不变异共享 .area
                     tmpClick = RuleClick(
                         roi_back=deepcopy(ocr_list.roi),
                         roi_front=[
@@ -335,16 +409,122 @@ class LoginAccount(BaseTask, SwitchAccountAssets):
                     )
                     time.sleep(1)
                     self.click(tmpClick)
-                    logger.info("account [ %s ] found", accountInfo.account)
-                    return True
-
-                # 未找到该账号
-                if self.appear(self.I_SA_ACCOUNT_DROP_DOWN_ADD_ACCOUNT):
+                    # Re-read the selected row to confirm the switch really happened.
+                    time.sleep(1.5)
+                    self.screenshot()
+                    if self._current_account_is(accountInfo):
+                        logger.info("account [ %s ] found", accountInfo.account)
+                        return True
+                    logger.warning("clicked account [ %s ] (score=%.2f) but selection not confirmed",
+                                   ocr_texts[idx], score)
                     break
+
+                # Target not in the visible page: scroll once; unchanged text means bottom.
                 self.swipe(self.S_SA_ACCOUNT_LIST_UP, 1.5)
-                time.sleep(0.5)
+                time.sleep(0.8)
+                self.screenshot()
+                new_ocrRes = self._list_items(ocr_list)
+                new_texts = [item.ocr_text for item in new_ocrRes]
+                if new_texts == ocr_texts:
+                    logger.info("account list scrolled to bottom, [ %s ] not there", accountInfo.account)
+                    reached_bottom = True
+                    break
+                ocrRes, ocr_texts = new_ocrRes, new_texts
+
+            if reached_bottom or not ocr_texts:
+                break
+
         logger.info("account [ %s ] not found ", accountInfo.account)
         return False
+
+    def _svr_name_texts(self):
+        """OCR 四个服务器选项卡的名称区，返回 [(tabIndex, text), ...]（读不到的跳过）。"""
+        out = []
+        for idx in range(1, 5):
+            ocr = getattr(self, "O_SA_SELECT_SVR_NAME_%d" % idx)
+            try:
+                text = ocr.ocr_single_line(self.device.image)
+            except Exception as e:
+                logger.warning("svr name tab%d ocr failed: %s", idx, e)
+                text = ""
+            out.append((idx, (text or "").strip()))
+        return out
+
+    def select_server(self, svrName: str) -> bool:
+        """在服务器选择界面点击目标服务器的选项卡。
+
+        关键交互(实测)：点击选项卡即完成选服务器，界面会自动退回"服务器登录界面"，
+        之后点一次登录即可进入该服务器；不存在"再点角色卡"这一步。
+        同一账号在一个服务器只有一个角色，所以选对服务器 = 选对角色。
+
+        @param svrName: 目标服务器名，如 "愿予必成"
+        @return: True 已点到该服务器选项卡
+        """
+        if not svrName:
+            logger.warning("select_server: svrName empty, nothing to do")
+            return False
+
+        # 1) 打开服务器选择界面
+        if not self.appear(self.O_SA_CHECK_SELECT_SVR):
+            self.click(self.C_SA_LOGIN_FORM_SWITCH_SVR_BTN, interval=1.5)
+            time.sleep(self._DROPDOWN_OPEN_WAIT)
+
+        # 2) 在四个选项卡的名称区里找目标服务器
+        guard = Timer(15)
+        guard.start()
+        while 1:
+            self.screenshot()
+            tabs = self._svr_name_texts()
+            logger.info("svr select tabs: %s", [(i, t) for i, t in tabs])
+
+            best_idx, best_score = -1, 0.0
+            for idx, text in tabs:
+                if not text:
+                    continue
+                matched, score = match_name(svrName, text, kind="svr")
+                if matched and score > best_score:
+                    best_idx, best_score = idx, score
+
+            if best_idx > 0:
+                # 3) 点选项卡名称区中心（落在 305x120 可点击卡片内）
+                ocr = getattr(self, "O_SA_SELECT_SVR_NAME_%d" % best_idx)
+                self.click(ocr)
+                logger.info("svr [ %s ] selected by tab %d (score=%.2f)", svrName, best_idx, best_score)
+                return True
+            if guard.reached():
+                break
+            time.sleep(1)
+
+        logger.warning("svr [ %s ] not found in server tabs %s", svrName, tabs)
+        return False
+
+
+    def _enter_game(self, timeout: float = 90) -> bool:
+        """点「进入游戏」（OCR 文字定位，同 Restart 任务）直到庭院页出现。
+
+        只点一次并不代表登录成功，这里以 I_CHECK_MAIN 出现
+        作为“真正进入游戏”判据；未出现就继续点。
+        为何要在函数内局部 import：tasks.Restart.* 会反向引用本模块，
+        顶层 import 会形成循环导入。
+        """
+        from tasks.Restart.assets import RestartAssets
+        from tasks.GameUi.assets import GameUiAssets
+
+        guard = Timer(timeout)
+        guard.start()
+        clicked = 0
+        while 1:
+            self.screenshot()
+            if self.appear(GameUiAssets.I_CHECK_MAIN):
+                logger.info("'enter game' confirmed: main page detected (%ds)", clicked)
+                return True
+            if guard.reached():
+                logger.error("'enter game' timeout %ss, still not at main page", timeout)
+                return False
+            if (self.ocr_appear_click(RestartAssets.O_LOGIN_ENTER_GAME_ORIGIN, interval=3)
+                    or self.ocr_appear_click(RestartAssets.O_LOGIN_ENTER_GAME, interval=3)):
+                clicked += 1
+                logger.info("'enter game' clicked %d time(s)", clicked)
 
     def jump2SelectAccount(self):
         """
