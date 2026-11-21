@@ -244,6 +244,54 @@ class LoginHandler(BaseTask, RestartAssets, GameUiAssets, GeneralBuffAssets):
 
         return login_success
 
+    def wait_login_page(self, timeout: int = 90) -> bool:
+        """启动后等待游戏停在登录页（「进入游戏」按钮页或账号选择页）。
+
+        只关弹窗，绝不点「进入游戏」：目的是让调用方能在登录页就把账号切好，
+        省掉"先进庭院、再从用户中心退出"的往返。
+        :return: True 已停在登录页；False 超时，或已在庭院/误入创建角色页
+        """
+        from tasks.Component.SwitchAccount.assets import SwitchAccountAssets as switch_assets
+
+        logger.hr('Wait login page')
+        self.device.stuck_record_clear()
+        guard = Timer(timeout).start()
+        while 1:
+            self.device.screenshot()
+            # 已经进了庭院：本次启动会直接登录，交给调用方回退到"先登录再切号"
+            if self.appear(self.I_BUFF_1, interval=0.2):
+                logger.warning('Wait login page: already in courtyard')
+                return False
+            if (self.appear(self.I_LOGIN_8)
+                    or self.ocr_appear(self.O_LOGIN_ENTER_GAME_ORIGIN)
+                    or self.appear(switch_assets.I_SA_NETEASE_GAME_LOGO)):
+                logger.info('Wait login page: at login page')
+                return True
+            if guard.reached():
+                logger.warning(f'Wait login page: timeout after {timeout}s')
+                return False
+
+            # 误入新区/创建角色：继续等没有意义
+            if self.appear(self.I_CREATE_ACCOUNT):
+                logger.warning('Wait login page: create-account page detected')
+                return False
+
+            # 只处理弹窗，绝不点「进入游戏」
+            if self._handle_hw_ad():
+                continue
+            if self.appear_then_click(self.I_UI_CANCEL_SAMLL, interval=0.8):
+                continue
+            if self.appear_then_click(self.I_LOGIN_RED_CLOSE, interval=0.8):
+                continue
+            if self.appear_then_click(self.I_LOGIN_YELLOW_CLOSE, interval=0.8):
+                continue
+            if self.appear_then_click(self.I_LOGIN_LOAD_DOWN, interval=1):
+                continue
+            if self.appear_then_click(self.I_LOGIN_LOGIN_ONMYOJI_GENIE, interval=1):
+                continue
+            if self.appear_then_click(self.I_LOGIN_LOGIN_GOTO_BIND_PHONE, interval=1):
+                continue
+
     def app_handle_login(self) -> bool:
         for _ in range(2):
             self.device.stuck_record_clear()

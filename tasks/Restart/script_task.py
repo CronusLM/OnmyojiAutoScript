@@ -46,22 +46,44 @@ class ScriptTask(LoginHandler):
             self._desktop_start_and_login()
             return
         self.device.app_start()
-        self.app_handle_login()
-        # 启动后切换到配置的指定账号
-        self._switch_startup_account()
+        self._login_with_startup_switch()
         # self.ensure_no_unfinished_campaign()
 
-    def _switch_startup_account(self) -> None:
+    def _startup_switch_enabled(self) -> bool:
+        """「启动自动切换账号」是否已配置且可用。"""
+        cfg = self.config.restart.startup_account
+        if not cfg.enable:
+            return False
+        if not cfg.character or not cfg.account:
+            logger.warning('startup_account enabled but character/account empty, skip switch')
+            return False
+        return True
+
+    def _login_with_startup_switch(self) -> None:
+        """启动客户端后登录进庭院。
+
+        启用「启动自动切换账号」时，先在登录页把账号切好（SwitchAccount 内部会依次完成
+        选号、选服、进入游戏），从而省掉"先进庭院 → 头像 → 用户中心 → 退出"的往返。
+        没停在登录页、或登录页切号失败，都回退到原来的「先登录再切号」。
+        """
+        if self._startup_switch_enabled() and self.wait_login_page():
+            if self._switch_startup_account(raise_on_fail=False):
+                logger.info('Startup account switched at login page, skip full login')
+                # 此时已在庭院；app_handle_login 只做确认与领奖收尾
+                self.app_handle_login()
+                return
+            logger.warning('Login-page switch failed, fallback to login-then-switch')
+        self.app_handle_login()
+        self._switch_startup_account()
+
+    def _switch_startup_account(self, raise_on_fail: bool = True) -> bool:
         """
         启动登录后，若开启了「启动自动切换账号」，则切到配置的目标账号。
         每个 script config 固定对应一个小号：登录进当前账号后，再切到目标账号。
         """
+        if not self._startup_switch_enabled():
+            return False
         cfg = self.config.restart.startup_account
-        if not cfg.enable:
-            return
-        if not cfg.character or not cfg.account:
-            logger.warning('startup_account enabled but character/account empty, skip switch')
-            return
         to = AccountInfo(
             character=cfg.character,
             svr=cfg.svr,
@@ -72,9 +94,11 @@ class ScriptTask(LoginHandler):
         logger.info('Startup switch account to %s-%s', to.character, to.svr)
         if SwitchAccount(self.config, self.device, to).switchAccount():
             logger.info('Startup switch account success: %s-%s', to.character, to.svr)
-        else:
-            logger.error('Startup switch account failed: %s-%s', to.character, to.svr)
+            return True
+        logger.error('Startup switch account failed: %s-%s', to.character, to.svr)
+        if raise_on_fail:
             raise RequestHumanTakeover('Startup switch account failed')
+        return False
 
     def app_restart(self):
         logger.hr('App restart')
@@ -89,8 +113,7 @@ class ScriptTask(LoginHandler):
         else:
             self.device.app_stop()
             self.device.app_start()
-            self.app_handle_login()
-            self._switch_startup_account()
+            self._login_with_startup_switch()
 
         # self.config.task_delay(server_update=True)
         self.set_next_run(task='Restart', success=True, finish=True, server=True)
@@ -118,8 +141,7 @@ class ScriptTask(LoginHandler):
         for attempt in range(1, DESKTOP_RESTART_ATTEMPTS + 1):
             try:
                 self.device.app_start()
-                self.app_handle_login()
-                self._switch_startup_account()
+                self._login_with_startup_switch()
                 return
             except (GameNotRunningError, GameStuckError, GameTooManyClickError) as e:
                 logger.warning(f'桌面客户端启动后仍未就绪（第 {attempt}/{DESKTOP_RESTART_ATTEMPTS} 轮）: {e}')
